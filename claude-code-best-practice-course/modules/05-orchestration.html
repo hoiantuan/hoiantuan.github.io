@@ -1,0 +1,268 @@
+<section class="module" id="module-5" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">05</span>
+      <h1 class="module-title">The Full Stack</h1>
+      <p class="module-subtitle">MCP servers, the orchestration pattern, and power moves</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: MCP as USB ports -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">MCP: USB ports for your AI</h2>
+        <p>Out of the box, Claude can read and write files, run terminal commands, and browse URLs. But what if you need it to search your database, control a browser, or call your company's internal API?</p>
+        <p>That's what <span class="term" data-definition="MCP stands for Model Context Protocol — a standard way for Claude to connect to external tools and services. Each MCP server is a small program that bridges Claude to a specific system.">MCP servers</span> are for. They're like USB ports: plug one in, and suddenly Claude can do things it couldn't before. Pull it out, and that capability disappears.</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">.mcp.json (real config)</span>
+            <pre><code><span style="color:#CDD6F4">{</span>
+  <span style="color:#F9E2AF">"mcpServers"</span><span style="color:#CDD6F4">: {</span>
+
+    <span style="color:#A6E3A1">"playwright"</span><span style="color:#CDD6F4">: {</span>
+      <span style="color:#F9E2AF">"command"</span><span style="color:#CDD6F4">: </span><span style="color:#A6E3A1">"npx"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#F9E2AF">"args"</span><span style="color:#CDD6F4">: [</span><span style="color:#A6E3A1">"-y"</span><span style="color:#CDD6F4">, </span><span style="color:#A6E3A1">"@playwright/mcp"</span><span style="color:#CDD6F4">]</span>
+    <span style="color:#CDD6F4">},</span>
+
+    <span style="color:#A6E3A1">"context7"</span><span style="color:#CDD6F4">: {</span>
+      <span style="color:#F9E2AF">"command"</span><span style="color:#CDD6F4">: </span><span style="color:#A6E3A1">"npx"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#F9E2AF">"args"</span><span style="color:#CDD6F4">: [</span><span style="color:#A6E3A1">"-y"</span><span style="color:#CDD6F4">, </span><span style="color:#A6E3A1">"@upstash/context7-mcp"</span><span style="color:#CDD6F4">]</span>
+    <span style="color:#CDD6F4">},</span>
+
+    <span style="color:#A6E3A1">"deepwiki"</span><span style="color:#CDD6F4">: {</span>
+      <span style="color:#F9E2AF">"command"</span><span style="color:#CDD6F4">: </span><span style="color:#A6E3A1">"npx"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#F9E2AF">"args"</span><span style="color:#CDD6F4">: [</span><span style="color:#A6E3A1">"-y"</span><span style="color:#CDD6F4">, </span><span style="color:#A6E3A1">"deepwiki-mcp"</span><span style="color:#CDD6F4">]</span>
+    <span style="color:#CDD6F4">}</span>
+  <span style="color:#CDD6F4">}</span>
+<span style="color:#CDD6F4">}</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>mcpServers</strong> — A list of external capabilities to give Claude. Each entry is a named server with instructions for how to start it.</p>
+              <p class="tl"><strong>playwright</strong> — Gives Claude the ability to control a real web browser. It can click buttons, fill forms, take screenshots, and read page content.</p>
+              <p class="tl"><strong>command: npx / args: [...package]</strong> — "To start this server, run this <span class="term" data-definition="npx is a tool that downloads and runs Node.js packages temporarily. You don&apos;t need to install them permanently.">npx</span> command." MCP servers are just programs — they can be written in any language.</p>
+              <p class="tl"><strong>context7</strong> — Connects Claude to documentation databases. When you ask about a library, Claude can look up the latest docs instead of guessing from training data.</p>
+              <p class="tl"><strong>deepwiki</strong> — Lets Claude read GitHub repositories as structured knowledge, not just raw file content.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Two types of MCP -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Local vs remote MCP servers</h2>
+        <p>There are two ways to connect an MCP server. Choose based on where the tool lives:</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">💻</div>
+            <h4 class="pattern-title">Local (stdio)</h4>
+            <p class="pattern-desc">The server runs on your machine as a process. Claude talks to it via standard input/output. Playwright, context7, and deepwiki all work this way.</p>
+            <p class="pattern-desc" style="margin-top: var(--space-3)"><code>"command": "npx", "args": ["..."]</code></p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-4)">
+            <div class="pattern-icon" style="background: var(--color-actor-4)">🌐</div>
+            <h4 class="pattern-title">Remote (HTTP)</h4>
+            <p class="pattern-desc">The server lives at a URL — your company's API, a third-party service, or a cloud-hosted tool. Claude calls it over HTTPS.</p>
+            <p class="pattern-desc" style="margin-top: var(--space-3)"><code>"type": "http", "url": "https://..."</code></p>
+          </div>
+        </div>
+
+        <div class="callout callout-info" style="margin-top: var(--space-6)">
+          <div class="callout-icon">🔑</div>
+          <div class="callout-content">
+            <strong class="callout-title">Scoping MCP to specific agents</strong>
+            <p>You can give an MCP server to just one subagent via its <code>mcpServers:</code> frontmatter field. The main session doesn't get browser access — only the agent that needs it does. Principle of least privilege.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Full orchestration flow animation -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The full picture: Command → Agent → Skill</h2>
+        <p>Now you can see how all five modules connect. Watch the complete weather workflow — from your keystroke to the final SVG card.</p>
+
+        <div class="flow-animation" data-steps='[
+          {"highlight":"flow-actor-1","label":"You type: /weather-orchestrator"},
+          {"highlight":"flow-actor-2","label":"Command loads from .claude/commands/ — reads its instructions","packet":true,"from":"actor-1","to":"actor-2"},
+          {"highlight":"flow-actor-2","label":"Step 1: Command asks you &apos;Celsius or Fahrenheit?&apos;","packet":true,"from":"actor-2","to":"actor-1"},
+          {"highlight":"flow-actor-1","label":"You answer: Celsius"},
+          {"highlight":"flow-actor-3","label":"Step 2: Command spawns weather-agent subagent","packet":true,"from":"actor-2","to":"actor-3"},
+          {"highlight":"flow-actor-4","label":"Agent loads weather-fetcher skill from .claude/skills/","packet":true,"from":"actor-3","to":"actor-4"},
+          {"highlight":"flow-actor-5","label":"Skill calls Open-Meteo API via WebFetch — gets 34C","packet":true,"from":"actor-4","to":"actor-5"},
+          {"highlight":"flow-actor-3","label":"Agent returns 34C to the command","packet":true,"from":"actor-4","to":"actor-2"},
+          {"highlight":"flow-actor-4","label":"Step 3: Command invokes weather-svg-creator skill","packet":true,"from":"actor-2","to":"actor-4"},
+          {"highlight":"flow-actor-1","label":"SVG card written to disk. Done!","packet":true,"from":"actor-4","to":"actor-1"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">🧑</div>
+              <span>You</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">/</div>
+              <span>Command</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Agent</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">📦</div>
+              <span>Skill</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">🌐</div>
+              <span>API</span>
+            </div>
+          </div>
+          <div class="flow-packet" id="flow-packet"></div>
+          <div class="flow-step-label" id="flow-label">Press Next Step to trace the workflow</div>
+          <div class="flow-controls">
+            <button class="btn flow-next-btn">Next Step</button>
+            <button class="btn flow-reset-btn">Restart</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Power moves -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Power moves you can use now</h2>
+        <p>Once you understand the full system, these patterns unlock serious leverage:</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-1)">
+            <div class="pattern-icon" style="background: var(--color-actor-1)">🏃</div>
+            <h4 class="pattern-title">Agent Teams</h4>
+            <p class="pattern-desc">Spawn multiple agents in parallel — each working on a separate repo, feature, or task. Finish in 1/N the time.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">⏰</div>
+            <h4 class="pattern-title">Scheduled Tasks</h4>
+            <p class="pattern-desc"><code>/loop 5m</code> repeats a task every 5 minutes locally. <code>/schedule</code> sets up cloud-hosted cron jobs that run even when your laptop is closed.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-icon" style="background: var(--color-actor-3)">🌿</div>
+            <h4 class="pattern-title">Git Worktrees</h4>
+            <p class="pattern-desc">Give each agent its own isolated branch copy. Multiple agents can modify different parts of the codebase simultaneously without conflicts.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-4)">
+            <div class="pattern-icon" style="background: var(--color-actor-4)">⚡</div>
+            <h4 class="pattern-title">Fast Mode</h4>
+            <p class="pattern-desc">Toggle <code>/fast</code> for the same Claude Opus model but with faster output streaming. Same intelligence, better UX.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-5)">
+            <div class="pattern-icon" style="background: var(--color-actor-5)">🩺</div>
+            <h4 class="pattern-title">Debugging: /doctor</h4>
+            <p class="pattern-desc">Run <code>/doctor</code> to diagnose Claude Code configuration issues. When things break, start here before anything else.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-accent)">
+            <div class="pattern-icon" style="background: var(--color-accent-light)">🗜️</div>
+            <h4 class="pattern-title">Manual Compact</h4>
+            <p class="pattern-desc">At ~50% context usage, run <code>/compact</code> manually. Keeps your conversation history tight and prevents context overflow mid-task.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The final exam</h2>
+
+        <div class="quiz-container" id="quiz-module5">
+
+          <div class="quiz-question-block"
+               data-correct="opt-d"
+               data-explanation-right="Exactly! An MCP server connects Claude to external systems it couldn&apos;t otherwise reach. Your proprietary database needs an MCP server that wraps your database API — then Claude can query it like any other tool."
+               data-explanation-wrong="Think about what kind of extension point specializes in connecting Claude to external systems that are outside its default capabilities.">
+            <h3 class="quiz-question">You want Claude to search your proprietary internal knowledge base (a database your company built). None of the built-in tools can reach it. What do you build?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>A skill with instructions on how to format queries</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>A subagent dedicated to database lookups</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>A CLAUDE.md file with database documentation</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>An MCP server that wraps your database API</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-b"
+               data-explanation-right="Right! This is the Command → Agent → Skill pattern. The command orchestrates, the agent does the specialized work, the skill provides the specialized knowledge. Each layer has a clear role."
+               data-explanation-wrong="Think about separation of responsibilities: who should orchestrate? Who should do the specialized work? Who should provide the specialized knowledge?">
+            <h3 class="quiz-question">You&apos;re building a /generate-report workflow. It needs to: ask what kind of report, fetch data (using a custom API), and format the output as a PDF. What&apos;s the cleanest architecture?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>One giant subagent that does all three steps</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>A command that asks → spawns a data-fetcher agent (with API skill) → invokes a PDF-formatter skill</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Three separate slash commands, run one at a time</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Write all the instructions in CLAUDE.md and just ask Claude</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-c"
+               data-explanation-right="Spot on! Git worktrees give each agent its own isolated branch copy. They can all modify the codebase simultaneously without stepping on each other. When done, you merge the ones that worked."
+               data-explanation-wrong="The key challenge is isolation — multiple agents writing to the same files at the same time will conflict. What isolation mechanism solves that?">
+            <h3 class="quiz-question">You want 5 agents to each implement a different feature in your app simultaneously, all touching different files. How do you prevent them from conflicting?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Use maxTurns: 1 so they work quickly before conflicting</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Give each agent a different permissionMode</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Set isolation: worktree so each agent gets its own branch copy</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Run them sequentially with hooks to coordinate</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module5')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module5')">Try Again</button>
+        </div>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-8)">
+          <div class="callout-icon">🎓</div>
+          <div class="callout-content">
+            <strong class="callout-title">You now speak Claude Code</strong>
+            <p>Commands. Agents. Skills. Memory. Hooks. MCP. These six concepts are the vocabulary of Claude Code. Every time you give Claude a task, one or more of these are at work. And now you can design them intentionally — instead of just hoping for the best.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

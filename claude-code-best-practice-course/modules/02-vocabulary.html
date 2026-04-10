@@ -1,0 +1,240 @@
+<section class="module" id="module-2" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">02</span>
+      <h1 class="module-title">Commands &amp; Skills</h1>
+      <p class="module-subtitle">Your automation vocabulary — recipes and knowledge cartridges</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: Commands metaphor -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Commands: keyboard shortcuts for entire workflows</h2>
+        <p>Imagine you're a chef. Instead of explaining the entire risotto recipe every time someone asks for it, you just say <em>"make the risotto."</em> The recipe is already written down — you're just invoking it by name.</p>
+        <p>That's a <span class="term" data-definition="A command in Claude Code is a file containing step-by-step instructions. When you type /command-name, Claude reads and executes those instructions — like running a saved recipe.">command</span>. It's a <code>.md</code> file full of instructions Claude follows when you type <code>/its-name</code>. Write it once, use it forever.</p>
+
+        <div class="callout callout-info" style="margin-top: var(--space-6)">
+          <div class="callout-icon">📁</div>
+          <div class="callout-content">
+            <strong class="callout-title">Where commands live</strong>
+            <p>Commands go in <code>.claude/commands/</code> inside your project. Each file becomes a slash command — the filename is the command name.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Command code translation -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Anatomy of a command</h2>
+        <p>Here's a real command from the repo — the weather orchestrator. Let's read it line by line.</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">weather-orchestrator.md</span>
+            <pre><code><span style="color:#6C7086">---</span>
+<span style="color:#F9E2AF">description</span><span style="color:#CDD6F4">: Fetch weather for Dubai</span>
+<span style="color:#F9E2AF">model</span><span style="color:#CDD6F4">: haiku</span>
+<span style="color:#6C7086">---</span>
+
+<span style="color:#CBA6F7">## Workflow</span>
+
+<span style="color:#A6E3A1">### Step 1: Ask User Preference</span>
+<span style="color:#CDD6F4">Use AskUserQuestion to ask</span>
+<span style="color:#CDD6F4">whether they want Celsius</span>
+<span style="color:#CDD6F4">or Fahrenheit.</span>
+
+<span style="color:#A6E3A1">### Step 2: Fetch Weather Data</span>
+<span style="color:#CDD6F4">Use the Task tool to invoke</span>
+<span style="color:#CDD6F4">the weather-agent...</span>
+
+<span style="color:#A6E3A1">### Step 3: Create SVG Card</span>
+<span style="color:#CDD6F4">Use the Skill tool to invoke</span>
+<span style="color:#CDD6F4">weather-svg-creator skill.</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>description:</strong> A one-line summary of what this command does. Claude reads this to know when to suggest it.</p>
+              <p class="tl"><strong>model: haiku</strong> — Use the faster, cheaper model for this command. You can override the model per command.</p>
+              <p class="tl"><strong>Step 1</strong> — First, ask the user a question before doing anything. This makes the workflow interactive.</p>
+              <p class="tl"><strong>Step 2</strong> — Spawn a specialized subagent (weather-agent) to go fetch the actual data. The command orchestrates; the agent does the work.</p>
+              <p class="tl"><strong>Step 3</strong> — Load a skill (weather-svg-creator) to generate the visual output. Each step hands off to the right specialist.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Skills -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Skills: knowledge cartridges you snap in</h2>
+        <p>A skill is like a <strong>removable memory chip</strong>. It contains specialized knowledge — instructions for a specific task — that gets loaded into Claude's context when needed, and removed when it's done.</p>
+        <p>The key idea: instead of one giant brain that knows everything, you have a lean base plus <span class="term" data-definition="A skill file is a Markdown document with YAML frontmatter. It contains instructions, context, or workflows for a specific capability. It gets &quot;preloaded&quot; into Claude&apos;s working memory when the situation calls for it.">skill files</span> you snap in on demand.</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-icon" style="background: var(--color-actor-3)">📦</div>
+            <h4 class="pattern-title">Agent Skills</h4>
+            <p class="pattern-desc">Preloaded into a subagent via its <code>skills:</code> field. The agent always has this knowledge available.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-accent)">
+            <div class="pattern-icon" style="background: var(--color-accent-light)">🛠️</div>
+            <h4 class="pattern-title">Invocable Skills</h4>
+            <p class="pattern-desc">Triggered via <code>Skill(skill: "name")</code>. Claude loads the skill, follows its instructions, then continues.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Group chat animation — User → Command → Skill -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Watch them talk to each other</h2>
+        <p>Here's what happens when you type <code>/weather-orchestrator</code> — a conversation between you, the command, and the skill.</p>
+
+        <div class="chat-window" id="chat-module2">
+          <div class="chat-messages">
+            <div class="chat-message" data-msg="0" data-sender="user" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-text-secondary)">You</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-text-secondary)">You</span>
+                <p>/weather-orchestrator</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="1" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">weather-orchestrator command</span>
+                <p>I'm loading my instructions from .claude/commands/weather-orchestrator.md... Step 1: I need to ask the user a question.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="2" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">weather-orchestrator command</span>
+                <p>Do you want the temperature in Celsius or Fahrenheit?</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="3" data-sender="user" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-text-secondary)">You</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-text-secondary)">You</span>
+                <p>Celsius, please.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="4" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">weather-orchestrator command</span>
+                <p>Step 2: Invoking weather-agent subagent to fetch the data... (spawning worker)</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="5" data-sender="agent" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">🤖</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-2)">weather-agent</span>
+                <p>Got it. I'm loading my weather-fetcher skill... fetching Dubai temperature from the API... 34°C. Returning to command.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="6" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">weather-orchestrator command</span>
+                <p>Step 3: Now invoking weather-svg-creator skill to build the visual card...</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="7" data-sender="skill" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-3)">📦</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-3)">weather-svg-creator skill</span>
+                <p>SVG card created! Written to orchestration-workflow/weather.svg ✓</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="8" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">weather-orchestrator command</span>
+                <p>Done! Dubai is currently 34°C. Your weather card is ready. 🌤️</p>
+              </div>
+            </div>
+          </div>
+          <div class="chat-typing" id="chat-typing" style="display:none">
+            <div class="chat-avatar" id="typing-avatar">?</div>
+            <div class="chat-typing-dots">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+          <div class="chat-controls">
+            <button class="btn chat-next-btn">Next Message</button>
+            <button class="btn chat-all-btn">Play All</button>
+            <button class="btn chat-reset-btn">Replay</button>
+            <span class="chat-progress"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Apply what you learned</h2>
+
+        <div class="quiz-container" id="quiz-module2">
+
+          <div class="quiz-question-block"
+               data-correct="opt-b"
+               data-explanation-right="Exactly! Commands are workflows you trigger by name — like a saved recipe. Perfect for repeatable multi-step processes."
+               data-explanation-wrong="Think about what gets triggered when you type /command-name — it&apos;s more like a workflow recipe than a single action.">
+            <h3 class="quiz-question">Every Monday you need Claude to: pull the latest data, summarize it, and send a Slack message. How should you set this up?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Write it all out in CLAUDE.md so Claude always knows</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Create a /monday-report command with all three steps</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Make three separate subagents, one per step</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Use a hook that runs every Monday morning</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-c"
+               data-explanation-right="Right! Skills preloaded via the &apos;skills:&apos; field are always available to the agent. This is the &apos;agent skill&apos; pattern — knowledge bundled with the worker."
+               data-explanation-wrong="Think about the two skill patterns: one is always available to the agent from the start (preloaded), the other gets triggered on demand by a command.">
+            <h3 class="quiz-question">Your weather-agent needs to know how to call the weather API in every situation. What's the right pattern?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Invoke the skill with Skill("weather-fetcher") every time</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Write the API instructions directly into each command</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Add weather-fetcher to the agent&apos;s skills: field so it&apos;s always preloaded</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Put the API instructions in CLAUDE.md</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module2')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module2')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,249 @@
+<section class="module" id="module-1" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">01</span>
+      <h1 class="module-title">More Than a Chatbot</h1>
+      <p class="module-subtitle">What Claude Code actually is — and why it changes everything</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: The hook -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">You asked. A lot happened.</h2>
+        <p>You typed: <em>"Build me a weather app."</em> Seconds later, files appeared. But what actually happened between your words and those files?</p>
+        <p>It wasn't magic — it was a <span class="term" data-definition="A structured system of rules, tools, and memory that Claude follows when working on your project. Think of it as Claude's operating manual.">configuration system</span> doing exactly what you told it to. And once you understand it, you'll steer it ten times better.</p>
+
+        <div class="flow-steps" style="margin-top: var(--space-8)">
+          <div class="flow-step">
+            <div class="flow-step-num">1</div>
+            <p>You type a request</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">2</div>
+            <p>Claude reads your project memory</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">3</div>
+            <p>Invokes agents &amp; skills</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">4</div>
+            <p>Runs hooks &amp; tools</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">5</div>
+            <p>Delivers results</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Chatbot vs Claude Code -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The difference is programmability</h2>
+        <p>Chatting with Claude is like using a <strong>pocket calculator</strong> — great at one thing, but you start fresh every time, and it only knows what you tell it in the moment.</p>
+        <p>Claude Code is like a <strong>programmable spreadsheet</strong>. Same brain underneath, but now you can add formulas (commands), plug in data sources (MCP servers), and have it remember your preferences across every session.</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-text-muted)">
+            <div class="pattern-icon" style="background: var(--color-surface-warm)">💬</div>
+            <h4 class="pattern-title">Chat with Claude</h4>
+            <p class="pattern-desc">Fresh every conversation. No memory of your project. You explain everything, every time.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-accent)">
+            <div class="pattern-icon" style="background: var(--color-accent-light)">⚡</div>
+            <h4 class="pattern-title">Claude Code</h4>
+            <p class="pattern-desc">Knows your project, follows your rules, runs workflows, invokes specialized agents — all configurable by you.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: The 6 extension points -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Six levers you control</h2>
+        <p>Claude Code exposes six ways to customize and extend how it behaves. This entire course unpacks each one.</p>
+
+        <div class="icon-rows" style="margin-top: var(--space-6)">
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-1)">/</div>
+            <div>
+              <strong><span class="term" data-definition="Slash commands are custom workflows you trigger by typing /command-name. They contain instructions Claude follows step-by-step, like a recipe.">Commands</span></strong>
+              <p>Reusable workflows you trigger with <code>/slash-commands</code></p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-2)">🤖</div>
+            <div>
+              <strong><span class="term" data-definition="Subagents are specialized AI workers that run independently, with their own tools, permissions, and memory. Claude can spawn them to handle specific tasks.">Subagents</span></strong>
+              <p>Autonomous workers with custom tools and memory</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-3)">📦</div>
+            <div>
+              <strong><span class="term" data-definition="Skills are reusable knowledge packages — instructions Claude loads when it needs a specific capability. Like a plugin, but written in plain English.">Skills</span></strong>
+              <p>Knowledge cartridges loaded when needed</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-4)">🔌</div>
+            <div>
+              <strong><span class="term" data-definition="MCP (Model Context Protocol) servers connect Claude to external tools and APIs — databases, browsers, web search, your own services. Like USB ports for AI.">MCP Servers</span></strong>
+              <p>Connections to external tools, APIs, and databases</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-5)">🧠</div>
+            <div>
+              <strong><span class="term" data-definition="CLAUDE.md files are Claude&apos;s persistent memory for a project. Anything you write there gets read every session — like an employee handbook for Claude.">Memory</span></strong>
+              <p>Persistent context via CLAUDE.md files</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-accent)">🪝</div>
+            <div>
+              <strong><span class="term" data-definition="Hooks are scripts that run automatically when Claude takes certain actions — before using a tool, after finishing a session, when a subtask starts. They let you inject deterministic behavior.">Hooks</span></strong>
+              <p>Scripts that fire on lifecycle events (outside AI's control)</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Code↔English — CLAUDE.md -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Your project's permanent briefing</h2>
+        <p>Every session, before Claude does anything, it reads your <code>CLAUDE.md</code> file. This is where you teach it about your project once — instead of explaining it every time.</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">FROM THE REPO</span>
+            <pre><code><span style="color:#CBA6F7">## Key Components</span>
+
+<span style="color:#A6E3A1">### Weather System</span>
+<span style="color:#CDD6F4">A demonstration of the</span>
+<span style="color:#F9E2AF">Command → Agent → Skill</span>
+<span style="color:#CDD6F4">architecture:</span>
+<span style="color:#CDD6F4">- </span><span style="color:#89B4FA">`/weather-orchestrator`</span>
+<span style="color:#CDD6F4">  command: Entry point</span>
+<span style="color:#CDD6F4">- </span><span style="color:#89B4FA">`weather-agent`</span>
+<span style="color:#CDD6F4">  agent: Fetches temperature</span>
+<span style="color:#CDD6F4">- </span><span style="color:#89B4FA">`weather-fetcher`</span>
+<span style="color:#CDD6F4">  skill: API instructions</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>## Key Components</strong> — This section header tells Claude "here are the important moving parts of this project."</p>
+              <p class="tl"><strong>Weather System</strong> — This particular example shows how a command, agent, and skill work together as a team.</p>
+              <p class="tl"><strong>/weather-orchestrator</strong> — When you type this slash command, it kicks off the whole workflow.</p>
+              <p class="tl"><strong>weather-agent</strong> — An autonomous worker Claude can spawn to fetch the actual data.</p>
+              <p class="tl"><strong>weather-fetcher skill</strong> — A reusable set of instructions preloaded into the agent so it knows how to call the weather API.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-6)">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">The Aha Moment</strong>
+            <p>A CLAUDE.md file is like leaving a sticky note for your future self — except Claude reads it, not you. Write it once, and every future session starts with Claude already knowing your project's rules and structure.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Check your understanding</h2>
+
+        <div class="quiz-container" id="quiz-module1">
+
+          <div class="quiz-question-block"
+               data-correct="opt-c"
+               data-explanation-right="Exactly! Commands, agents, skills, MCP servers, memory, and hooks are the six extension points that make Claude Code programmable — not just a chatbot."
+               data-explanation-wrong="Not quite. Claude Code is the programmable layer built on top of Claude. The extension points are what make it configurable.">
+            <h3 class="quiz-question">You want Claude to always follow your coding style guide, even in new conversations. Which extension point solves this?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Add it to every message you send</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Create an MCP server for style rules</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Write your style rules into CLAUDE.md (Memory)</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Use a hook to inject it automatically</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-b"
+               data-explanation-right="Right! Subagents are the autonomous workers — they have their own tools, permissions, and context. They run independently while the main session continues."
+               data-explanation-wrong="Close, but subagents are specifically designed for isolated, autonomous work with their own tool access — not just normal instructions.">
+            <h3 class="quiz-question">You need Claude to research competitor pricing AND write a report at the same time — without one task interrupting the other. What's the best tool?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>A slash command with both tasks listed</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Two parallel subagents, each handling one task</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Two skills loaded into the same session</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>A hook that runs after the first task finishes</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-d"
+               data-explanation-right="Correct! MCP servers are the connection layer — they let Claude talk to external systems like databases, browsers, and APIs. Like USB ports for adding new capabilities."
+               data-explanation-wrong="Think about what kind of extension point specializes in connecting to external tools and systems — not just instructions or workflows.">
+            <h3 class="quiz-question">You want Claude to be able to search your company's internal database. What extension point makes this possible?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>A skill with database query instructions</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>A CLAUDE.md file with database docs</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>A hook that queries the database on every turn</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>An MCP server that connects Claude to the database</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module1')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module1')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

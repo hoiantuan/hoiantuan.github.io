@@ -1,0 +1,225 @@
+<section class="module" id="module-3" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">03</span>
+      <h1 class="module-title">Subagents</h1>
+      <p class="module-subtitle">Autonomous workers with their own tools, memory, and limits</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: The contractor metaphor -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Hiring a contractor, not asking a colleague</h2>
+        <p>When you ask a colleague for help, they know everything about your shared project — your history, your ongoing work, your conventions. But sometimes you want to hire a <strong>contractor</strong> instead.</p>
+        <p>A contractor shows up, does a specific job with their own tools, and leaves. They don't need to know everything about your company — just the task at hand. That's a <span class="term" data-definition="A subagent is an AI worker that Claude spawns to handle a specific task. It runs in complete isolation — its own context, its own tools, its own permission rules — and reports back when done.">subagent</span>.</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-text-muted)">
+            <div class="pattern-icon" style="background: var(--color-surface-warm)">🤝</div>
+            <h4 class="pattern-title">Main Session</h4>
+            <p class="pattern-desc">Knows your whole project. Has your full conversation history. Works interactively with you.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">🏗️</div>
+            <h4 class="pattern-title">Subagent</h4>
+            <p class="pattern-desc">Isolated context. Custom tools. Its own permission level. Runs a task and returns a result. Can run in parallel with others.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Frontmatter translation -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Configuring your contractor</h2>
+        <p>You configure a subagent through <span class="term" data-definition="Frontmatter is the block at the top of a file between triple dashes (---). It contains structured settings in YAML format — like a form you fill out to configure how something behaves.">frontmatter</span> — a short block of settings at the top of the agent file. Here's the real weather-agent:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">weather-agent.md (frontmatter)</span>
+            <pre><code><span style="color:#6C7086">---</span>
+<span style="color:#F9E2AF">name</span><span style="color:#CDD6F4">: weather-agent</span>
+<span style="color:#F9E2AF">description</span><span style="color:#CDD6F4">: Use PROACTIVELY when</span>
+<span style="color:#CDD6F4">  you need Dubai weather data.</span>
+<span style="color:#F9E2AF">model</span><span style="color:#CDD6F4">: sonnet</span>
+<span style="color:#F9E2AF">maxTurns</span><span style="color:#CDD6F4">: 5</span>
+<span style="color:#F9E2AF">permissionMode</span><span style="color:#CDD6F4">: acceptEdits</span>
+<span style="color:#F9E2AF">memory</span><span style="color:#CDD6F4">: project</span>
+<span style="color:#F9E2AF">color</span><span style="color:#CDD6F4">: green</span>
+<span style="color:#F9E2AF">skills</span><span style="color:#CDD6F4">:</span>
+<span style="color:#CDD6F4">  - weather-fetcher</span>
+<span style="color:#6C7086">---</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>name:</strong> The ID Claude uses when another agent or command wants to spawn this worker.</p>
+              <p class="tl"><strong>description: PROACTIVELY</strong> — That keyword tells Claude to suggest or auto-use this agent when the situation calls for it.</p>
+              <p class="tl"><strong>model: sonnet</strong> — Use the smarter (but slower) model. You can tune this per-agent for cost vs. quality.</p>
+              <p class="tl"><strong>maxTurns: 5</strong> — This agent is allowed to take at most 5 action steps. A safety guardrail so it can&apos;t spiral forever.</p>
+              <p class="tl"><strong>permissionMode: acceptEdits</strong> — The agent can edit files without asking you. Useful for automated workers.</p>
+              <p class="tl"><strong>memory: project</strong> — This agent can read and write to the project-level memory store between sessions.</p>
+              <p class="tl"><strong>skills: weather-fetcher</strong> — Load this skill into the agent&apos;s context from the start. The agent always knows how to call the weather API.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Key fields as pattern cards -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The fields that matter most</h2>
+        <p>A subagent has 16 possible configuration fields. Here are the 6 you'll use in almost every agent:</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-1)">
+            <div class="pattern-icon" style="background: var(--color-actor-1)">🎯</div>
+            <h4 class="pattern-title">description</h4>
+            <p class="pattern-desc">Tells Claude when to invoke this agent. Add "PROACTIVELY" to make Claude auto-suggest it.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">🔧</div>
+            <h4 class="pattern-title">tools (allowedTools)</h4>
+            <p class="pattern-desc">Exactly which tools this agent can use. <code>Bash(*)</code>, <code>Read</code>, <code>WebFetch(*)</code>, etc. Limits scope.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-icon" style="background: var(--color-actor-3)">🛡️</div>
+            <h4 class="pattern-title">permissionMode</h4>
+            <p class="pattern-desc"><code>acceptEdits</code> — auto-approve edits. <code>plan</code> — show plan, don&apos;t act. <code>bypassPermissions</code> — full trust mode.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-4)">
+            <div class="pattern-icon" style="background: var(--color-actor-4)">🔢</div>
+            <h4 class="pattern-title">maxTurns</h4>
+            <p class="pattern-desc">Maximum action steps before the agent stops. Your safety net against runaway automation.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-5)">
+            <div class="pattern-icon" style="background: var(--color-actor-5)">🧠</div>
+            <h4 class="pattern-title">memory</h4>
+            <p class="pattern-desc"><code>user</code>, <code>project</code>, or <code>local</code> — determines what persistent memory this agent can access and write.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-accent)">
+            <div class="pattern-icon" style="background: var(--color-accent-light)">⚡</div>
+            <h4 class="pattern-title">isolation: worktree</h4>
+            <p class="pattern-desc">Runs the agent in its own <span class="term" data-definition="A git worktree is a separate copy of your repository that shares the same git history. It lets multiple agents work on different branches at the same time without interfering.">git worktree</span> — a separate branch copy. Safe for risky experiments.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Flow animation — parallel agents -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Agent teams: work in parallel</h2>
+        <p>One of the most powerful things you can do with subagents: run them in <span class="term" data-definition="Parallel means multiple things happen at the same time, rather than one after another. When agents run in parallel, they don&apos;t wait for each other — they all work simultaneously.">parallel</span>. A command can spawn multiple agents simultaneously, each working on a different piece of the problem.</p>
+
+        <div class="flow-animation" data-steps='[
+          {"highlight":"flow-actor-1","label":"Step 1: You type /research-competitors"},
+          {"highlight":"flow-actor-1","label":"Step 2: Command reads instructions","packet":true,"from":"actor-1","to":"actor-2"},
+          {"highlight":"flow-actor-2","label":"Step 3: Command spawns three parallel agents"},
+          {"highlight":"flow-actor-3","label":"Agent A: Researching Company X pricing...","packet":true,"from":"actor-2","to":"actor-3"},
+          {"highlight":"flow-actor-4","label":"Agent B: Analyzing Company Y features...","packet":true,"from":"actor-2","to":"actor-4"},
+          {"highlight":"flow-actor-5","label":"Agent C: Scanning Company Z reviews...","packet":true,"from":"actor-2","to":"actor-5"},
+          {"highlight":"flow-actor-2","label":"Step 4: All three finish and report back"},
+          {"highlight":"flow-actor-1","label":"Step 5: Command combines results and shows you a report","packet":true,"from":"actor-2","to":"actor-1"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">/</div>
+              <span>Command</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">🧑‍💼</div>
+              <span>Orchestrator</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Agent A</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Agent B</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Agent C</span>
+            </div>
+          </div>
+          <div class="flow-packet" id="flow-packet"></div>
+          <div class="flow-step-label" id="flow-label">Press Next Step to begin</div>
+          <div class="flow-controls">
+            <button class="btn flow-next-btn">Next Step</button>
+            <button class="btn flow-reset-btn">Restart</button>
+          </div>
+        </div>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-6)">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">Why parallel agents matter for you</strong>
+            <p>If 3 research tasks each take 2 minutes, sequential execution takes 6 minutes. Parallel execution takes 2 minutes. When you tell Claude "do X, Y, and Z," understanding agents means you can ask for parallelism explicitly.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Put it into practice</h2>
+
+        <div class="quiz-container" id="quiz-module3">
+
+          <div class="quiz-question-block"
+               data-correct="opt-d"
+               data-explanation-right="Correct! maxTurns is your safety guardrail. If an agent goes off-script or loops, it automatically stops after hitting the turn limit."
+               data-explanation-wrong="Think about which field specifically limits how many steps an agent can take — it&apos;s designed exactly for preventing runaway behavior.">
+            <h3 class="quiz-question">You set up an agent to automatically refactor code. You're worried it might make too many changes and spiral out of control. Which field protects you?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>permissionMode: plan — shows a plan before acting</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>tools: Read — limit to read-only access</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>memory: local — restrict memory scope</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>maxTurns: 10 — stop after 10 action steps</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-a"
+               data-explanation-right="Yes! isolation: worktree creates a separate git branch copy for the agent. If it breaks something, it&apos;s contained in its own branch — your main code is safe."
+               data-explanation-wrong="The &apos;worktree&apos; isolation mode is specifically designed for this scenario — it gives the agent its own branch so experiments can&apos;t corrupt your main codebase.">
+            <h3 class="quiz-question">You want an agent to try a risky refactor on your codebase without touching your main branch. What do you use?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>isolation: worktree</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>permissionMode: plan</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>memory: local</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>model: haiku (cheaper model for experiments)</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module3')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module3')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
