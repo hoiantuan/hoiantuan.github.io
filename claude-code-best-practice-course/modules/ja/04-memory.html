@@ -1,0 +1,160 @@
+<section class="module" id="module-4" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">04</span>
+      <h1 class="module-title">メモリと設定</h1>
+      <p class="module-subtitle">Claudeにあなたの世界を教え、ガードレールを設定する</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: CLAUDE.md as employee handbook -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Claudeが毎朝読む従業員ハンドブック</h2>
+        <p>新入社員は初日に会社のマニュアルを読みます。そこには、私たちが何をする会社で、どのように働き、何が許可され、何が禁止されているかが書かれています。毎日再教育する必要はありません—マニュアルの記述は記憶されます。</p>
+        <p><code>CLAUDE.md</code> はあなたのプロジェクト用のClaudeのハンドブックです。これはプロジェクトのルートにある<span class="term" data-definition="Markdownはプレーンテキストのドキュメント記述言語です。Claudeにとってはそのまま読める自然言語のようなものです。">Markdown</span>ファイルです。Claudeは毎回のセッションの開始時にこれを読み込みます。ここに書き込んだものはすべて恒久的なコンテキストとなり、何度も再説明する必要がなくなります。</p>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-6)">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">CLAUDE.md には何を書くべきか？</strong>
+            <p>プロジェクトのアーキテクチャ、コーディング規約、存在するコマンド、エージェントの役割、デバッグのヒント、コミットルールなど、新しくチームに入った開発者に伝えたいことなら何でも書きます。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Memory hierarchy -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">メモリの3つの階層構造</h2>
+        <p>CLAUDE.md ファイルは<span class="term" data-definition="より上位のレベルが広範な影響を持つ階層システム。">階層</span>を形成しています。Claudeは最も広範なもの（グローバル）から最も特定的なもの（ローカルサブフォルダ）の順番で読み込みます。</p>
+
+        <div class="icon-rows" style="margin-top: var(--space-6)">
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-1)">🌍</div>
+            <div>
+              <strong>グローバルメモリ</strong>
+              <p><code>~/.claude/CLAUDE.md</code> — マシンのすべてのプロジェクトに適用される個人的なルール。コードのスタイル、あなたの名前、希望する出力形式など。</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-2)">📁</div>
+            <div>
+              <strong>プロジェクトメモリ</strong>
+              <p><code>./CLAUDE.md</code> — この特定プロジェクトのルール。チーム全員とGit経由で共有される中核的な情報。</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-3)">🔒</div>
+            <div>
+              <strong>ローカルの上書き</strong>
+              <p><code>./CLAUDE.local.md</code> — プロジェクトに対する個人的な上書きルール。自分用のデバッグメモや秘密のプレファレンスで、Gitにはコミットしません。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Permissions -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">許可ルール：あなたの安全柵</h2>
+        <p>Claudeに許可する動作を正確に制御できます。権限システムには3つのモードがあります。<strong>allow</strong>（常に許可）、<strong>ask</strong>（確認を求める）、<strong>deny</strong>（完全にブロック）。</p>
+        <p>設定例 (<code>.claude/settings.json</code>):</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">.claude/settings.json (permissions)</span>
+            <pre><code><span style="color:#CDD6F4">{</span>
+  <span style="color:#F9E2AF">"permissions"</span><span style="color:#CDD6F4">: {</span>
+    <span style="color:#A6E3A1">"allow"</span><span style="color:#CDD6F4">: [</span>
+      <span style="color:#A6E3A1">"Edit(*)"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#A6E3A1">"Bash(*)"</span>
+    <span style="color:#CDD6F4">],</span>
+    <span style="color:#FAB387">"ask"</span><span style="color:#CDD6F4">: [</span>
+      <span style="color:#FAB387">"Bash(rm *)"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#FAB387">"Bash(npm *)"</span>
+    <span style="color:#CDD6F4">],</span>
+    <span style="color:#F38BA8">"deny"</span><span style="color:#CDD6F4">: []</span>
+  <span style="color:#CDD6F4">}</span>
+<span style="color:#CDD6F4">}</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">解説</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>allow: Edit(*), Bash(*)</strong> — Claudeは都度尋ねることなくファイル編集やコマンドを実行できます。<code>*</code> は任意の引数を意味するワイルドカードです。</p>
+              <p class="tl"><strong>ask: Bash(rm *)</strong> — 削除コマンドを実行する前には、必ず一時停止して確認を求めます。「自動」モード設定であっても保護されます。</p>
+              <p class="tl"><strong>ask: Bash(npm *)</strong> — パッケージのインストール等の操作には人間の承認を要求します。予期しない依存関係の追加を防げます。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Hooks -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">フック（Hooks）：決してハルシネーションを起こさないロジック</h2>
+        <p>これまで紹介したコマンド、エージェント、スキルなどは全てAIが駆動する要素です。しかし時には、<strong>確実で決定論的な動作</strong>が必要になることがあります。Claudeが作業を終えた時のサウンド通知、ファイル変更時のログ記録、ターミナルコマンド実行前のセキュリティチェックなどです。</p>
+        <p>これが<span class="term" data-definition="フックとは、Claudeがツールを使用する前（PreToolUse）や開始時（SessionStart）など、特定のイベントが発生したときに自動的に実行されるシェルスクリプトやコマンドです。">フック</span>の役割です。これらはAIの思考ループの「外側」で実行されるため、ハルシネーション（幻覚・嘘）を起こさず、プログラムされた通りに必ず実行されます。</p>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">テストで理解度を確認する</h2>
+
+        <div class="quiz-container" id="quiz-module4">
+
+          <div class="quiz-question-block"
+               data-correct="opt-c"
+               data-explanation-right="正解です！自分の名前や希望する回答の長さなど、個人的な好みは ~/.claude/CLAUDE.md というグローバルメモリに置くべきです。どのリポジトリにもコミットされることなく、すべてのプロジェクトで適用されます。">
+            <h3 class="quiz-question">Claudeに、すべてのプロジェクトで（このプロジェクトだけではなく常に）あなたを「Alex」と簡潔に呼ばせたいとします。どこに設定を記述しますか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>現在のプロジェクト内の ./CLAUDE.md</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>.claude/settings.json の permissions ブロック</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>~/.claude/CLAUDE.md (グローバルメモリ)</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>「personal-preferences」という名前のスキルファイル</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-b"
+               data-explanation-right="その通りです！フックはClaudeのAIループの外で実行されるため、例外なく決定論的に実行されます。絶対にスキップされたくないセキュリティチェックなどに使うべき正しいツールです。">
+            <h3 class="quiz-question">gitコミットの前に必ずセキュリティスキャンを実行させる必要があります。Claudeが何をどうしようと「絶対にスキップさせない」ためにはどれを使用しますか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>CLAUDE.md に指示を書く：「コミット前に必ずスキャンすること」</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Bash(git commit *) をインターセプトする PreToolUse フックを設定する</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>スキャン処理を組み込んだ /secure-commit コマンドを作成する</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>permissionMode: plan を使用して実行前に見せるよう設定する</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module4')">回答をチェックする</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module4')">やり直す</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

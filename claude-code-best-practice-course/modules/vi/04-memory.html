@@ -1,0 +1,165 @@
+<section class="module" id="module-4" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">04</span>
+      <h1 class="module-title">Bộ Nhớ &amp; Cài Đặt</h1>
+      <p class="module-subtitle">Dạy Claude về thế giới của bạn — và thiết lập hàng rào bảo vệ</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: CLAUDE.md as employee handbook -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Cuốn sổ tay nhân viên mà Claude đọc mỗi sáng</h2>
+        <p>Mỗi nhân viên mới đều đọc sổ tay công ty vào ngày đầu tiên. Nó cho họ biết: chúng ta làm gì, làm việc như thế nào, điều gì được phép, điều gì không. Họ không cần phải được đào tạo lại mỗi ngày — cuốn sổ tay sẽ ở lại với họ.</p>
+        <p><code>CLAUDE.md</code> là cuốn sổ tay của Claude dành cho dự án của bạn. Đó là một tệp <span class="term" data-definition="Markdown là định dạng văn bản thuần túy để viết tài liệu. Bạn sử dụng các ký hiệu như # cho tiêu đề và ** cho chữ in đậm. Claude có thể đọc Markdown một cách tự nhiên, đó là lý do tại sao CLAUDE.md hoạt động rất tốt như các chỉ thị.">Markdown</span> nằm ở thư mục gốc của dự án. Claude đọc nó vào đầu mỗi phiên. Mọi thứ bạn viết ở đó trở thành ngữ cảnh liên tục — không cần phải giải thích lại.</p>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-6)">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">Những gì nên viết trong CLAUDE.md?</strong>
+            <p>Kiến trúc dự án, quy ước viết mã, các lệnh hiện có, từng đặc vụ làm gì, mẹo gỡ lỗi, quy tắc commit hoặc bất cứ thứ gì bạn muốn nói với một lập trình viên mới vào đội. Nên giữ nội dung dưới 200 dòng — Claude sẽ đọc toàn bộ cấu hình mỗi lần.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Memory hierarchy -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Ba tầng của bộ nhớ</h2>
+        <p>Các tệp CLAUDE.md tạo thành một <span class="term" data-definition="Hệ thống cấp bậc là một hệ thống xếp hạng trong đó các cấp cao hơn có nhiều quyền lực hơn. Trong ngữ cảnh này, các tệp ở vị trí cao hơn trong cây thư mục được tải trước tiên và áp dụng rộng rãi hơn.">hệ thống phân cấp</span>. Claude tải chúng từ cái chung nhất (toàn cầu) đến cái cụ thể nhất (thư mục con cục bộ) — giống như những vòng tròn ngữ cảnh lồng vào nhau.</p>
+
+        <div class="icon-rows" style="margin-top: var(--space-6)">
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-1)">🌍</div>
+            <div>
+              <strong>Bộ nhớ toàn cầu (Global Memory)</strong>
+              <p><code>~/.claude/CLAUDE.md</code> — Các quy tắc cá nhân của bạn áp dụng cho mọi dự án trên máy. Ví dụ: kiểu code ưa thích, tên của bạn, định dạng nào bạn thích.</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-2)">📁</div>
+            <div>
+              <strong>Bộ nhớ dự án (Project Memory)</strong>
+              <p><code>./CLAUDE.md</code> — Quy tắc cho dự án cụ thể này. Các quyết định về kiến trúc, quy ước của nhóm, các phần cốt lõi. Chia sẻ với toàn đội qua <span class="term" data-definition="Git hệ thống kiểm soát phiên bản. Chia sẻ và quản lý.">git</span>.</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-3)">🔒</div>
+            <div>
+              <strong>Ghi đè cục bộ (Local Override)</strong>
+              <p><code>./CLAUDE.local.md</code> — Các quy tắc ưu tiên cá nhân ghi đè cho dự án. Các ghi chú debug của riêng bạn, dữ liệu ẩn. Không được tải lên git.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Permissions -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Quy tắc phân quyền: hàng rào an toàn của bạn</h2>
+        <p>Bạn kiểm soát chính xác những gì Claude được phép làm. Hệ thống cấp phép có ba chế độ: <strong>allow</strong> (cho phép - không cần hỏi), <strong>ask</strong> (hỏi trước khi thực hiện), và <strong>deny</strong> (chặn hoàn toàn).</p>
+        <p>Đây là một ví dụ từ tệp <code>.claude/settings.json</code> thực tế của dự án:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">.claude/settings.json (cấp quyền)</span>
+            <pre><code><span style="color:#CDD6F4">{</span>
+  <span style="color:#F9E2AF">"permissions"</span><span style="color:#CDD6F4">: {</span>
+    <span style="color:#A6E3A1">"allow"</span><span style="color:#CDD6F4">: [</span>
+      <span style="color:#A6E3A1">"Edit(*)"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#A6E3A1">"Write(*)"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#A6E3A1">"Bash(*)"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#A6E3A1">"WebFetch(domain:*)"</span>
+    <span style="color:#CDD6F4">],</span>
+    <span style="color:#FAB387">"ask"</span><span style="color:#CDD6F4">: [</span>
+      <span style="color:#FAB387">"Bash(rm *)"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#FAB387">"Bash(npm *)"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#FAB387">"Bash(docker *)"</span>
+    <span style="color:#CDD6F4">],</span>
+    <span style="color:#F38BA8">"deny"</span><span style="color:#CDD6F4">: []</span>
+  <span style="color:#CDD6F4">}</span>
+<span style="color:#CDD6F4">}</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">GIẢI THÍCH ĐƠN GIẢN</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>allow: Edit(*), Write(*), Bash(*)</strong> — Claude có thể thoải mái sửa file, chạy mọi code mà khỏi cần hỏi bạn. Biểu tượng <code>*</code> có nghĩa là mọi thứ.</p>
+              <p class="tl"><strong>allow: WebFetch(domain:*)</strong> — Claude có thể tự động truy cập tải xuống nội dụng website.</p>
+              <p class="tl"><strong>ask: Bash(rm *)</strong> — Trước khi xài lệnh xóa dữ liệu (rm), Claude bị ép phải dừng lại để bạn duyệt chữ Đồng ý hay không. Rất an toàn!</p>
+              <p class="tl"><strong>ask: Bash(npm *), Bash(docker *)</strong> — Cài gói mới, thao tác Docker hệ thống cũng sẽ bắt đợi bạn duyệt. Để tránh nhét mã bậy.</p>
+              <p class="tl"><strong>deny: []</strong> — Không có hành động nào bị khóa triệt để cả. Ví như bạn có thể ép khóa cấm quyền chmod <code>Bash(chmod *)</code> hoặc giết luồng <code>Bash(kill *)</code>.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Hooks -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Hooks: Logic cứng không bao giờ bị AI "ảo giác"</h2>
+        <p>Tất cả mọi thứ đã học — Lệnh, Đặc vụ, Kỹ năng — đều là của AI xử lý. Nhưng nhiều khi bạn cần <strong>tính ổn định cao tuyệt đối như cái máy tính truyền thống</strong>. Nổ một tiếng nhạc chuông khi Claude xong việc. Ghi lưu log mỗi khi code bị sửa. Check quét bảo mật nếu chạy bash.</p>
+        <p>Đó là lý do <span class="term" data-definition="Hooks là các lệnh mã máy tính shell chạy thẳng không dính gì suy nghĩ của AI, mà là do sự kiện máy tính xảy ra nó sẽ kích hoạt, như kiểu 'PreToolUse' (Trước khi dùng tool) hoặc bắt đầu.">Móc kết nối (hooks)</span> sinh ra. Nó nằm <em>bên ngoài</em> tầng tư duy AI — triệt tiêu hiện tượng sảng, lười, hay bị ảo tưởng. Cứ đúng trình tự sự kiện là thi hành lệnh.</p>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Kiểm tra khả năng của bạn</h2>
+
+        <div class="quiz-container" id="quiz-module4">
+
+          <div class="quiz-question-block"
+               data-correct="opt-c"
+               data-explanation-right="Chuẩn luôn! Sở thích cá nhân của bạn nên lưu ở ~/.claude/CLAUDE.md để đi cái dự án nào nó cũng hiểu ý bạn. Không được đẩy lên Github chung công ty.">
+            <h3 class="quiz-question">Bạn muốn Claude lúc nào cũng gọi tên mình là "Sếp Tuan" siêu ngắn gọn ở tất cả dự án máy tính bạn xài. Ghi ở đâu?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>./CLAUDE.md ở cục bộ thư mục</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>.claude/settings.json phân quyền</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>~/.claude/CLAUDE.md (Bộ nhớ tổng trên ổ gốc)</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Nhét nó vào kỹ năng "personal-preferences"</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-b"
+               data-explanation-right="Exactly! Các Móc Hooks chạy nằm ngoài trí hiểu của AI. Khỏi lo nó lười nó nói xạo nó làm rối búa xua, đây là ép nó phải quét cứng lệnh không chối được.">
+            <h3 class="quiz-question">Bạn cần bắt buộc AI luôn tự quét mã bảo mật lỗi trươc mọi cái commit — không được để AI nó lơ và ăn bớt việc. Chọn chiêu gì?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Viết răn đe vào CLAUDE.md: "Chắc chắn luôn phải quét mã nghe chưa"</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Kết cấu cấu hình cái Móc Hook tên PreToolUse chặn họng cái tiến trình gõ phím Bash(git commit *)</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Tạo lệnh phím dắt /secure-commit nhúng chung cái mã kia</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Bật tính năng chờ duyệt quyền permissionMode: plan</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module4')">Hiển Thị Kết Quả</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module4')">Lảm Lại Nha</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

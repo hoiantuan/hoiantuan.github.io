@@ -1,0 +1,225 @@
+<section class="module" id="module-3" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">03</span>
+      <h1 class="module-title">サブエージェント (Subagents)</h1>
+      <p class="module-subtitle">専用のツール、メモリ、自律制限を持った独立ワーカー</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: The contractor metaphor -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">同僚ではなく、請負業者を雇う</h2>
+        <p>同僚に助けを求める時、相手はあなたのプロジェクトすべてを知っています。会社の歴史も、作業内容も、規約もです。しかし、ときには代わりに<strong>請負業者（コントラクター）</strong>を雇いたいと思うことでしょう。</p>
+        <p>請負業者はやってきて、自分自身の機材で特定のタスクだけを完璧にこなし、そして帰ります。彼らに会社の全てを共有する必要はなく、単に手元のタスク情報だけを渡すだけです。これが<span class="term" data-definition="サブエージェントとは特定のタスクを処理するためにClaudeが生成するAIの自立ワーカーです。完全に隔離されたコンテキスト、ツール、権限を持って実行され、完了すると報告します。">サブエージェント</span>という存在です。</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-text-muted)">
+            <div class="pattern-icon" style="background: var(--color-surface-warm)">🤝</div>
+            <h4 class="pattern-title">メインの会話セッション</h4>
+            <p class="pattern-desc">プロジェクトの全てを知っています。これまでの会話履歴を持ち、インタラクティブにあなたと作業します。</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">🏗️</div>
+            <h4 class="pattern-title">サブエージェント</h4>
+            <p class="pattern-desc">隔離されたコンテキスト。カスタムツールと権限、専用の設定。タスクを実行し結果のみを返します。他と並行して複数動かせます。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Frontmatter translation -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">請負業者の事前設定</h2>
+        <p>サブエージェントの設定は、上部ブロックの<span class="term" data-definition="フロントマターとは、ファイルの先頭の --- で囲まれた設定ブロックです。YAML形式の構造化設定を含み、フォームのように各種設定を記述します。">フロントマター</span>で行います。これは実際の weather-agent のファイルです:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">weather-agent.md (フロントマターの設定領域)</span>
+            <pre><code><span style="color:#6C7086">---</span>
+<span style="color:#F9E2AF">name</span><span style="color:#CDD6F4">: weather-agent</span>
+<span style="color:#F9E2AF">description</span><span style="color:#CDD6F4">: Use PROACTIVELY when</span>
+<span style="color:#CDD6F4">  you need Dubai weather data.</span>
+<span style="color:#F9E2AF">model</span><span style="color:#CDD6F4">: sonnet</span>
+<span style="color:#F9E2AF">maxTurns</span><span style="color:#CDD6F4">: 5</span>
+<span style="color:#F9E2AF">permissionMode</span><span style="color:#CDD6F4">: acceptEdits</span>
+<span style="color:#F9E2AF">memory</span><span style="color:#CDD6F4">: project</span>
+<span style="color:#F9E2AF">color</span><span style="color:#CDD6F4">: green</span>
+<span style="color:#F9E2AF">skills</span><span style="color:#CDD6F4">:</span>
+<span style="color:#CDD6F4">  - weather-fetcher</span>
+<span style="color:#6C7086">---</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">解説</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>name:</strong> このワーカーを生成するために参照されるID名です。</p>
+              <p class="tl"><strong>description:</strong> "PROACTIVELY"（積極的に）というキーワードは、指定した条件・状況に合致したときにClaudeが自動的にこのエージェントの使用を提案・実行することを促します。</p>
+              <p class="tl"><strong>model: sonnet</strong> — このタスクの実行に使用する言語モデルの指定。コスト・精度の調整が行えます。</p>
+              <p class="tl"><strong>maxTurns: 5</strong> — 最大5ターンのステップしか踏めないという自己制限。AIが暴走して延々とループすることを防ぎます。</p>
+              <p class="tl"><strong>permissionMode: acceptEdits</strong> — ここを設定すると、エージェントはあなたの承認なしにファイルの編集が自動的に可能になります。</p>
+              <p class="tl"><strong>memory: project</strong> — プロジェクトレベルの記憶領域（クロージャー）へのアクセス権限を明記します。</p>
+              <p class="tl"><strong>skills: weather-fetcher</strong> — 指定したスキルセットをエージェントに読み込ませます。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Key fields as pattern cards -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">よく使う重要な設定項目</h2>
+        <p>1つのエージェントには最大で16の設定項目がありますが、主に使用するのは以下の6つになります：</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-1)">
+            <div class="pattern-icon" style="background: var(--color-actor-1)">🎯</div>
+            <h4 class="pattern-title">description (説明)</h4>
+            <p class="pattern-desc">いつ起動するか。 "PROACTIVELY" などを設定し、自発的に起動させる文脈を記載。</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">🔧</div>
+            <h4 class="pattern-title">tools (ツール許可一覧)</h4>
+            <p class="pattern-desc">使用が許可されたツールの限定。 <code>Bash(*)</code> や <code>Read</code> など指定。</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-icon" style="background: var(--color-actor-3)">🛡️</div>
+            <h4 class="pattern-title">permissionMode (権限モード)</h4>
+            <p class="pattern-desc">編集の自動許可 <code>acceptEdits</code> や、計画の事後提示 <code>plan</code>、全権委任など。</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-4)">
+            <div class="pattern-icon" style="background: var(--color-actor-4)">🔢</div>
+            <h4 class="pattern-title">maxTurns (最大実行ターン制限)</h4>
+            <p class="pattern-desc">自動操作が止まらなくなる暴走シナリオを防ぐためのアクション制限。</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-5)">
+            <div class="pattern-icon" style="background: var(--color-actor-5)">🧠</div>
+            <h4 class="pattern-title">memory (メモリ設定)</h4>
+            <p class="pattern-desc"><code>user</code>、<code>project</code>、<code>local</code>など、記憶領域のレベルを設定。</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-accent)">
+            <div class="pattern-icon" style="background: var(--color-accent-light)">⚡</div>
+            <h4 class="pattern-title">isolation: worktree (リポジトリの分離)</h4>
+            <p class="pattern-desc">エージェントを現在のリポジトリとは別のコピー <span class="term" data-definition="クローン分岐。メインのリポジトリには何の影響も与えません。">git worktree</span> で動かします。リスクのある書き換え等にも安全です。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Flow animation — parallel agents -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">並列作業 (Parallel Agents) の仕組み</h2>
+        <p>サブエージェントが生み出す強力な利点の一つは、タスクの<span class="term" data-definition="並行して実行されること。お互いが終了するのを待つことなく同時に複数処理を進める方式です。">並列性</span>です。一つのコマンド指示から３つのエージェントが生み出され、独立したパーツをそれぞれ同時に分担していくことが可能です。</p>
+
+        <div class="flow-animation" data-steps='[
+          {"highlight":"flow-actor-1","label":"Step 1: /research-competitors コマンドを叩く"},
+          {"highlight":"flow-actor-1","label":"Step 2: コマンドがオーケストレーターに指示を流す","packet":true,"from":"actor-1","to":"actor-2"},
+          {"highlight":"flow-actor-2","label":"Step 3: オーケストレーターが３つのエージェントを同時に召喚"},
+          {"highlight":"flow-actor-3","label":"Agent A: 企業Xの価格をチェック中...","packet":true,"from":"actor-2","to":"actor-3"},
+          {"highlight":"flow-actor-4","label":"Agent B: 企業Yの機能を解析中...","packet":true,"from":"actor-2","to":"actor-4"},
+          {"highlight":"flow-actor-5","label":"Agent C: 企業Zの市場レビューを取得中...","packet":true,"from":"actor-2","to":"actor-5"},
+          {"highlight":"flow-actor-2","label":"Step 4: 完了したエージェントから順に情報を回収"},
+          {"highlight":"flow-actor-1","label":"Step 5: 結果をまとめUIとしてレポート出力","packet":true,"from":"actor-2","to":"actor-1"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">/</div>
+              <span>コマンド開始</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">🧑‍💼</div>
+              <span>Orchestrator</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Agent A</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Agent B</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Agent C</span>
+            </div>
+          </div>
+          <div class="flow-packet" id="flow-packet"></div>
+          <div class="flow-step-label" id="flow-label">再生ボタンでアニメーションを確認する</div>
+          <div class="flow-controls">
+            <button class="btn flow-next-btn">次のステップ</button>
+            <button class="btn flow-reset-btn">再開</button>
+          </div>
+        </div>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-6)">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">なぜこの並列化が重要なのか</strong>
+            <p>1つの調査タスクに2分かかるとします。３つあれば逐次処理で6分ですが、並列作業では2分で完了します。システムに「A、B、Cをやって」と頼む時、サブエージェントを使えば劇的な時間短縮が行えるのです。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">テストと実践</h2>
+
+        <div class="quiz-container" id="quiz-module3">
+
+          <div class="quiz-question-block"
+               data-correct="opt-d"
+               data-explanation-right="正解！maxTurns は暴走時のガードレールです。ループに陥ったとしても自動的に実行回数制限で遮断されます。"
+               data-explanation-wrong="どのアクション設定がエージェントのステップを停止させるか、暴走行為自体を防ぐものとして設計されているかを考えましょう。">
+            <h3 class="quiz-question">リファクタリング用エージェントを回しましたが、想定外な書き換えをして無限に脱線し続けるか不安です。安全を守る設定はどれ？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>permissionMode: plan — 実行前にプランだけを見せる</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>tools: Read — スクリプトを読み取り専用にする</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>memory: local — メモリのスコープを制限する</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>maxTurns: 10 — 定められたアクションステップ後に強制停止させる</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-a"
+               data-explanation-right="正解です！ isolation: worktree は git の作業ツリー層で全く新しいブランチを複製し隔離させます。もしメイン側のコードが壊れても、そのブランチ内で完結します。"
+               data-explanation-wrong="メインのテスト側やコードベースからの物理的な「隔離と分離環境」を用意する設定はどれかを考えましょう。">
+            <h3 class="quiz-question">非常に大胆なコードのリファクタリングを試させたいですが、メインのブランチのファイルを壊されたくありません。どれを使用しますか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>isolation: worktree</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>permissionMode: plan</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>memory: local</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>model: haiku</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module3')">結果を確認する</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module3')">やり直す</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,240 @@
+<section class="module" id="module-2" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">02</span>
+      <h1 class="module-title">Lệnh &amp; Kỹ Năng</h1>
+      <p class="module-subtitle">Bộ từ vựng tự động hóa — Công thức và Hộp kiến thức</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: Commands metaphor -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Lệnh: Phím tắt quản lý cho toàn bộ quy trình làm việc</h2>
+        <p>Hãy tưởng tượng bạn là một đầu bếp. Thay vì giải thích toàn bộ công thức làm món risotto mỗi khi có người yêu cầu, bạn chỉ cần nói <em>"hãy làm món risotto."</em> Công thức đã được viết sẵn — bạn chỉ đang gọi tên nó ra.</p>
+        <p>Đó gọi là <span class="term" data-definition="Trong Claude. Lệnh là một tệp ghi mọi hướng dẫn. Khi bạn gõ /command-name, Claude đọc và thực hiện chúng như một kịch bản lưu sẵn">Lệnh (Command)</span>. Nó là một tệp <code>.md</code> chứa đầy đủ các hướng dẫn mà Claude tuân theo khi bạn gõ <code>/its-name</code>. Viết một lần, sử dụng mãi mãi.</p>
+
+        <div class="callout callout-info" style="margin-top: var(--space-6)">
+          <div class="callout-icon">📁</div>
+          <div class="callout-content">
+            <strong class="callout-title">Nơi lưu trữ các Lệnh</strong>
+            <p>Các lệnh được đặt trong <code>.claude/commands/</code> bên trong thư mục dự án của bạn. Mỗi tệp trở thành một lệnh gạch chéo (/slash command) — tên tệp chính là tên lệnh.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Command code translation -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Giải phẫu cấu trúc của một Lệnh</h2>
+        <p>Đây là một lệnh cấu hình hệ thời tiết thực tế mà chúng ta viết. Hãy đọc nó từng dòng.</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">weather-orchestrator.md</span>
+            <pre><code><span style="color:#6C7086">---</span>
+<span style="color:#F9E2AF">description</span><span style="color:#CDD6F4">: Lấy thời tiết cho Dubai</span>
+<span style="color:#F9E2AF">model</span><span style="color:#CDD6F4">: haiku</span>
+<span style="color:#6C7086">---</span>
+
+<span style="color:#CBA6F7">## Quy trình làm việc</span>
+
+<span style="color:#A6E3A1">### Bước 1: Hỏi ưu tiên của User</span>
+<span style="color:#CDD6F4">Use AskUserQuestion to ask</span>
+<span style="color:#CDD6F4">whether they want Celsius</span>
+<span style="color:#CDD6F4">or Fahrenheit.</span>
+
+<span style="color:#A6E3A1">### Bước 2: Kéo dữ liệu Thời Tiết</span>
+<span style="color:#CDD6F4">Sử dụng the Task tool to invoke</span>
+<span style="color:#CDD6F4">the weather-agent...</span>
+
+<span style="color:#A6E3A1">### Bước 3: Tạo thẻ SVG </span>
+<span style="color:#CDD6F4">Sử dụng the Skill tool to invoke</span>
+<span style="color:#CDD6F4">weather-svg-creator skill.</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">GIẢI THÍCH ĐƠN GIẢN</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>description:</strong> Một câu tóm tắt chức năng của lệnh này. Claude đọc nó để biết khi nào nên đề xuất nó.</p>
+              <p class="tl"><strong>model: haiku</strong> — Sử dụng mô hình rẻ và nhanh hơn cho lệnh này. Bạn có thể ghi đè mô hình hệ thống có sẵn cho mỗi lệnh.</p>
+              <p class="tl"><strong>Bước 1</strong> — Đầu tiên, hỏi người dùng trước khi làm bất cứ việc gì cả. Điều này giúp tiến trình trở nên tương tác hơn.</p>
+              <p class="tl"><strong>Bước 2</strong> — Sinh ra một tác nhân đặc vụ phụ(weather-agent) để tự kéo dữ liệu liên tục. Code sẽ sắp xếp nó; Agent tự kéo nó.</p>
+              <p class="tl"><strong>Bước 3</strong> — Nhúng kỹ năng Skill (weather-svg-creator) vào để tạo bản phát thảo đồ hoạ output. Mỗi bước giao cho đúng người làm chuẩn.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Skills -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Kỹ năng: Nhúng từng cái hộp kiến thức như băng Cassette</h2>
+        <p>Lệnh Kỹ Năng /Skill nó giống như là <strong>Chip bộ nhớ rời vậy</strong>. Nó gói các kiến thức học lỏm riêng biệt, cấu hình làm quen vào riêng biệt công việc — Chỉ tải đoạn cần thiết để cho Claude hiểu, giải quyết xong nó xả bộ nhớ đó ra.</p>
+        <p>Thay vì nhét vào não để gánh toàn bộ dữ liệu, ta xé thành bản đồ riêng bằng <span class="term" data-definition="File kỹ năng là một dạng tải sẵn cho tài liệu nội dung cho tính huống Claude đang làm việc ngẫu nhiên,">tệp nội dung skill (skill files)</span> để khi cần gắn vào đọc.</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-icon" style="background: var(--color-actor-3)">📦</div>
+            <h4 class="pattern-title">Năng lực đặc vụ (Agent Skills)</h4>
+            <p class="pattern-desc">Được nạp sẵn vào agent thông qua thuộc tính <code>skills:</code> field. Luôn luôn nó đã nằm sẵn đó chờ Agent gọi.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-accent)">
+            <div class="pattern-icon" style="background: var(--color-accent-light)">🛠️</div>
+            <h4 class="pattern-title">Kỹ năng thực thi chéo nhanh (Invocable)</h4>
+            <p class="pattern-desc">Do lệnh <code>Skill(skill: "name")</code> kích hoạt thủ công, Khi hoàn tất Claude tiếp tục phiên làm việc bình thường.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Group chat animation — User → Command → Skill -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Xem chúng tương tác với nhau</h2>
+        <p>Những tương tác hiện lên theo mã yêu cầu <code>/weather-orchestrator</code> sẽ lần lượt chạy.</p>
+
+        <div class="chat-window" id="chat-module2">
+          <div class="chat-messages">
+            <div class="chat-message" data-msg="0" data-sender="user" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-text-secondary)">Bạn</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-text-secondary)">Bạn</span>
+                <p>/weather-orchestrator</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="1" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">lệnh weather-orchestrator</span>
+                <p>Tiến hành lấy kịch bản từ .claude/commands/weather-orchestrator.md... Bước 1: Hỏi một câu hỏi nhé.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="2" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">lệnh weather-orchestrator</span>
+                <p>Nhiệt độ này bạn muốn định dạng ở dạng độ F Fahrenheit hay Độ C Celcius?</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="3" data-sender="user" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-text-secondary)">Bạn</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-text-secondary)">Bạn</span>
+                <p>Độ Celcius giùm nha.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="4" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">lệnh weather-orchestrator</span>
+                <p>Bước 2: Mở đặc vụ weather-agent để kéo thông tin data... (đang thiết lập sinh ra...)</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="5" data-sender="agent" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">🤖</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-2)">Đặc vụ weather-agent</span>
+                <p>Nhận rồi. Nạp bản skill xử lý thông tin weather-fetcher nha... Kéo tải vị trí Dubai xong... Báo api đang là 34°C. Trả lại lệnh.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="6" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">lệnh weather-orchestrator</span>
+                <p>Bước 3: Mở thêm Skill weather-svg-creator để thiết lập giao diện tĩnh cho kết quả...</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="7" data-sender="skill" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-3)">📦</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-3)">Skill weather-svg-creator</span>
+                <p>SVG đã lập! File lưu ở orchestration-workflow/weather.svg ✓</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="8" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">lệnh weather-orchestrator</span>
+                <p>Hoàn thành! Dubai là 34°C. Xem card UI. 🌤️</p>
+              </div>
+            </div>
+          </div>
+          <div class="chat-typing" id="chat-typing" style="display:none">
+            <div class="chat-avatar" id="typing-avatar">?</div>
+            <div class="chat-typing-dots">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+          <div class="chat-controls">
+            <button class="btn chat-next-btn">Tiếp Theo</button>
+            <button class="btn chat-all-btn">Mở Toàn Bài</button>
+            <button class="btn chat-reset-btn">Chơi Cảnh Lại</button>
+            <span class="chat-progress"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Trắc nghiệm áp dụng kiến thức</h2>
+
+        <div class="quiz-container" id="quiz-module2">
+
+          <div class="quiz-question-block"
+               data-correct="opt-b"
+               data-explanation-right="Chuẩn luôn! Một câu lệnh chỉ là hệ thống xử lý công việc dạng Workflow kích hoạt bằng 1 thao tác duy nhất như công thức nấu món. Dùng siêu tiện!"
+               data-explanation-wrong="Thay vào đó, bạn hãy lưu nó dưới dạng phím tắt /slash. Như vậy gọi ra làm 3 việc nhẹ như bông!">
+            <h3 class="quiz-question">Mỗi thứ Hai bạn bảo Claude: tải data, đọc chúng tóm tắt, xuất báo cáo vào Slack. Bạn setup kiểu gì cho tối ưu?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Chép vào file CLAUDE.md để tải chung vào đầu phiên gánh nhớ cồng kềnh</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Tạo ra một hệ thống Lệnh /monday-report chứa sẵn ba công việc này</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Cho hẳn ba đặc vụ quản lý mỗi đứa một việc</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Chạy ngầm Hook vào thứ Hai báo về</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-c"
+               data-explanation-right="Đúng! Các Skill nạp dưới dạng field sẵn thì sẽ được cấp trực tiếp quyền cho đặc vụ xài vô giới hạn."
+               data-explanation-wrong="Tuy hai mẫu skill đều kích hoạt được, cái này nên luôn có sẵn do agent thực hiện ở nhiều kịch bản mẫu ngẫu nhiên (chạy trực tiếp skill dạng nạp preloaded là ngon nhất).">
+            <h3 class="quiz-question">Đặc vụ weather-agent cần phải biết xài API thời tiết ở MỌI tình huống lúc nào không rõ. Phương án chốt?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Kích hoạt Skill("weather-fetcher") mỗi phiên có thể dùng</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Hướng dẫn viết đè cái Call API ở mọi phần cho file Lệnh /slash</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Khai báo vào thuộc tính `skills:` để weather-fetcher tải ngầm với công nhân agent nhé</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Lưu nó trong CLAUDE.md đi!</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module2')">Hiển Thị Kết Quả</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module2')">Làm Lại</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

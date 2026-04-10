@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code: Under the Hood</title>
+
+  <!-- Google Fonts: Bricolage Grotesque · DM Sans · JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    :root {
+      --color-accent:       #2A7B9B;
+      --color-accent-hover: #1F6280;
+      --color-accent-light: #E4F2F7;
+      --color-accent-muted: #5A9DB8;
+    }
+
+    .lang-switcher {
+      display: flex;
+      gap: 0.5rem;
+      margin-left: 1rem;
+      align-items: center;
+    }
+    
+    .lang-switcher a {
+      color: var(--color-accent);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--color-accent-muted);
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    
+    .lang-switcher a:hover {
+      background: var(--color-accent-light);
+    }
+  </style>
+
+  <script src="main.js" defer></script>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    <div class="nav-inner">
+      <div style="display: flex; align-items: center;">
+        <span class="nav-title">Claude Code: Under the Hood</span>
+        <div class="lang-switcher">
+          <a href="index.html">EN</a>
+          <a href="index_vi.html">VI</a>
+          <a href="index_ja.html">JA</a>
+        </div>
+      </div>
+      <div class="nav-dots" id="nav-dots" role="tablist">
+        <button class="nav-dot" data-target="module-1" data-tooltip="More Than a Chatbot" role="tab" aria-label="Module 1: More Than a Chatbot"></button>
+        <button class="nav-dot" data-target="module-2" data-tooltip="Commands &amp; Skills" role="tab" aria-label="Module 2: Commands &amp; Skills"></button>
+        <button class="nav-dot" data-target="module-3" data-tooltip="Subagents" role="tab" aria-label="Module 3: Subagents"></button>
+        <button class="nav-dot" data-target="module-4" data-tooltip="Memory &amp; Settings" role="tab" aria-label="Module 4: Memory &amp; Settings"></button>
+        <button class="nav-dot" data-target="module-5" data-tooltip="Orchestration" role="tab" aria-label="Module 5: Orchestration"></button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <!-- modules/*.html content is assembled here by build.sh -->
+<section class="module" id="module-1" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">01</span>
+      <h1 class="module-title">チャットボット以上の存在</h1>
+      <p class="module-subtitle">Claude Codeの正体 — そしてなぜそれが全てを変えるのか</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: The hook -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">あなたは要求した。そして多くのことが処理された。</h2>
+        <p>「天気アプリを作って」と入力した数秒後、ファイルが現れた。しかし、その言葉とファイルの間に一体何が起こったのか？</p>
+        <p>それは魔法ではなく、あなたの指示通りに動く<span class="term" data-definition="Claudeがプロジェクトで作業する際に従う、ルール、ツール、およびメモリの構造化システム。">設定システム</span>だった。それを理解すれば、操作が10倍上手くなるだろう。</p>
+
+        <div class="flow-steps" style="margin-top: var(--space-8)">
+          <div class="flow-step">
+            <div class="flow-step-num">1</div>
+            <p>リクエストを入力</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">2</div>
+            <p>Claudeがプロジェクトメモリを読み込む</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">3</div>
+            <p>エージェントとスキルを呼び出す</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">4</div>
+            <p>フックとツールを実行</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">5</div>
+            <p>結果を返す</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Chatbot vs Claude Code -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">プログラマビリティ（適応性）による違い</h2>
+        <p>Claudeと普通のチャットをすることは、<strong>ポケット電卓</strong>のようなものです。一つのことには優れていますが、毎回新しく設定し直さなければならず、あなたの要望や状態について全て毎回伝える必要があります。</p>
+        <p>対して Claude Code は<strong>プログラム可能なエクセルシート</strong>に似ています。同じ頭脳でも、独自のロジックの追加（コマンド）、外部データソースとの接続（MCPサーバー）が可能になり、毎回のセッションであなたの設定を記憶し続けます。</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-text-muted)">
+            <div class="pattern-icon" style="background: var(--color-surface-warm)">💬</div>
+            <h4 class="pattern-title">Claude とのチャット</h4>
+            <p class="pattern-desc">常に新しい会話からスタート。あなたのプロジェクトに関する記憶を持たないため、毎回全てを説明する必要があります。</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-accent)">
+            <div class="pattern-icon" style="background: var(--color-accent-light)">⚡</div>
+            <h4 class="pattern-title">Claude Code</h4>
+            <p class="pattern-desc">プロジェクトを把握し、あなたのルールに従います。ワークフローを実行し、専門のエージェントを呼び出します（全て設定可能）。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: The 6 extension points -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">あなたがコントロールできる６つの拡張機能</h2>
+        <p>Claude Code には、動作をカスタマイズおよび拡張できる６つの要素が備わっています。このコースを通してそれぞれの使い方を学びます。</p>
+
+        <div class="icon-rows" style="margin-top: var(--space-6)">
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-1)">/</div>
+            <div>
+              <strong><span class="term" data-definition="スラッシュコマンド。レシピのように段階的な指示を含み、Claudeにステップごとの手順を実行させます。">コマンド (Commands)</span></strong>
+              <p><code>/slash-commands</code> により起動される、再利用可能なタスクフロー</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-2)">🤖</div>
+            <div>
+              <strong><span class="term" data-definition="特定のタスクを処理するためにClaudeが呼び出せる、独自のツールや権限とメモリを持つ自律型AIワーカーです。">サブエージェント (Subagents)</span></strong>
+              <p>カスタムツールとメモリを備えた、独立して動作する自律型アシスタント</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-3)">📦</div>
+            <div>
+              <strong><span class="term" data-definition="必要に応じて読み込まれるプラグインのような知識パッケージ。ですが、プログラムではなく平易な英語の指示で記述します。">スキル (Skills)</span></strong>
+              <p>特定の機能が必要な際に読み込まれる、知識のカートリッジパック</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-4)">🔌</div>
+            <div>
+              <strong><span class="term" data-definition="Claudeを外部ツール、API、データベース、ブラウザなどに接続します。いわばAIのためのUSBポート。">MCPサーバー (MCP Servers)</span></strong>
+              <p>外部ツールやAPI、データベースとの接続レイヤー</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-5)">🧠</div>
+            <div>
+              <strong><span class="term" data-definition="プロジェクト用のClaudeの恒久的な記憶。毎回そこに書いたものを読む、Claudeのための従業員ハンドブックのようなものです。">メモリ (Memory)</span></strong>
+              <p><code>CLAUDE.md</code> ファイルを使用したプロジェクトの恒久的なコンテキスト維持</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-accent)">🪝</div>
+            <div>
+              <strong><span class="term" data-definition="ツールの実行前、完了後、サブタスク開始時など、Claudeが特定のアクションを行った際に自動的に実行されるスクリプト。確実な処理を保証します。">フック (Hooks)</span></strong>
+              <p>AIの制御外のライフサイクルイベントで起動されるスクリプト</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Code↔English — CLAUDE.md -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">プロジェクトの恒久的な説明書</h2>
+        <p>常に、Claudeがアクションを起こす前、Claudeはあなたの <code>CLAUDE.md</code> ファイルを読み込みます。これはわざわざ毎回説明する代わりに、一度だけプロジェクトに関する全体像を教えておく場所です。</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">リポジトリ側コードの例</span>
+            <pre><code><span style="color:#CBA6F7">## 重要なコンポーネント</span>
+
+<span style="color:#A6E3A1">### 天気システム (Weather System)</span>
+<span style="color:#CDD6F4">以下が全体の動きを示すアーキテクチャ</span>
+<span style="color:#F9E2AF">Command → Agent → Skill</span>
+<span style="color:#CDD6F4">として連携しています。:</span>
+<span style="color:#CDD6F4">- </span><span style="color:#89B4FA">`/weather-orchestrator`</span>
+<span style="color:#CDD6F4">  コマンド: 処理のエントリポイント</span>
+<span style="color:#CDD6F4">- </span><span style="color:#89B4FA">`weather-agent`</span>
+<span style="color:#CDD6F4">  エージェント: 温度情報を取得</span>
+<span style="color:#CDD6F4">- </span><span style="color:#89B4FA">`weather-fetcher`</span>
+<span style="color:#CDD6F4">  スキル: API通信の命令</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">わかりやすい解説</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>## 重要なコンポーネント</strong> — このセクションの見出しはClaudeに「ここにプロジェクトの大事な各部品がありますよ」ということを伝えています。</p>
+              <p class="tl"><strong>天気システム</strong> — コマンド、エージェント、スキルの全てがどのようにチームとして一緒に作業するかを示しています。</p>
+              <p class="tl"><strong>/weather-orchestrator</strong> — このスラッシュコマンドをあなたが打ち込むと、全ての処理プロセスが開始されます。</p>
+              <p class="tl"><strong>weather-agent</strong> — 実際のデータを引っ張ってくるためにClaudeが自律的に動かす独立した機能ワーカーです。</p>
+              <p class="tl"><strong>weather-fetcher skill</strong> — 天気APIの呼び出し方をエージェントに理解させるために事前に用意された再利用可能な知識セットです。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-6)">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">アハ体験 (Aha Moment)</strong>
+            <p>CLAUDE.md ファイルを使用することは、未来の自分のために付箋を残しておくようなものです。ただし、それを読むのはあなたではなくClaudeです。一度これを書いてしまえば、次回以降のすべてのセッションで、事前知識を持ってClaudeはサポートを開始してくれます。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">理解度チェック</h2>
+
+        <div class="quiz-container" id="quiz-module1">
+
+          <div class="quiz-question-block"
+               data-correct="opt-c"
+               data-explanation-right="正解です！コマンド、エージェント、スキル、MCPサーバー、メモリ、フックの6つの拡張ポイントが、Claude Codeを単なるチャットボットではなく、プログラム可能なものにしています。"
+               data-explanation-wrong="少し違います。Claude CodeはClaudeの上に構築されたプログラム可能な層です。メモリを使用するのが最もベストな解決策になります。">
+            <h3 class="quiz-question">Claudeに、新しい会話であっても常にあなたのコーディングスタイルガイドに従わせたいとします。これを解決する拡張ポイントはどれですか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>送るメッセージすべてにそれを追加する</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>コーディングスタイルのためのMCPサーバーを作成する</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>CLAUDE.md (メモリ) にスタイルルールを書き込む</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>フックを使って自動的で挿入する</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-b"
+               data-explanation-right="その通りです！サブエージェントは自律的なワーカーであり、独自のツール、権限、コンテキストを持ちます。メインセッションが進行している間も、独立して実行されます。"
+               data-explanation-wrong="惜しいですが、違う選択肢です。サブエージェントは、単なる指示ではなく独自のツールアクセスを持ち、隔離・独立した作業を行うよう設計されています。">
+            <h3 class="quiz-question">競合他社の価格調査を行いながら、同時に（割り込まずに）レポートも作成させたい時、一番最適なツールはどれでしょう？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>両方のタスクを記述した一つのスラッシュコマンド</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>並行して動作する2つのサブエージェント</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>同じセッションに読み込まれた2つのスキル</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>最初のタスクが終わった後に実行されるフック</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-d"
+               data-explanation-right="正解です！MCPサーバーは接続レイヤーであり、Claudeがデータベース、ブラウザ、APIなどの外部システムと対話できるようにします。まさに新しい機能を追加するためのUSBポートと言えます。"
+               data-explanation-wrong="指示やワークフローだけでなく、外部のツールやシステムとの「接続」に特化している機能はどれかを考えてみてください。">
+            <h3 class="quiz-question">会社の社内データベースをClaudeで検索できるようにしたいです。どの拡張ポイントによりそれが可能になりますか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>データベースクエリの指示を含むスキル</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>データベースのドキュメントを含む CLAUDE.md</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>ターンごとにデータベースをクエリするフック</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Claudeとデータベースを接続するMCPサーバー</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module1')">回答をチェックする</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module1')">やり直す</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+<section class="module" id="module-2" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">02</span>
+      <h1 class="module-title">コマンドとスキル</h1>
+      <p class="module-subtitle">自動化の基礎用語 — レシピと知識用カートリッジ</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: Commands metaphor -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">コマンド：ワークフロー全体のショートカット</h2>
+        <p>あなたがシェフだと想像してください。谁かが「リゾットを作って」と頼むたびに、リゾット全体のレシピをいちいち説明する代わりに、あなたはただ「リゾットを作って」と指示するだけです。レシピは既に書かれており、単にその名前を呼び出しているのです。</p>
+        <p>これが<span class="term" data-definition="Claude Codeでのコマンドはステップバイステップの指示を含むファイルです。 /command-name と入力すると、Claude はそれらの指示を読み取り実行します — 保存されたレシピを実行するようなものです。">コマンド</span>の役割です。これは、あなたが <code>/its-name</code> を入力したときに Claude が従う指示が満載された <code>.md</code> ファイルです。一度書けば、永遠に使えます。</p>
+
+        <div class="callout callout-info" style="margin-top: var(--space-6)">
+          <div class="callout-icon">📁</div>
+          <div class="callout-content">
+            <strong class="callout-title">コマンドの置き場所</strong>
+            <p>コマンドは、プロジェクトのルートにある <code>.claude/commands/</code> の中に配置されます。各ファイルが / に続くスラッシュコマンドになります — 実行する際のコマンド名は、ファイル名になります。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Command code translation -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">コマンドの構造</h2>
+        <p>これはリポジトリにある天気オーケストレーターという実際のコマンドです。一行ずつ読んでみましょう。</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">weather-orchestrator.md</span>
+            <pre><code><span style="color:#6C7086">---</span>
+<span style="color:#F9E2AF">description</span><span style="color:#CDD6F4">: ドバイの天気を取得する</span>
+<span style="color:#F9E2AF">model</span><span style="color:#CDD6F4">: haiku</span>
+<span style="color:#6C7086">---</span>
+
+<span style="color:#CBA6F7">## ワークフロー (Workflow)</span>
+
+<span style="color:#A6E3A1">### ステップ 1: ユーザーに質問する</span>
+<span style="color:#CDD6F4">AskUserQuestionツールを使用して</span>
+<span style="color:#CDD6F4">摂氏か華氏かを尋ねる</span>
+
+<span style="color:#A6E3A1">### ステップ 2: 気象データの取得</span>
+<span style="color:#CDD6F4">Taskツールを使用して</span>
+<span style="color:#CDD6F4">weather-agentを呼び出す...</span>
+
+<span style="color:#A6E3A1">### ステップ 3: SVGカードの作成</span>
+<span style="color:#CDD6F4">Skillツールを使用して</span>
+<span style="color:#CDD6F4">weather-svg-creatorスキルを呼び出す。</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">わかりやすい解説</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>description:</strong> このコマンドが何を行うのかという概要を一行で。Claudeはこれを読み取り、いつ提案すべきかを判断します。</p>
+              <p class="tl"><strong>model: haiku</strong> — このコマンドには速くて安いモデルを使用します。コマンドごとにモデルを上書き・指定することができます。</p>
+              <p class="tl"><strong>ステップ 1</strong> — 最初は、何かを行う前にユーザーに質問します。これにより、自動実行ワークフローが対話的な操作になります。</p>
+              <p class="tl"><strong>ステップ 2</strong> — 専用のサブエージェント (weather-agent) を生成し、実際のデータを取得させます。コマンドが作業を指揮し、エージェントが作業を行います。</p>
+              <p class="tl"><strong>ステップ 3</strong> — スキル (weather-svg-creator) を読み込み、視覚的な出力を生成します。各ステップを適切な専門機能に引き継がせます。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Skills -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">スキル：カセットのように差し込む拡張知識パッケージ</h2>
+        <p>スキルとは、<strong>取り外し可能なメモリチップ</strong>のようなものです。それには特定のタスクのための特別な知識、つまり特定のタスクの指示が含まれており、必要な時に Claude の記憶状態（コンテキスト）に読み込まれ、終わったらまた取り外されます。</p>
+        <p>ここでのポイントは、すべてを知っている巨大な一つの頭脳ではなく、スリムなメインフレームと、要求に応じて差し込む<span class="term" data-definition="スキルファイルとは、YAMLのフロントマターを持つMarkdown文書です。特定の機能に関する指示、状況のコンテキスト、またはワークフローが含まれます。状況に応じてClaudeのワーキングメモリに「事前読み込み」されます。">スキルファイル</span>を持っているという点です。</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-icon" style="background: var(--color-actor-3)">📦</div>
+            <h4 class="pattern-title">エージェント・スキル</h4>
+            <p class="pattern-desc">サブエージェントの設定の一部 (<code>skills:</code> フィールド) として事前に読み込まれます。エージェントは常にこの知識を利用できます。</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-accent)">
+            <div class="pattern-icon" style="background: var(--color-accent-light)">🛠️</div>
+            <h4 class="pattern-title">呼び出し可能なスキル</h4>
+            <p class="pattern-desc">コマンド実行中に <code>Skill(skill: "name")</code> を介して必要に応じて随時呼び出されます。Claudeはスキルを読み込み、その指示に従い、元のタスクを継続します。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Group chat animation — User → Command → Skill -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">対話の様子を見てみよう</h2>
+        <p>あなかが <code>/weather-orchestrator</code> と入力した時に何が起こるか — これはあなた、コマンド、そしてスキルの間の会話です。</p>
+
+        <div class="chat-window" id="chat-module2">
+          <div class="chat-messages">
+            <div class="chat-message" data-msg="0" data-sender="user" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-text-secondary)">あなた</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-text-secondary)">あなた</span>
+                <p>/weather-orchestrator</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="1" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">weather-orchestrator コマンド</span>
+                <p>.claude/commands/weather-orchestrator.md から指示を読み込んでいます... ステップ1: ユーザーに質問する必要があります。</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="2" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">weather-orchestrator コマンド</span>
+                <p>温度は摂氏と華氏、どちらで表示しますか？</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="3" data-sender="user" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-text-secondary)">あなた</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-text-secondary)">あなた</span>
+                <p>摂氏でお願いします。</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="4" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">weather-orchestrator コマンド</span>
+                <p>ステップ2: 気象データを取得するために、weather-agentサブエージェントを呼び出します... (ワーカーを生成中)</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="5" data-sender="agent" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">🤖</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-2)">weather-agent</span>
+                <p>了解しました。weather-fetcherスキルを読み込みます... APIからドバイの温度を取得中... 34°C。 コマンド処理に戻ります。</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="6" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">weather-orchestrator コマンド</span>
+                <p>ステップ3: 視覚的なカードを作成するために、weather-svg-creator スキルを呼び出します...</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="7" data-sender="skill" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-3)">📦</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-3)">weather-svg-creator スキル</span>
+                <p>SVGカードが作成されました! orchestration-workflow/weather.svg に書き込まれました ✓</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="8" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">weather-orchestrator コマンド</span>
+                <p>完了しました! ドバイは現在34°Cです。あなたの気象表示カードが準備できました。 🌤️</p>
+              </div>
+            </div>
+          </div>
+          <div class="chat-typing" id="chat-typing" style="display:none">
+            <div class="chat-avatar" id="typing-avatar">?</div>
+            <div class="chat-typing-dots">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+          <div class="chat-controls">
+            <button class="btn chat-next-btn">次のメッセージ</button>
+            <button class="btn chat-all-btn">すべて再生</button>
+            <button class="btn chat-reset-btn">最初に戻る</button>
+            <span class="chat-progress"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">学んだスキルを適用する</h2>
+
+        <div class="quiz-container" id="quiz-module2">
+
+          <div class="quiz-question-block"
+               data-correct="opt-b"
+               data-explanation-right="その通りです！コマンドは、名前で呼び出すことができる保存されたレシピのようなワークフローです。複数のステップに及ぶ反復的なプロセスに最適です。"
+               data-explanation-wrong="/command-nameと入力したときに何が呼ばれるべきか考えてみてください。すべてを記述するよりも、まとまった単一のワークフローであるべきです。">
+            <h3 class="quiz-question">毎週月曜日、あなたはClaudeに「最新のデータを取得し、それを要約し、そしてSlackにメッセージを送信する」という指示をしています。どのように設定するのがベストですか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Claudeが常に把握できるようにCLAUDE.mdに全て書いておく</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>3つのステップすべてを含む /monday-report というコマンドを作成する</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>各ステップにつき1つ、計3つの個別のサブエージェントを作成する</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>毎週月曜日の朝に実行されるフックを使用する</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-c"
+               data-explanation-right="正解です！skills: フィールドを介して事前に読み込まれたスキルは、常にエージェントが利用可能です。これが「エージェント・スキル」のパターンであり、ワーカーに同梱される知識です。"
+               data-explanation-wrong="2つのスキルパターンについて考えてみてください。1つは最初から（事前に）エージェントに利用可能であり、もう1つはコマンドの実行時に都度要求されるパターンです。">
+            <h3 class="quiz-question">あなたの weather-agent は、あらゆる状況で天気APIの呼び出し方を知っている必要があります。正しい解決パターンはどれですか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>毎回 Skill("weather-fetcher") の形でスキルを呼び出す</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>各コマンドファイルに API の手順を直接記述する</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>エージェントの 設定（skills: フィールド） に weather-fetcher を追加し、常に事前に読み込まれるようにする</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>API の説明と手順を全て CLAUDE.md に設定しておく</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module2')">回答をチェックする</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module2')">やり直す</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+<section class="module" id="module-3" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">03</span>
+      <h1 class="module-title">サブエージェント (Subagents)</h1>
+      <p class="module-subtitle">専用のツール、メモリ、自律制限を持った独立ワーカー</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: The contractor metaphor -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">同僚ではなく、請負業者を雇う</h2>
+        <p>同僚に助けを求める時、相手はあなたのプロジェクトすべてを知っています。会社の歴史も、作業内容も、規約もです。しかし、ときには代わりに<strong>請負業者（コントラクター）</strong>を雇いたいと思うことでしょう。</p>
+        <p>請負業者はやってきて、自分自身の機材で特定のタスクだけを完璧にこなし、そして帰ります。彼らに会社の全てを共有する必要はなく、単に手元のタスク情報だけを渡すだけです。これが<span class="term" data-definition="サブエージェントとは特定のタスクを処理するためにClaudeが生成するAIの自立ワーカーです。完全に隔離されたコンテキスト、ツール、権限を持って実行され、完了すると報告します。">サブエージェント</span>という存在です。</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-text-muted)">
+            <div class="pattern-icon" style="background: var(--color-surface-warm)">🤝</div>
+            <h4 class="pattern-title">メインの会話セッション</h4>
+            <p class="pattern-desc">プロジェクトの全てを知っています。これまでの会話履歴を持ち、インタラクティブにあなたと作業します。</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">🏗️</div>
+            <h4 class="pattern-title">サブエージェント</h4>
+            <p class="pattern-desc">隔離されたコンテキスト。カスタムツールと権限、専用の設定。タスクを実行し結果のみを返します。他と並行して複数動かせます。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Frontmatter translation -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">請負業者の事前設定</h2>
+        <p>サブエージェントの設定は、上部ブロックの<span class="term" data-definition="フロントマターとは、ファイルの先頭の --- で囲まれた設定ブロックです。YAML形式の構造化設定を含み、フォームのように各種設定を記述します。">フロントマター</span>で行います。これは実際の weather-agent のファイルです:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">weather-agent.md (フロントマターの設定領域)</span>
+            <pre><code><span style="color:#6C7086">---</span>
+<span style="color:#F9E2AF">name</span><span style="color:#CDD6F4">: weather-agent</span>
+<span style="color:#F9E2AF">description</span><span style="color:#CDD6F4">: Use PROACTIVELY when</span>
+<span style="color:#CDD6F4">  you need Dubai weather data.</span>
+<span style="color:#F9E2AF">model</span><span style="color:#CDD6F4">: sonnet</span>
+<span style="color:#F9E2AF">maxTurns</span><span style="color:#CDD6F4">: 5</span>
+<span style="color:#F9E2AF">permissionMode</span><span style="color:#CDD6F4">: acceptEdits</span>
+<span style="color:#F9E2AF">memory</span><span style="color:#CDD6F4">: project</span>
+<span style="color:#F9E2AF">color</span><span style="color:#CDD6F4">: green</span>
+<span style="color:#F9E2AF">skills</span><span style="color:#CDD6F4">:</span>
+<span style="color:#CDD6F4">  - weather-fetcher</span>
+<span style="color:#6C7086">---</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">解説</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>name:</strong> このワーカーを生成するために参照されるID名です。</p>
+              <p class="tl"><strong>description:</strong> "PROACTIVELY"（積極的に）というキーワードは、指定した条件・状況に合致したときにClaudeが自動的にこのエージェントの使用を提案・実行することを促します。</p>
+              <p class="tl"><strong>model: sonnet</strong> — このタスクの実行に使用する言語モデルの指定。コスト・精度の調整が行えます。</p>
+              <p class="tl"><strong>maxTurns: 5</strong> — 最大5ターンのステップしか踏めないという自己制限。AIが暴走して延々とループすることを防ぎます。</p>
+              <p class="tl"><strong>permissionMode: acceptEdits</strong> — ここを設定すると、エージェントはあなたの承認なしにファイルの編集が自動的に可能になります。</p>
+              <p class="tl"><strong>memory: project</strong> — プロジェクトレベルの記憶領域（クロージャー）へのアクセス権限を明記します。</p>
+              <p class="tl"><strong>skills: weather-fetcher</strong> — 指定したスキルセットをエージェントに読み込ませます。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Key fields as pattern cards -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">よく使う重要な設定項目</h2>
+        <p>1つのエージェントには最大で16の設定項目がありますが、主に使用するのは以下の6つになります：</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-1)">
+            <div class="pattern-icon" style="background: var(--color-actor-1)">🎯</div>
+            <h4 class="pattern-title">description (説明)</h4>
+            <p class="pattern-desc">いつ起動するか。 "PROACTIVELY" などを設定し、自発的に起動させる文脈を記載。</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">🔧</div>
+            <h4 class="pattern-title">tools (ツール許可一覧)</h4>
+            <p class="pattern-desc">使用が許可されたツールの限定。 <code>Bash(*)</code> や <code>Read</code> など指定。</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-icon" style="background: var(--color-actor-3)">🛡️</div>
+            <h4 class="pattern-title">permissionMode (権限モード)</h4>
+            <p class="pattern-desc">編集の自動許可 <code>acceptEdits</code> や、計画の事後提示 <code>plan</code>、全権委任など。</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-4)">
+            <div class="pattern-icon" style="background: var(--color-actor-4)">🔢</div>
+            <h4 class="pattern-title">maxTurns (最大実行ターン制限)</h4>
+            <p class="pattern-desc">自動操作が止まらなくなる暴走シナリオを防ぐためのアクション制限。</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-5)">
+            <div class="pattern-icon" style="background: var(--color-actor-5)">🧠</div>
+            <h4 class="pattern-title">memory (メモリ設定)</h4>
+            <p class="pattern-desc"><code>user</code>、<code>project</code>、<code>local</code>など、記憶領域のレベルを設定。</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-accent)">
+            <div class="pattern-icon" style="background: var(--color-accent-light)">⚡</div>
+            <h4 class="pattern-title">isolation: worktree (リポジトリの分離)</h4>
+            <p class="pattern-desc">エージェントを現在のリポジトリとは別のコピー <span class="term" data-definition="クローン分岐。メインのリポジトリには何の影響も与えません。">git worktree</span> で動かします。リスクのある書き換え等にも安全です。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Flow animation — parallel agents -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">並列作業 (Parallel Agents) の仕組み</h2>
+        <p>サブエージェントが生み出す強力な利点の一つは、タスクの<span class="term" data-definition="並行して実行されること。お互いが終了するのを待つことなく同時に複数処理を進める方式です。">並列性</span>です。一つのコマンド指示から３つのエージェントが生み出され、独立したパーツをそれぞれ同時に分担していくことが可能です。</p>
+
+        <div class="flow-animation" data-steps='[
+          {"highlight":"flow-actor-1","label":"Step 1: /research-competitors コマンドを叩く"},
+          {"highlight":"flow-actor-1","label":"Step 2: コマンドがオーケストレーターに指示を流す","packet":true,"from":"actor-1","to":"actor-2"},
+          {"highlight":"flow-actor-2","label":"Step 3: オーケストレーターが３つのエージェントを同時に召喚"},
+          {"highlight":"flow-actor-3","label":"Agent A: 企業Xの価格をチェック中...","packet":true,"from":"actor-2","to":"actor-3"},
+          {"highlight":"flow-actor-4","label":"Agent B: 企業Yの機能を解析中...","packet":true,"from":"actor-2","to":"actor-4"},
+          {"highlight":"flow-actor-5","label":"Agent C: 企業Zの市場レビューを取得中...","packet":true,"from":"actor-2","to":"actor-5"},
+          {"highlight":"flow-actor-2","label":"Step 4: 完了したエージェントから順に情報を回収"},
+          {"highlight":"flow-actor-1","label":"Step 5: 結果をまとめUIとしてレポート出力","packet":true,"from":"actor-2","to":"actor-1"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">/</div>
+              <span>コマンド開始</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">🧑‍💼</div>
+              <span>Orchestrator</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Agent A</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Agent B</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Agent C</span>
+            </div>
+          </div>
+          <div class="flow-packet" id="flow-packet"></div>
+          <div class="flow-step-label" id="flow-label">再生ボタンでアニメーションを確認する</div>
+          <div class="flow-controls">
+            <button class="btn flow-next-btn">次のステップ</button>
+            <button class="btn flow-reset-btn">再開</button>
+          </div>
+        </div>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-6)">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">なぜこの並列化が重要なのか</strong>
+            <p>1つの調査タスクに2分かかるとします。３つあれば逐次処理で6分ですが、並列作業では2分で完了します。システムに「A、B、Cをやって」と頼む時、サブエージェントを使えば劇的な時間短縮が行えるのです。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">テストと実践</h2>
+
+        <div class="quiz-container" id="quiz-module3">
+
+          <div class="quiz-question-block"
+               data-correct="opt-d"
+               data-explanation-right="正解！maxTurns は暴走時のガードレールです。ループに陥ったとしても自動的に実行回数制限で遮断されます。"
+               data-explanation-wrong="どのアクション設定がエージェントのステップを停止させるか、暴走行為自体を防ぐものとして設計されているかを考えましょう。">
+            <h3 class="quiz-question">リファクタリング用エージェントを回しましたが、想定外な書き換えをして無限に脱線し続けるか不安です。安全を守る設定はどれ？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>permissionMode: plan — 実行前にプランだけを見せる</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>tools: Read — スクリプトを読み取り専用にする</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>memory: local — メモリのスコープを制限する</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>maxTurns: 10 — 定められたアクションステップ後に強制停止させる</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-a"
+               data-explanation-right="正解です！ isolation: worktree は git の作業ツリー層で全く新しいブランチを複製し隔離させます。もしメイン側のコードが壊れても、そのブランチ内で完結します。"
+               data-explanation-wrong="メインのテスト側やコードベースからの物理的な「隔離と分離環境」を用意する設定はどれかを考えましょう。">
+            <h3 class="quiz-question">非常に大胆なコードのリファクタリングを試させたいですが、メインのブランチのファイルを壊されたくありません。どれを使用しますか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>isolation: worktree</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>permissionMode: plan</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>memory: local</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>model: haiku</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module3')">結果を確認する</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module3')">やり直す</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+<section class="module" id="module-4" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">04</span>
+      <h1 class="module-title">メモリと設定</h1>
+      <p class="module-subtitle">Claudeにあなたの世界を教え、ガードレールを設定する</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: CLAUDE.md as employee handbook -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Claudeが毎朝読む従業員ハンドブック</h2>
+        <p>新入社員は初日に会社のマニュアルを読みます。そこには、私たちが何をする会社で、どのように働き、何が許可され、何が禁止されているかが書かれています。毎日再教育する必要はありません—マニュアルの記述は記憶されます。</p>
+        <p><code>CLAUDE.md</code> はあなたのプロジェクト用のClaudeのハンドブックです。これはプロジェクトのルートにある<span class="term" data-definition="Markdownはプレーンテキストのドキュメント記述言語です。Claudeにとってはそのまま読める自然言語のようなものです。">Markdown</span>ファイルです。Claudeは毎回のセッションの開始時にこれを読み込みます。ここに書き込んだものはすべて恒久的なコンテキストとなり、何度も再説明する必要がなくなります。</p>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-6)">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">CLAUDE.md には何を書くべきか？</strong>
+            <p>プロジェクトのアーキテクチャ、コーディング規約、存在するコマンド、エージェントの役割、デバッグのヒント、コミットルールなど、新しくチームに入った開発者に伝えたいことなら何でも書きます。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Memory hierarchy -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">メモリの3つの階層構造</h2>
+        <p>CLAUDE.md ファイルは<span class="term" data-definition="より上位のレベルが広範な影響を持つ階層システム。">階層</span>を形成しています。Claudeは最も広範なもの（グローバル）から最も特定的なもの（ローカルサブフォルダ）の順番で読み込みます。</p>
+
+        <div class="icon-rows" style="margin-top: var(--space-6)">
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-1)">🌍</div>
+            <div>
+              <strong>グローバルメモリ</strong>
+              <p><code>~/.claude/CLAUDE.md</code> — マシンのすべてのプロジェクトに適用される個人的なルール。コードのスタイル、あなたの名前、希望する出力形式など。</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-2)">📁</div>
+            <div>
+              <strong>プロジェクトメモリ</strong>
+              <p><code>./CLAUDE.md</code> — この特定プロジェクトのルール。チーム全員とGit経由で共有される中核的な情報。</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-3)">🔒</div>
+            <div>
+              <strong>ローカルの上書き</strong>
+              <p><code>./CLAUDE.local.md</code> — プロジェクトに対する個人的な上書きルール。自分用のデバッグメモや秘密のプレファレンスで、Gitにはコミットしません。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Permissions -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">許可ルール：あなたの安全柵</h2>
+        <p>Claudeに許可する動作を正確に制御できます。権限システムには3つのモードがあります。<strong>allow</strong>（常に許可）、<strong>ask</strong>（確認を求める）、<strong>deny</strong>（完全にブロック）。</p>
+        <p>設定例 (<code>.claude/settings.json</code>):</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">.claude/settings.json (permissions)</span>
+            <pre><code><span style="color:#CDD6F4">{</span>
+  <span style="color:#F9E2AF">"permissions"</span><span style="color:#CDD6F4">: {</span>
+    <span style="color:#A6E3A1">"allow"</span><span style="color:#CDD6F4">: [</span>
+      <span style="color:#A6E3A1">"Edit(*)"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#A6E3A1">"Bash(*)"</span>
+    <span style="color:#CDD6F4">],</span>
+    <span style="color:#FAB387">"ask"</span><span style="color:#CDD6F4">: [</span>
+      <span style="color:#FAB387">"Bash(rm *)"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#FAB387">"Bash(npm *)"</span>
+    <span style="color:#CDD6F4">],</span>
+    <span style="color:#F38BA8">"deny"</span><span style="color:#CDD6F4">: []</span>
+  <span style="color:#CDD6F4">}</span>
+<span style="color:#CDD6F4">}</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">解説</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>allow: Edit(*), Bash(*)</strong> — Claudeは都度尋ねることなくファイル編集やコマンドを実行できます。<code>*</code> は任意の引数を意味するワイルドカードです。</p>
+              <p class="tl"><strong>ask: Bash(rm *)</strong> — 削除コマンドを実行する前には、必ず一時停止して確認を求めます。「自動」モード設定であっても保護されます。</p>
+              <p class="tl"><strong>ask: Bash(npm *)</strong> — パッケージのインストール等の操作には人間の承認を要求します。予期しない依存関係の追加を防げます。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Hooks -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">フック（Hooks）：決してハルシネーションを起こさないロジック</h2>
+        <p>これまで紹介したコマンド、エージェント、スキルなどは全てAIが駆動する要素です。しかし時には、<strong>確実で決定論的な動作</strong>が必要になることがあります。Claudeが作業を終えた時のサウンド通知、ファイル変更時のログ記録、ターミナルコマンド実行前のセキュリティチェックなどです。</p>
+        <p>これが<span class="term" data-definition="フックとは、Claudeがツールを使用する前（PreToolUse）や開始時（SessionStart）など、特定のイベントが発生したときに自動的に実行されるシェルスクリプトやコマンドです。">フック</span>の役割です。これらはAIの思考ループの「外側」で実行されるため、ハルシネーション（幻覚・嘘）を起こさず、プログラムされた通りに必ず実行されます。</p>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">テストで理解度を確認する</h2>
+
+        <div class="quiz-container" id="quiz-module4">
+
+          <div class="quiz-question-block"
+               data-correct="opt-c"
+               data-explanation-right="正解です！自分の名前や希望する回答の長さなど、個人的な好みは ~/.claude/CLAUDE.md というグローバルメモリに置くべきです。どのリポジトリにもコミットされることなく、すべてのプロジェクトで適用されます。">
+            <h3 class="quiz-question">Claudeに、すべてのプロジェクトで（このプロジェクトだけではなく常に）あなたを「Alex」と簡潔に呼ばせたいとします。どこに設定を記述しますか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>現在のプロジェクト内の ./CLAUDE.md</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>.claude/settings.json の permissions ブロック</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>~/.claude/CLAUDE.md (グローバルメモリ)</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>「personal-preferences」という名前のスキルファイル</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-b"
+               data-explanation-right="その通りです！フックはClaudeのAIループの外で実行されるため、例外なく決定論的に実行されます。絶対にスキップされたくないセキュリティチェックなどに使うべき正しいツールです。">
+            <h3 class="quiz-question">gitコミットの前に必ずセキュリティスキャンを実行させる必要があります。Claudeが何をどうしようと「絶対にスキップさせない」ためにはどれを使用しますか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>CLAUDE.md に指示を書く：「コミット前に必ずスキャンすること」</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Bash(git commit *) をインターセプトする PreToolUse フックを設定する</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>スキャン処理を組み込んだ /secure-commit コマンドを作成する</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>permissionMode: plan を使用して実行前に見せるよう設定する</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module4')">回答をチェックする</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module4')">やり直す</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+<section class="module" id="module-5" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">05</span>
+      <h1 class="module-title">フルスタックの全体像</h1>
+      <p class="module-subtitle">MCPサーバー、オーケストレーションパターン、そしてパワームーブ</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: MCP as USB ports -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">MCP: AIのためのUSBポート</h2>
+        <p>初期状態でも、Claudeはファイルの読み書き、ターミナルコマンドの実行、URLのブラウジングなどを行うことができます。しかし、会社のデータベースを検索したり、ブラウザを高度に制御したり、社内APIを呼び出す必要がある場合はどうでしょうか？</p>
+        <p>そこで役立つのが<span class="term" data-definition="MCPはModel Context Protocolの略です。Claudeが外部ツールやサービスに接続するための標準規格です。">MCP サーバー</span>です。これはUSBポートのような役割を果たし、接続するだけでClaudeに新しい機能を与え、取り外せばその機能が消えます。</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">.mcp.json (実際の設定ファイル例)</span>
+            <pre><code><span style="color:#CDD6F4">{</span>
+  <span style="color:#F9E2AF">"mcpServers"</span><span style="color:#CDD6F4">: {</span>
+
+    <span style="color:#A6E3A1">"playwright"</span><span style="color:#CDD6F4">: {</span>
+      <span style="color:#F9E2AF">"command"</span><span style="color:#CDD6F4">: </span><span style="color:#A6E3A1">"npx"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#F9E2AF">"args"</span><span style="color:#CDD6F4">: [</span><span style="color:#A6E3A1">"-y"</span><span style="color:#CDD6F4">, </span><span style="color:#A6E3A1">"@playwright/mcp"</span><span style="color:#CDD6F4">]</span>
+    <span style="color:#CDD6F4">},</span>
+
+    <span style="color:#A6E3A1">"context7"</span><span style="color:#CDD6F4">: {</span>
+      <span style="color:#F9E2AF">"command"</span><span style="color:#CDD6F4">: </span><span style="color:#A6E3A1">"npx"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#F9E2AF">"args"</span><span style="color:#CDD6F4">: [</span><span style="color:#A6E3A1">"-y"</span><span style="color:#CDD6F4">, </span><span style="color:#A6E3A1">"@upstash/context7-mcp"</span><span style="color:#CDD6F4">]</span>
+    <span style="color:#CDD6F4">}</span>
+  <span style="color:#CDD6F4">}</span>
+<span style="color:#CDD6F4">}</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">解説</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>mcpServers</strong> — これによりClaudeへ外部機能接続を追加します。各エントリーは起動設定を持つ名前付きサーバー群です。</p>
+              <p class="tl"><strong>playwright</strong> — Claudeに実際のウェブブラウザを制御する能力を与えます。ボタンをクリックしたりスクレイピングなどが可能になります。</p>
+              <p class="tl"><strong>context7</strong> — ドキュメントデータベースや外部情報などにアクセスするためのシステム連携機能。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Full orchestration flow animation -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">全機能の連動：コマンド → エージェント → スキル</h2>
+        <p>これで5つのモジュールすべてがどのようにつながるかが分かります。入力から最終的な図の出力までの完全な天気取得ワークフローを見てみましょう。</p>
+
+        <div class="flow-animation" data-steps='[
+          {"highlight":"flow-actor-1","label":"あなたが /weather-orchestrator と入力"},
+          {"highlight":"flow-actor-2","label":"コマンドが .claude/commands/ から読み込まれ、指示を確認","packet":true,"from":"actor-1","to":"actor-2"},
+          {"highlight":"flow-actor-2","label":"Step 1: コマンドがあなたに「摂氏か華氏か？」と質問","packet":true,"from":"actor-2","to":"actor-1"},
+          {"highlight":"flow-actor-1","label":"あなたは「摂氏（Celsius）」と回答"},
+          {"highlight":"flow-actor-3","label":"Step 2: コマンドが weather-agent サブエージェントを生成","packet":true,"from":"actor-2","to":"actor-3"},
+          {"highlight":"flow-actor-4","label":"エージェントが .claude/skills/ から weather-fetcher スキルを読み込む","packet":true,"from":"actor-3","to":"actor-4"},
+          {"highlight":"flow-actor-5","label":"スキルがWebFetch経由でAPIを呼び出し、34度のデータを取得","packet":true,"from":"actor-4","to":"actor-5"},
+          {"highlight":"flow-actor-3","label":"エージェントが34度の結果をコマンドに返す","packet":true,"from":"actor-4","to":"actor-2"},
+          {"highlight":"flow-actor-4","label":"Step 3: コマンドが視覚化スキルの weather-svg-creator を呼び出す","packet":true,"from":"actor-2","to":"actor-4"},
+          {"highlight":"flow-actor-1","label":"SVGのカードデータを出力して全工程完了！","packet":true,"from":"actor-4","to":"actor-1"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">🧑</div>
+              <span>あなた</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">/</div>
+              <span>Command</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Agent</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">📦</div>
+              <span>Skill</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">🌐</div>
+              <span>API</span>
+            </div>
+          </div>
+          <div class="flow-packet" id="flow-packet"></div>
+          <div class="flow-step-label" id="flow-label">次へボタンで追跡開始</div>
+          <div class="flow-controls">
+            <button class="btn flow-next-btn">次のステップへ</button>
+            <button class="btn flow-reset-btn">再開</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">最終テスト</h2>
+
+        <div class="quiz-container" id="quiz-module5">
+
+          <div class="quiz-question-block"
+               data-correct="opt-d"
+               data-explanation-right="その通りです！MCPサーバーは、通常アクセスできない外部システムとClaudeを接続する役割を担います。社内データベース専用のMCPサーバーを立てるのが正しい構築アプローチです。">
+            <h3 class="quiz-question">自社で構築した社内専用のナレッジデータベースをClaudeに検索させたいです。既存のツールではアクセスできません。何を作成すべきですか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>クエリの書き方を記した「指示スキル」</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>データベース検索に特化した「サブエージェント」</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>データベースの詳細仕様を書いた CLAUDE.md</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>データベースのAPIを仲介する「MCPサーバー」</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-b"
+               data-explanation-right="正解です！この 「コマンド → エージェント → スキル」 というオーケストレーションパターンは、作業指示、専門的ワーカー、専門知識のそれぞれ役割を綺麗に分割でき、最も拡張性の高いアーキテクチャとなります。">
+            <h3 class="quiz-question"> /generate-report ワークフローを構築します。1.レポートの種類を尋ねる、2.カスタムAPI経由でデータを取得する、3.出力をPDF形式にする、という最も機能分割の綺麗な（クリーンな）構造はどれですか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>すべての作業手順を備えた1つの巨大なサブエージェント</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>質問する「コマンド」作成 → API取得用「エージェント」起動 → PDF変換用「スキル」呼び出し</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>これら3工程のそれぞれに手作業でスラッシュコマンドを打つ</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module5')">回答をチェックする</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module5')">やり直す</button>
+        </div>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-8)">
+          <div class="callout-icon">🎓</div>
+          <div class="callout-content">
+            <strong class="callout-title">コース完了おめでとうございます！</strong>
+            <p>コマンド。エージェント。スキル。メモリ。フック。MCP。これら6つの概念すべてがClaude Codeの基本語彙です。設計して操作すれば、ただチャットする以上の成果が生まれるでしょう。</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+  </main>
+
+</body>
+</html>

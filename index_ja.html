@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Courses</title>
+    <title>マイコース</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -52,6 +52,7 @@
             margin-bottom: 1rem;
             background: linear-gradient(to right, #60a5fa, #c084fc);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: fadeInDown 0.8s ease-out;
         }
@@ -228,40 +229,27 @@
 </head>
 <body>
     <div class="lang-switcher">
-        <a href="index.html" class="active">EN</a>
+        <a href="index.html">EN</a>
         <a href="index_vi.html">VI</a>
-        <a href="index_ja.html">JA</a>
+        <a href="index_ja.html" class="active">JA</a>
     </div>
 
     <header>
-        <h1>Learning Platform</h1>
-        <p class="subtitle">Explore high-quality courses designed to elevate your skills and keep you ahead of the curve.</p>
+        <h1>学習プラットフォーム</h1>
+        <p class="subtitle">スキルを向上させ、常に最前線を走り続けるために設計された高品質なコースを探索しましょう。</p>
     </header>
 
     <main>
         <!-- Course Card 1 -->
-        <a href="claude-code-best-practice-course/index.html" class="course-card">
-            <span class="course-tag">AI Assistant</span>
-            <h2 class="course-title">Claude Code Best Practice</h2>
-            <p class="course-description">Master the art of coding with AI. Learn best practices, efficient prompting, and advanced workflows to supercharge your development process.</p>
+        <a href="claude-code-best-practice-course/index_ja.html" class="course-card">
+            <span class="course-tag">AI アシスタント</span>
+            <h2 class="course-title">Claude Code ベストプラクティス</h2>
+            <p class="course-description">AIを使ったコーディング技術をマスターしましょう。ベストプラクティス、効率的なプロンプト、高度なワークフローを学び、開発プロセスを一気に加速させます。</p>
             <div class="course-footer">
-                <span>Start Learning</span>
+                <span>学習を始める</span>
                 <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </div>
         </a>
-        
-        <!-- Copy this block to add more courses in the future -->
-        <!--
-        <a href="link-to-course" class="course-card">
-            <span class="course-tag">Category</span>
-            <h2 class="course-title">Course Title</h2>
-            <p class="course-description">Course description goes here.</p>
-            <div class="course-footer">
-                <span>Start Learning</span>
-                <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </div>
-        </a>
-        -->
     </main>
 </body>
 </html>

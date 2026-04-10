@@ -1,0 +1,161 @@
+<section class="module" id="module-5" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">05</span>
+      <h1 class="module-title">Quy Trình Hoạt Động (The Full Stack)</h1>
+      <p class="module-subtitle">Bộ MCP servers, kiến trúc điều phối tổng, và các mẹo quyền lực gộp lại</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: MCP as USB ports -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">MCP: Cổng USB giao tiếp cho AI của bạn</h2>
+        <p>Hàng mặc định gốc, Claude có thể đọc và ghi, chạy phím terminal, tìm web URLs. Nhưng lỡ mà bạn muốn bắt nó tìm kiếm Data trong Database kín, khống chế một trình duyệt, hay gọi một API bảo mật của công ty mình thì sao?</p>
+        <p>Đó là lý do <span class="term" data-definition="MCP là Model Context Protocol — một chuẩn mực cho phép các cỗ máy Claude mở cầu giao tiếp với thế giới ngoài như Tool. Nó thiết kế như là cầu nối chuẩn xác.">MCP servers</span> ra đời. Cứ thử hiểu nó như cổng USB: cắm vào là máy nhận sức mạnh mới. Rút khỏi máy thì bay năng lực.</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">.mcp.json (cấu hình thực)</span>
+            <pre><code><span style="color:#CDD6F4">{</span>
+  <span style="color:#F9E2AF">"mcpServers"</span><span style="color:#CDD6F4">: {</span>
+
+    <span style="color:#A6E3A1">"playwright"</span><span style="color:#CDD6F4">: {</span>
+      <span style="color:#F9E2AF">"command"</span><span style="color:#CDD6F4">: </span><span style="color:#A6E3A1">"npx"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#F9E2AF">"args"</span><span style="color:#CDD6F4">: [</span><span style="color:#A6E3A1">"-y"</span><span style="color:#CDD6F4">, </span><span style="color:#A6E3A1">"@playwright/mcp"</span><span style="color:#CDD6F4">]</span>
+    <span style="color:#CDD6F4">},</span>
+
+    <span style="color:#A6E3A1">"context7"</span><span style="color:#CDD6F4">: {</span>
+      <span style="color:#F9E2AF">"command"</span><span style="color:#CDD6F4">: </span><span style="color:#A6E3A1">"npx"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#F9E2AF">"args"</span><span style="color:#CDD6F4">: [</span><span style="color:#A6E3A1">"-y"</span><span style="color:#CDD6F4">, </span><span style="color:#A6E3A1">"@upstash/context7-mcp"</span><span style="color:#CDD6F4">]</span>
+    <span style="color:#CDD6F4">}</span>
+  <span style="color:#CDD6F4">}</span>
+<span style="color:#CDD6F4">}</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">GIẢI THÍCH ĐƠN GIẢN</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>mcpServers</strong> — Liệt kê thông số các năng lực gắn vào Claude. Tùy mỗi cấu hình mà năng lượng kết nối của Server khác nhau.</p>
+              <p class="tl"><strong>playwright</strong> — Cấp cho Claude siêu năng lực kết nối trực tiếp thao tác thẳng Web (bấm chuột ảo, chụp màn hình ảo v..v).</p>
+              <p class="tl"><strong>context7</strong> — Kết nối dữ liệu vào các cỗ máy Data nội bộ hoặc API.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Full orchestration flow animation -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Toàn cảnh cấu trúc: Lệnh → Đặc vụ → Kỹ Năng</h2>
+        <p>Bật luồng hệ thống tự động thời tiết - nó đi từ chỗ đánh máy cho tới lúc sinh file lưu đồ thị SVG ảnh!</p>
+
+        <div class="flow-animation" data-steps='[
+          {"highlight":"flow-actor-1","label":"Bấm phím gõ nà: /weather-orchestrator"},
+          {"highlight":"flow-actor-2","label":"Lệnh mở file thư mục .claude/commands/ — bắt đầu nhúng não kịch bản","packet":true,"from":"actor-1","to":"actor-2"},
+          {"highlight":"flow-actor-2","label":"Bước 1: Lệnh hỏi anh chọn nấc nào trước C hay F?","packet":true,"from":"actor-2","to":"actor-1"},
+          {"highlight":"flow-actor-1","label":"Bạn trả lời: Độ Celcius nghen (Độ C)"},
+          {"highlight":"flow-actor-3","label":"Bước 2: Lệnh tung sinh ra một Đệ / Đặc vụ tên weather-agent","packet":true,"from":"actor-2","to":"actor-3"},
+          {"highlight":"flow-actor-4","label":"Đặc vụ trang bị nạp thẳng não Kỹ năng tên weather-fetcher từ rương chứa","packet":true,"from":"actor-3","to":"actor-4"},
+          {"highlight":"flow-actor-5","label":"Kỹ năng xuất tuyệt chiêu WebFetch móc Call hàm dữ liệu Open-Meteo API — chôm được kết quả về là 34C","packet":true,"from":"actor-4","to":"actor-5"},
+          {"highlight":"flow-actor-3","label":"Đặc vụ ném cái 34C về màn hình điều khiển tống lệnh lại","packet":true,"from":"actor-4","to":"actor-2"},
+          {"highlight":"flow-actor-4","label":"Bước 3: Lệnh xuất tiếp cấn mở skill đồ họa weather-svg-creator","packet":true,"from":"actor-2","to":"actor-4"},
+          {"highlight":"flow-actor-1","label":"Xuất xong tấm card file SVG xinh đẹp. Tắt ngóp mọi tác nhân!","packet":true,"from":"actor-4","to":"actor-1"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">🧑</div>
+              <span>Sếp</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">/</div>
+              <span>Lệnh (Command)</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Đặc Vụ (Agent)</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">📦</div>
+              <span>Kỹ Năng (Skill)</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">🌐</div>
+              <span>Nguồn API</span>
+            </div>
+          </div>
+          <div class="flow-packet" id="flow-packet"></div>
+          <div class="flow-step-label" id="flow-label">Bấm xem luồng cấu trúc xịn xò</div>
+          <div class="flow-controls">
+            <button class="btn flow-next-btn">Tiếp Theo</button>
+            <button class="btn flow-reset-btn">Xem Lại Băng</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Bài test tốt nghiệp hỡi pháp sư AI</h2>
+
+        <div class="quiz-container" id="quiz-module5">
+
+          <div class="quiz-question-block"
+               data-correct="opt-d"
+               data-explanation-right="Rất thông minh nha! Máy chủ MCP sinh ra để dẫn dắt kết nối cấu trúc và phần cứng API cực gắt. Đảm nhận như dây Cáp Mạng vô.">
+            <h3 class="quiz-question">Claude không móc kéo Database nội bộ do thiếu cấu trúc và port cổng kết nối hệ thống mình riêng. Ném chiêu gì vô xử?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Tạo cái hộp kỹ năng nhét mẫu hướng dẫn API</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Chỉnh lại cấu trúc đặc vụ subagent sinh ra châm việc lấy code db luôn</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Phang file CLAUDE.md đầy chử để tài liệu database tự nuốt</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Một cái máy trạm MCP cài sẵn API chuẩn cắm thẳng vào Database cho lẹ</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-b"
+               data-explanation-right="Chính xác! Cấu trúc lệnh Lệnh → Đặc vụ → Kỹ Năng. Thằng gõ lệnh thiết lập tiến độ, Lính Đặc Vụ phụ lo xử lý luồng giao công công đoạn đó. Đặc vụ này sẽ nạp Kỹ năng móc túi mang sẵn kiến thức vô xài. Rất có hệ thống bài bản! Chứ hông nhồi quá!">
+            <h3 class="quiz-question">Phải tung kiến trúc workflow xuất báo cáo: Hỏi người ta đi lấy làm gì, lấy số về (Custom API) và bọc cái form in bằng cục PDF. Vẽ sao cho sạch sẽ ít code nhất?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Nuôi 1 con Siêu Đặc Vụ subagent bực chà bá khảm cả 3 kỹ năng</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Set cấu trúc Cầm trịch gọi 1 lệnh Command → vãi xuống 1 đặc vụ chuyên data (nhét cái Skill API luôn) → mượn cái Skill xuất PDF bọc vào nó quất</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Bấm tay xài 3 lần gạch slash là xong chứ chi...</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module5')">Chấm Điểm Cái Rẹt</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module5')">Thi Lại Bấm Đi</button>
+        </div>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-8)">
+          <div class="callout-icon">🎓</div>
+          <div class="callout-content">
+            <strong class="callout-title">CHÚC MỪNG BẠN ĐÃ 100% NHUYỄN CHÀO CLAUDE CODE</strong>
+            <p>Commands. Agents. Skills. Memory. Hooks. MCP. Cấu trúc nền tảng xịn xò đã thấu lý đạt tình. Ráp đúng vị trí là xài tự trôi dạt vô công việc mượt hơn cả ChatGPT cũ kỹ!</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,249 @@
+<section class="module" id="module-1" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">01</span>
+      <h1 class="module-title">チャットボット以上の存在</h1>
+      <p class="module-subtitle">Claude Codeの正体 — そしてなぜそれが全てを変えるのか</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: The hook -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">あなたは要求した。そして多くのことが処理された。</h2>
+        <p>「天気アプリを作って」と入力した数秒後、ファイルが現れた。しかし、その言葉とファイルの間に一体何が起こったのか？</p>
+        <p>それは魔法ではなく、あなたの指示通りに動く<span class="term" data-definition="Claudeがプロジェクトで作業する際に従う、ルール、ツール、およびメモリの構造化システム。">設定システム</span>だった。それを理解すれば、操作が10倍上手くなるだろう。</p>
+
+        <div class="flow-steps" style="margin-top: var(--space-8)">
+          <div class="flow-step">
+            <div class="flow-step-num">1</div>
+            <p>リクエストを入力</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">2</div>
+            <p>Claudeがプロジェクトメモリを読み込む</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">3</div>
+            <p>エージェントとスキルを呼び出す</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">4</div>
+            <p>フックとツールを実行</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">5</div>
+            <p>結果を返す</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Chatbot vs Claude Code -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">プログラマビリティ（適応性）による違い</h2>
+        <p>Claudeと普通のチャットをすることは、<strong>ポケット電卓</strong>のようなものです。一つのことには優れていますが、毎回新しく設定し直さなければならず、あなたの要望や状態について全て毎回伝える必要があります。</p>
+        <p>対して Claude Code は<strong>プログラム可能なエクセルシート</strong>に似ています。同じ頭脳でも、独自のロジックの追加（コマンド）、外部データソースとの接続（MCPサーバー）が可能になり、毎回のセッションであなたの設定を記憶し続けます。</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-text-muted)">
+            <div class="pattern-icon" style="background: var(--color-surface-warm)">💬</div>
+            <h4 class="pattern-title">Claude とのチャット</h4>
+            <p class="pattern-desc">常に新しい会話からスタート。あなたのプロジェクトに関する記憶を持たないため、毎回全てを説明する必要があります。</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-accent)">
+            <div class="pattern-icon" style="background: var(--color-accent-light)">⚡</div>
+            <h4 class="pattern-title">Claude Code</h4>
+            <p class="pattern-desc">プロジェクトを把握し、あなたのルールに従います。ワークフローを実行し、専門のエージェントを呼び出します（全て設定可能）。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: The 6 extension points -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">あなたがコントロールできる６つの拡張機能</h2>
+        <p>Claude Code には、動作をカスタマイズおよび拡張できる６つの要素が備わっています。このコースを通してそれぞれの使い方を学びます。</p>
+
+        <div class="icon-rows" style="margin-top: var(--space-6)">
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-1)">/</div>
+            <div>
+              <strong><span class="term" data-definition="スラッシュコマンド。レシピのように段階的な指示を含み、Claudeにステップごとの手順を実行させます。">コマンド (Commands)</span></strong>
+              <p><code>/slash-commands</code> により起動される、再利用可能なタスクフロー</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-2)">🤖</div>
+            <div>
+              <strong><span class="term" data-definition="特定のタスクを処理するためにClaudeが呼び出せる、独自のツールや権限とメモリを持つ自律型AIワーカーです。">サブエージェント (Subagents)</span></strong>
+              <p>カスタムツールとメモリを備えた、独立して動作する自律型アシスタント</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-3)">📦</div>
+            <div>
+              <strong><span class="term" data-definition="必要に応じて読み込まれるプラグインのような知識パッケージ。ですが、プログラムではなく平易な英語の指示で記述します。">スキル (Skills)</span></strong>
+              <p>特定の機能が必要な際に読み込まれる、知識のカートリッジパック</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-4)">🔌</div>
+            <div>
+              <strong><span class="term" data-definition="Claudeを外部ツール、API、データベース、ブラウザなどに接続します。いわばAIのためのUSBポート。">MCPサーバー (MCP Servers)</span></strong>
+              <p>外部ツールやAPI、データベースとの接続レイヤー</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-5)">🧠</div>
+            <div>
+              <strong><span class="term" data-definition="プロジェクト用のClaudeの恒久的な記憶。毎回そこに書いたものを読む、Claudeのための従業員ハンドブックのようなものです。">メモリ (Memory)</span></strong>
+              <p><code>CLAUDE.md</code> ファイルを使用したプロジェクトの恒久的なコンテキスト維持</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-accent)">🪝</div>
+            <div>
+              <strong><span class="term" data-definition="ツールの実行前、完了後、サブタスク開始時など、Claudeが特定のアクションを行った際に自動的に実行されるスクリプト。確実な処理を保証します。">フック (Hooks)</span></strong>
+              <p>AIの制御外のライフサイクルイベントで起動されるスクリプト</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Code↔English — CLAUDE.md -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">プロジェクトの恒久的な説明書</h2>
+        <p>常に、Claudeがアクションを起こす前、Claudeはあなたの <code>CLAUDE.md</code> ファイルを読み込みます。これはわざわざ毎回説明する代わりに、一度だけプロジェクトに関する全体像を教えておく場所です。</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">リポジトリ側コードの例</span>
+            <pre><code><span style="color:#CBA6F7">## 重要なコンポーネント</span>
+
+<span style="color:#A6E3A1">### 天気システム (Weather System)</span>
+<span style="color:#CDD6F4">以下が全体の動きを示すアーキテクチャ</span>
+<span style="color:#F9E2AF">Command → Agent → Skill</span>
+<span style="color:#CDD6F4">として連携しています。:</span>
+<span style="color:#CDD6F4">- </span><span style="color:#89B4FA">`/weather-orchestrator`</span>
+<span style="color:#CDD6F4">  コマンド: 処理のエントリポイント</span>
+<span style="color:#CDD6F4">- </span><span style="color:#89B4FA">`weather-agent`</span>
+<span style="color:#CDD6F4">  エージェント: 温度情報を取得</span>
+<span style="color:#CDD6F4">- </span><span style="color:#89B4FA">`weather-fetcher`</span>
+<span style="color:#CDD6F4">  スキル: API通信の命令</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">わかりやすい解説</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>## 重要なコンポーネント</strong> — このセクションの見出しはClaudeに「ここにプロジェクトの大事な各部品がありますよ」ということを伝えています。</p>
+              <p class="tl"><strong>天気システム</strong> — コマンド、エージェント、スキルの全てがどのようにチームとして一緒に作業するかを示しています。</p>
+              <p class="tl"><strong>/weather-orchestrator</strong> — このスラッシュコマンドをあなたが打ち込むと、全ての処理プロセスが開始されます。</p>
+              <p class="tl"><strong>weather-agent</strong> — 実際のデータを引っ張ってくるためにClaudeが自律的に動かす独立した機能ワーカーです。</p>
+              <p class="tl"><strong>weather-fetcher skill</strong> — 天気APIの呼び出し方をエージェントに理解させるために事前に用意された再利用可能な知識セットです。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-6)">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">アハ体験 (Aha Moment)</strong>
+            <p>CLAUDE.md ファイルを使用することは、未来の自分のために付箋を残しておくようなものです。ただし、それを読むのはあなたではなくClaudeです。一度これを書いてしまえば、次回以降のすべてのセッションで、事前知識を持ってClaudeはサポートを開始してくれます。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">理解度チェック</h2>
+
+        <div class="quiz-container" id="quiz-module1">
+
+          <div class="quiz-question-block"
+               data-correct="opt-c"
+               data-explanation-right="正解です！コマンド、エージェント、スキル、MCPサーバー、メモリ、フックの6つの拡張ポイントが、Claude Codeを単なるチャットボットではなく、プログラム可能なものにしています。"
+               data-explanation-wrong="少し違います。Claude CodeはClaudeの上に構築されたプログラム可能な層です。メモリを使用するのが最もベストな解決策になります。">
+            <h3 class="quiz-question">Claudeに、新しい会話であっても常にあなたのコーディングスタイルガイドに従わせたいとします。これを解決する拡張ポイントはどれですか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>送るメッセージすべてにそれを追加する</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>コーディングスタイルのためのMCPサーバーを作成する</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>CLAUDE.md (メモリ) にスタイルルールを書き込む</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>フックを使って自動的で挿入する</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-b"
+               data-explanation-right="その通りです！サブエージェントは自律的なワーカーであり、独自のツール、権限、コンテキストを持ちます。メインセッションが進行している間も、独立して実行されます。"
+               data-explanation-wrong="惜しいですが、違う選択肢です。サブエージェントは、単なる指示ではなく独自のツールアクセスを持ち、隔離・独立した作業を行うよう設計されています。">
+            <h3 class="quiz-question">競合他社の価格調査を行いながら、同時に（割り込まずに）レポートも作成させたい時、一番最適なツールはどれでしょう？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>両方のタスクを記述した一つのスラッシュコマンド</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>並行して動作する2つのサブエージェント</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>同じセッションに読み込まれた2つのスキル</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>最初のタスクが終わった後に実行されるフック</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-d"
+               data-explanation-right="正解です！MCPサーバーは接続レイヤーであり、Claudeがデータベース、ブラウザ、APIなどの外部システムと対話できるようにします。まさに新しい機能を追加するためのUSBポートと言えます。"
+               data-explanation-wrong="指示やワークフローだけでなく、外部のツールやシステムとの「接続」に特化している機能はどれかを考えてみてください。">
+            <h3 class="quiz-question">会社の社内データベースをClaudeで検索できるようにしたいです。どの拡張ポイントによりそれが可能になりますか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>データベースクエリの指示を含むスキル</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>データベースのドキュメントを含む CLAUDE.md</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>ターンごとにデータベースをクエリするフック</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Claudeとデータベースを接続するMCPサーバー</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module1')">回答をチェックする</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module1')">やり直す</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

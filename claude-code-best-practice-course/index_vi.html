@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code: Under the Hood</title>
+
+  <!-- Google Fonts: Bricolage Grotesque · DM Sans · JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    :root {
+      --color-accent:       #2A7B9B;
+      --color-accent-hover: #1F6280;
+      --color-accent-light: #E4F2F7;
+      --color-accent-muted: #5A9DB8;
+    }
+
+    .lang-switcher {
+      display: flex;
+      gap: 0.5rem;
+      margin-left: 1rem;
+      align-items: center;
+    }
+    
+    .lang-switcher a {
+      color: var(--color-accent);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--color-accent-muted);
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    
+    .lang-switcher a:hover {
+      background: var(--color-accent-light);
+    }
+  </style>
+
+  <script src="main.js" defer></script>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    <div class="nav-inner">
+      <div style="display: flex; align-items: center;">
+        <span class="nav-title">Claude Code: Under the Hood</span>
+        <div class="lang-switcher">
+          <a href="index.html">EN</a>
+          <a href="index_vi.html">VI</a>
+          <a href="index_ja.html">JA</a>
+        </div>
+      </div>
+      <div class="nav-dots" id="nav-dots" role="tablist">
+        <button class="nav-dot" data-target="module-1" data-tooltip="More Than a Chatbot" role="tab" aria-label="Module 1: More Than a Chatbot"></button>
+        <button class="nav-dot" data-target="module-2" data-tooltip="Commands &amp; Skills" role="tab" aria-label="Module 2: Commands &amp; Skills"></button>
+        <button class="nav-dot" data-target="module-3" data-tooltip="Subagents" role="tab" aria-label="Module 3: Subagents"></button>
+        <button class="nav-dot" data-target="module-4" data-tooltip="Memory &amp; Settings" role="tab" aria-label="Module 4: Memory &amp; Settings"></button>
+        <button class="nav-dot" data-target="module-5" data-tooltip="Orchestration" role="tab" aria-label="Module 5: Orchestration"></button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <!-- modules/*.html content is assembled here by build.sh -->
+<section class="module" id="module-1" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">01</span>
+      <h1 class="module-title">Không Chỉ Là Một Chatbot</h1>
+      <p class="module-subtitle">Claude Code thực sự là gì — và tại sao nó thay đổi mọi thứ</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: The hook -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Bạn đã hỏi. Rất nhiều thứ đã xử lý.</h2>
+        <p>Bạn đã gõ: <em>"Lập trình cho tôi một app thời tiết."</em> Vài giây sau, các file xuất hiện. Nhưng thực sự điều gì đã xảy ra giữa câu lệnh của bạn và những file đó?</p>
+        <p>Không phải phép thuật — đó là một <span class="term" data-definition="Hệ thống cấu trúc các quy tắc, công cụ và bộ nhớ mà Claude tuân theo.">hệ thống cấu hình</span> làm chính xác những gì bạn bảo. Khi bạn hiểu nó, bạn điều khiển nó tốt gấp mười lần.</p>
+
+        <div class="flow-steps" style="margin-top: var(--space-8)">
+          <div class="flow-step">
+            <div class="flow-step-num">1</div>
+            <p>Bạn nhập yêu cầu</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">2</div>
+            <p>Claude đọc project memory</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">3</div>
+            <p>Gọi các agents &amp; skills</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">4</div>
+            <p>Chạy hooks &amp; tools</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">5</div>
+            <p>Trả kết quả</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Chatbot vs Claude Code -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Sự khác biệt là tính năng lập trình</h2>
+        <p>Chat với Claude giống như sử dụng một <strong>chiếc máy tính bỏ túi</strong> — rất giỏi một việc, nhưng bạn phải bắt đầu lại từ đầu mỗi lần, và nó chỉ biết những gì bạn nói vào lúc đó.</p>
+        <p>Claude Code giống như một <strong>bảng tính có thể lập trình</strong>. Cùng một bộ não bên dưới, nhưng bây giờ bạn có thể thêm các công thức (lệnh), cắm các nguồn dữ liệu (máy chủ MCP) và giúp nó ghi nhớ sở thích của bạn qua mỗi phiên làm việc.</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-text-muted)">
+            <div class="pattern-icon" style="background: var(--color-surface-warm)">💬</div>
+            <h4 class="pattern-title">Chat Với Claude</h4>
+            <p class="pattern-desc">Làm mới lại ở mọi cuộc hội thoại. Không có bộ nhớ về dự án của bạn. Bạn phải giải thích mọi thứ, mỗi lần bắt đầu.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-accent)">
+            <div class="pattern-icon" style="background: var(--color-accent-light)">⚡</div>
+            <h4 class="pattern-title">Claude Code</h4>
+            <p class="pattern-desc">Biết rõ dự án của bạn, tuân theo quy tắc, chạy tự động các quy trình workflow, gọi các bot đặc vụ — bạn cấu hình tất cả.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: The 6 extension points -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Sáu công cụ điều khiển</h2>
+        <p>Claude Code để lộ ra sáu cách để tinh chỉnh và mở rộng cách hoạt động của nó. Toàn bộ nội dung khóa học này sẽ làm rõ từng loại một.</p>
+
+        <div class="icon-rows" style="margin-top: var(--space-6)">
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-1)">/</div>
+            <div>
+              <strong><span class="term" data-definition="Cú pháp dòng lệnh là luồng công việc tùy chỉnh bạn gọi bằng /command-name. Thay thế cho các bước mà Claude làm.">Lệnh (Commands)</span></strong>
+              <p>Quy trình tái sử dụng được có thể gọi bằng lệnh <code>/slash-commands</code></p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-2)">🤖</div>
+            <div>
+              <strong><span class="term" data-definition="Đặc vụ độc lập chạy trên quyền và môi trường riêng để giải quyết cho từng công việc riêng. Claude có thể tạo ra chúng bất cứ khi nào.">Đặc vụ phụ (Subagents)</span></strong>
+              <p>Các thuật toán và người giúp việc lập trình từ bộ công cụ tùy chỉnh</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-3)">📦</div>
+            <div>
+              <strong><span class="term" data-definition="Mô đun kỹ năng đóng gói có thể dùng lại — hướng dẫn được nạp vào cho tính năng cụ thể. Nó giống với Plugin.">Kỹ Năng (Skills)</span></strong>
+              <p>Hộp kiến thức nạp vào để mở rộng khả năng xử lý vấn đề</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-4)">🔌</div>
+            <div>
+              <strong><span class="term" data-definition="MCP Server (Lớp API) Cấu nối kết nối với bên thứ 3 và các phần mềm hệ điều hành, tìm kiếm web. Nó như bản cổng USB cho AI.">Máy Chủ (MCP Servers)</span></strong>
+              <p>Cổng giao tiếp kết nối vào API nội bộ, Database và công cụ System</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-5)">🧠</div>
+            <div>
+              <strong><span class="term" data-definition="CLAUDE.md file sẽ nhớ liên tục mọi chuyện đã học. Các quy ước lưu trong tài liệu này được kiểm tra toàn bộ.">Bố Nhớ (Memory)</span></strong>
+              <p>Cấu trúc lưu lại liên tục theo thời gian vào file CLAUDE.md</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-accent)">🪝</div>
+            <div>
+              <strong><span class="term" data-definition="Hooks giúp móc kịch bản bắt tự động và lập trình luồng chạy - trước, đang hoặc hoàn thành lệnh, hỗ trợ việc sửa code nhanh hơn.">Móc (Hooks)</span></strong>
+              <p>Kịch bản tự động khi sự kiện được kích phát (Tác động bên ngoài AI)</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Code↔English — CLAUDE.md -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Bản tóm tắt vĩnh viễn dự án của bạn</h2>
+        <p>Mỗi phiên làm việc, trước khi Claude thực hiện bất cứ điều gì, nó sẽ đọc file <code>CLAUDE.md</code>. Đây là nơi bạn dạy nó về dự án của bạn một lần duy nhất — thay vì phải giải thích mọi thứ từ đầu sau mỗi lần gọi.</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">TỪ REPO CODE</span>
+            <pre><code><span style="color:#CBA6F7">## Các Thành Phần Chính</span>
+
+<span style="color:#A6E3A1">### Hệ Thống Cuộc Hẹn</span>
+<span style="color:#CDD6F4">Hình minh họa ví dụ theo</span>
+<span style="color:#F9E2AF">Command → Agent → Skill</span>
+<span style="color:#CDD6F4">Kiến trúc cơ sở:</span>
+<span style="color:#CDD6F4">- </span><span style="color:#89B4FA">`/weather-orchestrator`</span>
+<span style="color:#CDD6F4">  lệnh: Điểm khởi đầu</span>
+<span style="color:#CDD6F4">- </span><span style="color:#89B4FA">`weather-agent`</span>
+<span style="color:#CDD6F4">  đặc vụ: Lấy lịch theo nhiệt độ</span>
+<span style="color:#CDD6F4">- </span><span style="color:#89B4FA">`weather-fetcher`</span>
+<span style="color:#CDD6F4">  kỹ năng: Hướng dẫn gọi API</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">GIẢI THÍCH ĐƠN GIẢN</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>## Các Thành Phần Chính</strong> — Tiêu đề phần này báo cho Claude biết "đây là tất cả các thành phần cốt lỗi có tác dụng thay đổi dự án".</p>
+              <p class="tl"><strong>Hệ Thống Cuộc Hẹn</strong> — Nó giải thích cách gọi và phối hợp làm việc chung nhóm giữa Lệnh, Đặc Vụ Phụ, và Kỹ Năng.</p>
+              <p class="tl"><strong>/weather-orchestrator</strong> — Khi bạn đánh lệnh gõ nháy này, toàn bộ quá trình tải tự động được khởi xướng.</p>
+              <p class="tl"><strong>weather-agent</strong> — Một chuyên gia tự động mà Claude sinh riêng biệt ra chỉ để kéo dữ liệu về dùng.</p>
+              <p class="tl"><strong>weather-fetcher skill</strong> — Tập hợp các kiến thức cách lấy và xử lý số liệu dự báo đã lưu sẵn sẽ gửi cho Agent để nó biết cách mở khóa API.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-6)">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">Khoảnh Khắc Vỡ ÒA Tỉnh Ngộ Tối Thượng Aha.</strong>
+            <p>Việc dùng file CLAUDE.md giống với thói quen cố giữ giấy nhớ Sticky Note trên máy tính lại để cho bản thân bạn trong tương lai sau này tái sử dụng lại dễ dàng hơn — Ngoại lệ là không phải bạn tự vào xem, mà chỉ có Claude vào sử dụng. Bạn biên soạn lần đầu tiên, tất cả lúc sau đều có Claude sử dụng thay vì cho bạn dạy nó từ đầu dự án và lưu cấu hình.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Kiểm tra mức độ lĩnh hội của bạn</h2>
+
+        <div class="quiz-container" id="quiz-module1">
+
+          <div class="quiz-question-block"
+               data-correct="opt-c"
+               data-explanation-right="Chính xác! Lệnh, Đặc Vụ, kỹ năng, MCP server, Bộ nhớ, Các Móc chính là sáu thành phần chính cấu hình giúp Claude code lập trình linh hoạt - không chỉ riêng cho bot chat tĩnh."
+               data-explanation-wrong="Hơi nhầm tí! Claude Code được cài đặt và lưu vào bộ nhớ dự án (CLAUDE.md) mới là cốt lõi để tùy biến theo bạn một cách toàn diện.">
+            <h3 class="quiz-question">Bạn muốn Claude CỐ ĐỊNH liên tục bám theo tiêu chuẩn kỹ năng viết Code của bạn mà không phải mất thời gian định hướng, kể cả cho đoạn chat mới tinh. Bạn sẽ xài nhánh phát triển tính năng nào hỗ trợ tối ưu?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Tự thêm nó vào nội dung cho mọi chatbox đi</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Tạo máy chủ MCP cho quy ước chung</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Soạn thảo văn bản yêu cầu và quy luật viết lưu chuẩn trong tệp CLAUDE.md (Bộ nhớ)</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Sử dụng Hooks để tự nhúng liên tục</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-b"
+               data-explanation-right="Đúng quá! Cấu hình Subagents sinh ra như công nhân xử lý chuyên biệt cho - nó có công cụ truy cập để đọc với những thông tin quyền riêng, và vận hành một góc của quy trình để khỏi cản hay vướng mắc cái tiến trình đang viết!"
+               data-explanation-wrong="Đã tiến gần câu trả lời, tuy nhiên Subagents đặc biệt chỉ tập trung đi tối ưu và xử lý cho chính nó độc lập truy cập bằng công cụ. Nếu không sẽ đè chồng lên nhau do chờ hướng dẫn đồng loạt.">
+            <h3 class="quiz-question">Gỉa định bạn cần Claude nghiên cứu và check khảo sát đối thủ SONG SONG đánh văn bản làm báo cáo báo giá với nhau cùng lúc - mà cấm không được nhường nhiệm vụ bên kia gián đoạn lúc viết! Đâu là cách lựa chọn ngon?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Danh sách gom 2 cái qua /Slash request thôi</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Khởi tạo 2 Subagents đặc vụ đi kèm với nhau, phân mỗi đứa 1 hệ thống kiểm soát độc lập từng chức năng gánh vác việc</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Phân hai Kỹ năng (skills set) cùng vào chung một không gian chat session</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Kích chạy kịch bản Móc Hooks tự ngâm việc cuối cùng hoàn thành</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-d"
+               data-explanation-right="Chuẩn bài! Tầng MCP Servers ra đời để thiết lập kết nối - Cụ thể sẽ móc cửa phụ làm kênh ngầm để Claude có thể vào trò chuyện và dùng thử với các tài nguyên dữ liệu, internet, và nền tảng trình diễn API. Y đúc cái cổng USB để nạp mọi tính năng."
+               data-explanation-wrong="Để ý thử tính năng chuyên đi kết nối sâu rễ, với hệ thống ngoại vi, khác những kiến thức hướng dẫn với dự án bạn xem?">
+            <h3 class="quiz-question">Ví dụ bạn có tệp tin nội bộ, kho lưu lượng tìm kiếm đồ sộ trong CSDL (Database). Nếu bạn phải để Claude truy quét sâu trong này, cổng extension point được thêm là cách dùng cái này chuẩn?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Sự kết hợp thêm Skill từ cách đọc kết quả DB (database) Query</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Sử dụng bản tài liệu của DB vô mục tệp CLAUDE.md đọc thôi!</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Hooks chặn, lấy để lọc mọi tin tức trong DB</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Một Máy Chủ MCP kết nối đường hầm thẳng đưa Claude kết nối cơ sở CSDL</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module1')">Hoàn Tất Kiểm Tra</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module1')">Thực Hiện Lại</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+<section class="module" id="module-2" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">02</span>
+      <h1 class="module-title">Lệnh &amp; Kỹ Năng</h1>
+      <p class="module-subtitle">Bộ từ vựng tự động hóa — Công thức và Hộp kiến thức</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: Commands metaphor -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Lệnh: Phím tắt quản lý cho toàn bộ quy trình làm việc</h2>
+        <p>Hãy tưởng tượng bạn là một đầu bếp. Thay vì giải thích toàn bộ công thức làm món risotto mỗi khi có người yêu cầu, bạn chỉ cần nói <em>"hãy làm món risotto."</em> Công thức đã được viết sẵn — bạn chỉ đang gọi tên nó ra.</p>
+        <p>Đó gọi là <span class="term" data-definition="Trong Claude. Lệnh là một tệp ghi mọi hướng dẫn. Khi bạn gõ /command-name, Claude đọc và thực hiện chúng như một kịch bản lưu sẵn">Lệnh (Command)</span>. Nó là một tệp <code>.md</code> chứa đầy đủ các hướng dẫn mà Claude tuân theo khi bạn gõ <code>/its-name</code>. Viết một lần, sử dụng mãi mãi.</p>
+
+        <div class="callout callout-info" style="margin-top: var(--space-6)">
+          <div class="callout-icon">📁</div>
+          <div class="callout-content">
+            <strong class="callout-title">Nơi lưu trữ các Lệnh</strong>
+            <p>Các lệnh được đặt trong <code>.claude/commands/</code> bên trong thư mục dự án của bạn. Mỗi tệp trở thành một lệnh gạch chéo (/slash command) — tên tệp chính là tên lệnh.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Command code translation -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Giải phẫu cấu trúc của một Lệnh</h2>
+        <p>Đây là một lệnh cấu hình hệ thời tiết thực tế mà chúng ta viết. Hãy đọc nó từng dòng.</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">weather-orchestrator.md</span>
+            <pre><code><span style="color:#6C7086">---</span>
+<span style="color:#F9E2AF">description</span><span style="color:#CDD6F4">: Lấy thời tiết cho Dubai</span>
+<span style="color:#F9E2AF">model</span><span style="color:#CDD6F4">: haiku</span>
+<span style="color:#6C7086">---</span>
+
+<span style="color:#CBA6F7">## Quy trình làm việc</span>
+
+<span style="color:#A6E3A1">### Bước 1: Hỏi ưu tiên của User</span>
+<span style="color:#CDD6F4">Use AskUserQuestion to ask</span>
+<span style="color:#CDD6F4">whether they want Celsius</span>
+<span style="color:#CDD6F4">or Fahrenheit.</span>
+
+<span style="color:#A6E3A1">### Bước 2: Kéo dữ liệu Thời Tiết</span>
+<span style="color:#CDD6F4">Sử dụng the Task tool to invoke</span>
+<span style="color:#CDD6F4">the weather-agent...</span>
+
+<span style="color:#A6E3A1">### Bước 3: Tạo thẻ SVG </span>
+<span style="color:#CDD6F4">Sử dụng the Skill tool to invoke</span>
+<span style="color:#CDD6F4">weather-svg-creator skill.</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">GIẢI THÍCH ĐƠN GIẢN</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>description:</strong> Một câu tóm tắt chức năng của lệnh này. Claude đọc nó để biết khi nào nên đề xuất nó.</p>
+              <p class="tl"><strong>model: haiku</strong> — Sử dụng mô hình rẻ và nhanh hơn cho lệnh này. Bạn có thể ghi đè mô hình hệ thống có sẵn cho mỗi lệnh.</p>
+              <p class="tl"><strong>Bước 1</strong> — Đầu tiên, hỏi người dùng trước khi làm bất cứ việc gì cả. Điều này giúp tiến trình trở nên tương tác hơn.</p>
+              <p class="tl"><strong>Bước 2</strong> — Sinh ra một tác nhân đặc vụ phụ(weather-agent) để tự kéo dữ liệu liên tục. Code sẽ sắp xếp nó; Agent tự kéo nó.</p>
+              <p class="tl"><strong>Bước 3</strong> — Nhúng kỹ năng Skill (weather-svg-creator) vào để tạo bản phát thảo đồ hoạ output. Mỗi bước giao cho đúng người làm chuẩn.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Skills -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Kỹ năng: Nhúng từng cái hộp kiến thức như băng Cassette</h2>
+        <p>Lệnh Kỹ Năng /Skill nó giống như là <strong>Chip bộ nhớ rời vậy</strong>. Nó gói các kiến thức học lỏm riêng biệt, cấu hình làm quen vào riêng biệt công việc — Chỉ tải đoạn cần thiết để cho Claude hiểu, giải quyết xong nó xả bộ nhớ đó ra.</p>
+        <p>Thay vì nhét vào não để gánh toàn bộ dữ liệu, ta xé thành bản đồ riêng bằng <span class="term" data-definition="File kỹ năng là một dạng tải sẵn cho tài liệu nội dung cho tính huống Claude đang làm việc ngẫu nhiên,">tệp nội dung skill (skill files)</span> để khi cần gắn vào đọc.</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-icon" style="background: var(--color-actor-3)">📦</div>
+            <h4 class="pattern-title">Năng lực đặc vụ (Agent Skills)</h4>
+            <p class="pattern-desc">Được nạp sẵn vào agent thông qua thuộc tính <code>skills:</code> field. Luôn luôn nó đã nằm sẵn đó chờ Agent gọi.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-accent)">
+            <div class="pattern-icon" style="background: var(--color-accent-light)">🛠️</div>
+            <h4 class="pattern-title">Kỹ năng thực thi chéo nhanh (Invocable)</h4>
+            <p class="pattern-desc">Do lệnh <code>Skill(skill: "name")</code> kích hoạt thủ công, Khi hoàn tất Claude tiếp tục phiên làm việc bình thường.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Group chat animation — User → Command → Skill -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Xem chúng tương tác với nhau</h2>
+        <p>Những tương tác hiện lên theo mã yêu cầu <code>/weather-orchestrator</code> sẽ lần lượt chạy.</p>
+
+        <div class="chat-window" id="chat-module2">
+          <div class="chat-messages">
+            <div class="chat-message" data-msg="0" data-sender="user" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-text-secondary)">Bạn</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-text-secondary)">Bạn</span>
+                <p>/weather-orchestrator</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="1" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">lệnh weather-orchestrator</span>
+                <p>Tiến hành lấy kịch bản từ .claude/commands/weather-orchestrator.md... Bước 1: Hỏi một câu hỏi nhé.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="2" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">lệnh weather-orchestrator</span>
+                <p>Nhiệt độ này bạn muốn định dạng ở dạng độ F Fahrenheit hay Độ C Celcius?</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="3" data-sender="user" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-text-secondary)">Bạn</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-text-secondary)">Bạn</span>
+                <p>Độ Celcius giùm nha.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="4" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">lệnh weather-orchestrator</span>
+                <p>Bước 2: Mở đặc vụ weather-agent để kéo thông tin data... (đang thiết lập sinh ra...)</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="5" data-sender="agent" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">🤖</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-2)">Đặc vụ weather-agent</span>
+                <p>Nhận rồi. Nạp bản skill xử lý thông tin weather-fetcher nha... Kéo tải vị trí Dubai xong... Báo api đang là 34°C. Trả lại lệnh.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="6" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">lệnh weather-orchestrator</span>
+                <p>Bước 3: Mở thêm Skill weather-svg-creator để thiết lập giao diện tĩnh cho kết quả...</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="7" data-sender="skill" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-3)">📦</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-3)">Skill weather-svg-creator</span>
+                <p>SVG đã lập! File lưu ở orchestration-workflow/weather.svg ✓</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="8" data-sender="command" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">/</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">lệnh weather-orchestrator</span>
+                <p>Hoàn thành! Dubai là 34°C. Xem card UI. 🌤️</p>
+              </div>
+            </div>
+          </div>
+          <div class="chat-typing" id="chat-typing" style="display:none">
+            <div class="chat-avatar" id="typing-avatar">?</div>
+            <div class="chat-typing-dots">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+          <div class="chat-controls">
+            <button class="btn chat-next-btn">Tiếp Theo</button>
+            <button class="btn chat-all-btn">Mở Toàn Bài</button>
+            <button class="btn chat-reset-btn">Chơi Cảnh Lại</button>
+            <span class="chat-progress"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Trắc nghiệm áp dụng kiến thức</h2>
+
+        <div class="quiz-container" id="quiz-module2">
+
+          <div class="quiz-question-block"
+               data-correct="opt-b"
+               data-explanation-right="Chuẩn luôn! Một câu lệnh chỉ là hệ thống xử lý công việc dạng Workflow kích hoạt bằng 1 thao tác duy nhất như công thức nấu món. Dùng siêu tiện!"
+               data-explanation-wrong="Thay vào đó, bạn hãy lưu nó dưới dạng phím tắt /slash. Như vậy gọi ra làm 3 việc nhẹ như bông!">
+            <h3 class="quiz-question">Mỗi thứ Hai bạn bảo Claude: tải data, đọc chúng tóm tắt, xuất báo cáo vào Slack. Bạn setup kiểu gì cho tối ưu?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Chép vào file CLAUDE.md để tải chung vào đầu phiên gánh nhớ cồng kềnh</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Tạo ra một hệ thống Lệnh /monday-report chứa sẵn ba công việc này</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Cho hẳn ba đặc vụ quản lý mỗi đứa một việc</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Chạy ngầm Hook vào thứ Hai báo về</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-c"
+               data-explanation-right="Đúng! Các Skill nạp dưới dạng field sẵn thì sẽ được cấp trực tiếp quyền cho đặc vụ xài vô giới hạn."
+               data-explanation-wrong="Tuy hai mẫu skill đều kích hoạt được, cái này nên luôn có sẵn do agent thực hiện ở nhiều kịch bản mẫu ngẫu nhiên (chạy trực tiếp skill dạng nạp preloaded là ngon nhất).">
+            <h3 class="quiz-question">Đặc vụ weather-agent cần phải biết xài API thời tiết ở MỌI tình huống lúc nào không rõ. Phương án chốt?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Kích hoạt Skill("weather-fetcher") mỗi phiên có thể dùng</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Hướng dẫn viết đè cái Call API ở mọi phần cho file Lệnh /slash</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Khai báo vào thuộc tính `skills:` để weather-fetcher tải ngầm với công nhân agent nhé</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Lưu nó trong CLAUDE.md đi!</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module2')">Hiển Thị Kết Quả</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module2')">Làm Lại</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+<section class="module" id="module-3" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">03</span>
+      <h1 class="module-title">Các Đặc Vụ Phụ (Subagents)</h1>
+      <p class="module-subtitle">Nhân sự tự động với bộ trang bị, trí nhớ và mức độ an toàn riêng biệt</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: The contractor metaphor -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Hãy nghĩ nó như đi Thuê đối tác ngoài, không phải hỏi đồng nghiệp</h2>
+        <p>Khi bạn phải chia việc cho một anh đồng nghiệp cùng mâm, anh ấy hiểu tất tận tật dự án — quá trình dự án chung, cách tiến hành, văn hóa làm việc. Nhưng đôi lúc mình chỉ muốn giao khoán gói việc <strong>BÊN NGOÀI</strong> thôi thì sao.</p>
+        <p>Thầu xây dựng mang kìm, búa tới, nhận đúng đoạn việc họ làm rồi đi. Ai thèm quan tâm cả quá khứ lịch sử của công ty bạn — chỉ làm đoạn công việc thôi. Vậy đó chính là <span class="term" data-definition="Đặc vụ phụ (Subagent) giống như chuyên viên xử lý riêng khi Claude khởi tạo chỉ cho 1 nhiệm vụ. Chạy 1 luồng xử lý ngoài lề không vướng vào cốt — riêng biệt tài nguyên, bộ công cụ, cấp bộ nhớ">đặc vụ (subagent)</span>.</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-text-muted)">
+            <div class="pattern-icon" style="background: var(--color-surface-warm)">🤝</div>
+            <h4 class="pattern-title">Kênh Chat Chính</h4>
+            <p class="pattern-desc">Biết tổng quan của bạn. Có toàn bộ lịch sử trò chuyện. Phối hợp nhịp nhàng.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">🏗️</div>
+            <h4 class="pattern-title">Đặc Vụ Phụ (Subagent)</h4>
+            <p class="pattern-desc">Nội dung xử lý tách biệt. Tùy biến công cụ. Quyền truy cập khác nhau. Khởi chạy 1 mục tiêu rồi đi nộp kết quả. Cho phép chạy nhiều cái cùng lúc.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Frontmatter translation -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Thiết lập tham số công nhân thầu</h2>
+        <p>Thiết lập cài đặt nằm ở trên cùng mỗi file gọi là <span class="term" data-definition="Cấu phẫu học Frontmatter là đoạn mảng code ở đầu bị kẹp giữa dấu vạch (--). Xây bằng bộ khung YAML">bộ nhớ frontmatter</span> — điền thông số như file kê khai thôi. Đây là một con đặc vụ thời thiết thực tế nè:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">weather-agent.md (Cấu hình YAML)</span>
+            <pre><code><span style="color:#6C7086">---</span>
+<span style="color:#F9E2AF">name</span><span style="color:#CDD6F4">: weather-agent</span>
+<span style="color:#F9E2AF">description</span><span style="color:#CDD6F4">: Use PROACTIVELY when</span>
+<span style="color:#CDD6F4">  you need Dubai weather data.</span>
+<span style="color:#F9E2AF">model</span><span style="color:#CDD6F4">: sonnet</span>
+<span style="color:#F9E2AF">maxTurns</span><span style="color:#CDD6F4">: 5</span>
+<span style="color:#F9E2AF">permissionMode</span><span style="color:#CDD6F4">: acceptEdits</span>
+<span style="color:#F9E2AF">memory</span><span style="color:#CDD6F4">: project</span>
+<span style="color:#F9E2AF">color</span><span style="color:#CDD6F4">: green</span>
+<span style="color:#F9E2AF">skills</span><span style="color:#CDD6F4">:</span>
+<span style="color:#CDD6F4">  - weather-fetcher</span>
+<span style="color:#6C7086">---</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">GIẢI THÍCH ĐƠN GIẢN</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>name:</strong> Định danh ID của Agent để gọi nó từ xa.</p>
+              <p class="tl"><strong>description: PROACTIVELY</strong> — Chìa khóa vàng giúp cho Claude hiểu cứ dính đến thời tiết Dubai thì auto đề bạt cho Agent này tự ra mặt chạy việc mà không cần nhắc (gọi mở tự động).</p>
+              <p class="tl"><strong>model: sonnet</strong> — Chọn não model khác (có thể chạy xịn hơn). Tiết kiệm chi phí thay đổi linh hoạt.</p>
+              <p class="tl"><strong>maxTurns: 5</strong> — Số lượt Agent được quyền làm tự biên tự diễn tối đa 5 bước - Ngăn rủi ro AI bị kẹt vòng lặp liên tục mãi mãi.</p>
+              <p class="tl"><strong>permissionMode: acceptEdits</strong> — Agent được cấp tính năng sửa đổi file mà không thèm chờ chúng ta duyệt nữa (tốt với đám tự làm việc 100%).</p>
+              <p class="tl"><strong>memory: project</strong> — Cấp riêng phân hệ bộ nhớ ghi đè lưu trữ qua mỗi thời điểm của hệ thống Project chung.</p>
+              <p class="tl"><strong>skills: weather-fetcher</strong> — Truyền bộ hiểu biết có thể đọc API xuống thẳng bộ nhớ chuẩn bị sẵn của riêng Agent đó để nó gọi API.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Key fields as pattern cards -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Các trường thông số quan trọng nhất</h2>
+        <p>1 Đặc vụ con có thể thiết lập tận 16 thông số cấu hình. Đây là 6 thứ thường gặp bạn lấy ra xài suốt:</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-1)">
+            <div class="pattern-icon" style="background: var(--color-actor-1)">🎯</div>
+            <h4 class="pattern-title">Mô tả (description)</h4>
+            <p class="pattern-desc">Cho Claude biết khi nào mở được nó. Gắn tham số vàng "PROACTIVELY" giúp tự động mở tính năng.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">🔧</div>
+            <h4 class="pattern-title">Phân quyền Mở công cụ (tools)</h4>
+            <p class="pattern-desc">Giới hạn nó. <code>Bash(*)</code>, <code>Read</code>, <code>WebFetch(*)</code> v.v.. Làm giới hạn rủi ro bảo mật tì vết.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-icon" style="background: var(--color-actor-3)">🛡️</div>
+            <h4 class="pattern-title">Thông số duyệt Quyền (permissionMode)</h4>
+            <p class="pattern-desc"><code>acceptEdits</code> — tự do duyệt viết. <code>plan</code> — chỉ cho nhìn không cho lưu đổi. <code>bypassPermissions</code> — Quyền thần thánh.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-4)">
+            <div class="pattern-icon" style="background: var(--color-actor-4)">🔢</div>
+            <h4 class="pattern-title">Số Turn Giới hạn (maxTurns)</h4>
+            <p class="pattern-desc">Action step bao nhiêu thì khựng lại, bảo vệ lặp vô tận (Runaway).</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-5)">
+            <div class="pattern-icon" style="background: var(--color-actor-5)">🧠</div>
+            <h4 class="pattern-title">Ghi nhớ lưu trữ (memory)</h4>
+            <p class="pattern-desc"><code>user</code>, <code>project</code>, <code>local</code> — lưu vô biến hệ thống nào lâu dài.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-accent)">
+            <div class="pattern-icon" style="background: var(--color-accent-light)">⚡</div>
+            <h4 class="pattern-title">Sandbox cô lập (isolation)</h4>
+            <p class="pattern-desc">Nếu để worktree <span class="term" data-definition="Nó là nhánh an toàn copy y hệ không dính nhánh chính. Tự làm riêng rồi bỏ.">git worktree</span> — Nó an toàn khi bảo AI code lại hết cả file.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Flow animation — parallel agents -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Cùng nhau làm việc SONG SONG chia việc đi code thay!</h2>
+        <p>Điều phi thường và hay nhất Subagent chính là 1 lệnh điều phối có thể sinh ra 30 con Agent, cùng Code các phần nhỏ xíu của Project cho bạn. Này gọi là hiệu năng <span class="term" data-definition="Song song tức không chịu đợi nhau mà ập vào làm cùng lúc. Thay vì 1 người làm 4 file 4 phút thì giờ là 4 người làm 4 file 1 phút.">song song (parallel)</span>.</p>
+
+        <div class="flow-animation" data-steps='[
+          {"highlight":"flow-actor-1","label":"Bước 1: Gõ lệnh /research-competitors"},
+          {"highlight":"flow-actor-1","label":"Bước 2: Hệ thống tiếp nhận kịch bản lệnh","packet":true,"from":"actor-1","to":"actor-2"},
+          {"highlight":"flow-actor-2","label":"Bước 3: Lệnh xuất gọi lệnh sinh 3 kỹ sư chia việc"},
+          {"highlight":"flow-actor-3","label":"Đặc Vụ A: Quét bảng giá của Company X...","packet":true,"from":"actor-2","to":"actor-3"},
+          {"highlight":"flow-actor-4","label":"Đặc Vụ B: Phân tích các mô đun Company Y...","packet":true,"from":"actor-2","to":"actor-4"},
+          {"highlight":"flow-actor-5","label":"Đặc Vụ C: Kéo đánh giá chê bai Company Z...","packet":true,"from":"actor-2","to":"actor-5"},
+          {"highlight":"flow-actor-2","label":"Bước 4: Tất cả 3 ông đã làm xong thu kết quả"},
+          {"highlight":"flow-actor-1","label":"Bước 5: Bơm toàn bộ kết quả lên lại trình chiếu UI báo cáo cho bạn","packet":true,"from":"actor-2","to":"actor-1"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">/</div>
+              <span>Khởi tạo lệnh</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">🧑‍💼</div>
+              <span>Hệ Điều Phối</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Đặc Vụ A</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Đặc Vụ B</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Đặc Vụ C</span>
+            </div>
+          </div>
+          <div class="flow-packet" id="flow-packet"></div>
+          <div class="flow-step-label" id="flow-label">Bấm xem hiệu ứng Bước Chạy</div>
+          <div class="flow-controls">
+            <button class="btn flow-next-btn">Tiếp Theo</button>
+            <button class="btn flow-reset-btn">Xem Lại</button>
+          </div>
+        </div>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-6)">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">Vì sao Song Song lại thay đổi toàn bộ cuộc chơi của Bạn</strong>
+            <p>Nếu bạn phân cho claude code cái trang web làm 3 thư mục, làm nối đuôi tốn 6 phút. Nhưng dùng tác nhân song song (Parallel Agent), bạn làm trong 2 phút! Kéo tiến trình tiết kiệm thời gian và tài nguyên não LLM.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Trải nghiệm bài trắc nghiệm nàoo</h2>
+
+        <div class="quiz-container" id="quiz-module3">
+
+          <div class="quiz-question-block"
+               data-correct="opt-d"
+               data-explanation-right="Tuyệt! maxTurns giới hạn số vòng lặp không thể bị quá. Giúp nó không đi lạc hướng vòng quẩn."
+               data-explanation-wrong="Rào cản thông số này chặn đứng khi AI quyết định làm khùng làm điên và không dừng lại!">
+            <h3 class="quiz-question">Bạn tạo 1 con AI chạy tự sập nguồn. Đâu là cứu tinh chống vụ đó ngốn cạn tiền?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>permissionMode: plan — hiển thị thôi đừng làm</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>tools: Read — Chỉ đọc là dở rồi</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>memory: local — chả liên quan</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>maxTurns: 10 — Cho mầy 10 Action gõ code thui nha! Cúp máy!</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-a"
+               data-explanation-right="Chuẩn luôn! Worktree cô lập phân nhánh Branch riêng ra để AI cày bừa trên bản COPY. Xong xui mới báo Cáo Merge dọn vào cho mượt!"
+               data-explanation-wrong="Từ khóa là chạy trong môi trường độc lập không dính đến phần gốc đang chuẩn xác.">
+            <h3 class="quiz-question">Agent được cắm làm lại Base Code Core nhưng sợ nó đập phát sập nguồn hụt hết dữ liễu gốc Branch. Cái nào cứu nguy đây?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>isolation: worktree (Cô lập)</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>permissionMode: plan</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>memory: local</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>model: haiku (Chọn model rẻ bèo cho đỡ tốn rồi kệ mệ luôn kkk)</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module3')">Tới Đáp Án Luôn</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module3')">Laàm Lại Thử</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+<section class="module" id="module-4" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">04</span>
+      <h1 class="module-title">Bộ Nhớ &amp; Cài Đặt</h1>
+      <p class="module-subtitle">Dạy Claude về thế giới của bạn — và thiết lập hàng rào bảo vệ</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: CLAUDE.md as employee handbook -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Cuốn sổ tay nhân viên mà Claude đọc mỗi sáng</h2>
+        <p>Mỗi nhân viên mới đều đọc sổ tay công ty vào ngày đầu tiên. Nó cho họ biết: chúng ta làm gì, làm việc như thế nào, điều gì được phép, điều gì không. Họ không cần phải được đào tạo lại mỗi ngày — cuốn sổ tay sẽ ở lại với họ.</p>
+        <p><code>CLAUDE.md</code> là cuốn sổ tay của Claude dành cho dự án của bạn. Đó là một tệp <span class="term" data-definition="Markdown là định dạng văn bản thuần túy để viết tài liệu. Bạn sử dụng các ký hiệu như # cho tiêu đề và ** cho chữ in đậm. Claude có thể đọc Markdown một cách tự nhiên, đó là lý do tại sao CLAUDE.md hoạt động rất tốt như các chỉ thị.">Markdown</span> nằm ở thư mục gốc của dự án. Claude đọc nó vào đầu mỗi phiên. Mọi thứ bạn viết ở đó trở thành ngữ cảnh liên tục — không cần phải giải thích lại.</p>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-6)">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">Những gì nên viết trong CLAUDE.md?</strong>
+            <p>Kiến trúc dự án, quy ước viết mã, các lệnh hiện có, từng đặc vụ làm gì, mẹo gỡ lỗi, quy tắc commit hoặc bất cứ thứ gì bạn muốn nói với một lập trình viên mới vào đội. Nên giữ nội dung dưới 200 dòng — Claude sẽ đọc toàn bộ cấu hình mỗi lần.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Memory hierarchy -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Ba tầng của bộ nhớ</h2>
+        <p>Các tệp CLAUDE.md tạo thành một <span class="term" data-definition="Hệ thống cấp bậc là một hệ thống xếp hạng trong đó các cấp cao hơn có nhiều quyền lực hơn. Trong ngữ cảnh này, các tệp ở vị trí cao hơn trong cây thư mục được tải trước tiên và áp dụng rộng rãi hơn.">hệ thống phân cấp</span>. Claude tải chúng từ cái chung nhất (toàn cầu) đến cái cụ thể nhất (thư mục con cục bộ) — giống như những vòng tròn ngữ cảnh lồng vào nhau.</p>
+
+        <div class="icon-rows" style="margin-top: var(--space-6)">
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-1)">🌍</div>
+            <div>
+              <strong>Bộ nhớ toàn cầu (Global Memory)</strong>
+              <p><code>~/.claude/CLAUDE.md</code> — Các quy tắc cá nhân của bạn áp dụng cho mọi dự án trên máy. Ví dụ: kiểu code ưa thích, tên của bạn, định dạng nào bạn thích.</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-2)">📁</div>
+            <div>
+              <strong>Bộ nhớ dự án (Project Memory)</strong>
+              <p><code>./CLAUDE.md</code> — Quy tắc cho dự án cụ thể này. Các quyết định về kiến trúc, quy ước của nhóm, các phần cốt lõi. Chia sẻ với toàn đội qua <span class="term" data-definition="Git hệ thống kiểm soát phiên bản. Chia sẻ và quản lý.">git</span>.</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-3)">🔒</div>
+            <div>
+              <strong>Ghi đè cục bộ (Local Override)</strong>
+              <p><code>./CLAUDE.local.md</code> — Các quy tắc ưu tiên cá nhân ghi đè cho dự án. Các ghi chú debug của riêng bạn, dữ liệu ẩn. Không được tải lên git.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Permissions -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Quy tắc phân quyền: hàng rào an toàn của bạn</h2>
+        <p>Bạn kiểm soát chính xác những gì Claude được phép làm. Hệ thống cấp phép có ba chế độ: <strong>allow</strong> (cho phép - không cần hỏi), <strong>ask</strong> (hỏi trước khi thực hiện), và <strong>deny</strong> (chặn hoàn toàn).</p>
+        <p>Đây là một ví dụ từ tệp <code>.claude/settings.json</code> thực tế của dự án:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">.claude/settings.json (cấp quyền)</span>
+            <pre><code><span style="color:#CDD6F4">{</span>
+  <span style="color:#F9E2AF">"permissions"</span><span style="color:#CDD6F4">: {</span>
+    <span style="color:#A6E3A1">"allow"</span><span style="color:#CDD6F4">: [</span>
+      <span style="color:#A6E3A1">"Edit(*)"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#A6E3A1">"Write(*)"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#A6E3A1">"Bash(*)"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#A6E3A1">"WebFetch(domain:*)"</span>
+    <span style="color:#CDD6F4">],</span>
+    <span style="color:#FAB387">"ask"</span><span style="color:#CDD6F4">: [</span>
+      <span style="color:#FAB387">"Bash(rm *)"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#FAB387">"Bash(npm *)"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#FAB387">"Bash(docker *)"</span>
+    <span style="color:#CDD6F4">],</span>
+    <span style="color:#F38BA8">"deny"</span><span style="color:#CDD6F4">: []</span>
+  <span style="color:#CDD6F4">}</span>
+<span style="color:#CDD6F4">}</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">GIẢI THÍCH ĐƠN GIẢN</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>allow: Edit(*), Write(*), Bash(*)</strong> — Claude có thể thoải mái sửa file, chạy mọi code mà khỏi cần hỏi bạn. Biểu tượng <code>*</code> có nghĩa là mọi thứ.</p>
+              <p class="tl"><strong>allow: WebFetch(domain:*)</strong> — Claude có thể tự động truy cập tải xuống nội dụng website.</p>
+              <p class="tl"><strong>ask: Bash(rm *)</strong> — Trước khi xài lệnh xóa dữ liệu (rm), Claude bị ép phải dừng lại để bạn duyệt chữ Đồng ý hay không. Rất an toàn!</p>
+              <p class="tl"><strong>ask: Bash(npm *), Bash(docker *)</strong> — Cài gói mới, thao tác Docker hệ thống cũng sẽ bắt đợi bạn duyệt. Để tránh nhét mã bậy.</p>
+              <p class="tl"><strong>deny: []</strong> — Không có hành động nào bị khóa triệt để cả. Ví như bạn có thể ép khóa cấm quyền chmod <code>Bash(chmod *)</code> hoặc giết luồng <code>Bash(kill *)</code>.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Hooks -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Hooks: Logic cứng không bao giờ bị AI "ảo giác"</h2>
+        <p>Tất cả mọi thứ đã học — Lệnh, Đặc vụ, Kỹ năng — đều là của AI xử lý. Nhưng nhiều khi bạn cần <strong>tính ổn định cao tuyệt đối như cái máy tính truyền thống</strong>. Nổ một tiếng nhạc chuông khi Claude xong việc. Ghi lưu log mỗi khi code bị sửa. Check quét bảo mật nếu chạy bash.</p>
+        <p>Đó là lý do <span class="term" data-definition="Hooks là các lệnh mã máy tính shell chạy thẳng không dính gì suy nghĩ của AI, mà là do sự kiện máy tính xảy ra nó sẽ kích hoạt, như kiểu 'PreToolUse' (Trước khi dùng tool) hoặc bắt đầu.">Móc kết nối (hooks)</span> sinh ra. Nó nằm <em>bên ngoài</em> tầng tư duy AI — triệt tiêu hiện tượng sảng, lười, hay bị ảo tưởng. Cứ đúng trình tự sự kiện là thi hành lệnh.</p>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Kiểm tra khả năng của bạn</h2>
+
+        <div class="quiz-container" id="quiz-module4">
+
+          <div class="quiz-question-block"
+               data-correct="opt-c"
+               data-explanation-right="Chuẩn luôn! Sở thích cá nhân của bạn nên lưu ở ~/.claude/CLAUDE.md để đi cái dự án nào nó cũng hiểu ý bạn. Không được đẩy lên Github chung công ty.">
+            <h3 class="quiz-question">Bạn muốn Claude lúc nào cũng gọi tên mình là "Sếp Tuan" siêu ngắn gọn ở tất cả dự án máy tính bạn xài. Ghi ở đâu?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>./CLAUDE.md ở cục bộ thư mục</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>.claude/settings.json phân quyền</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>~/.claude/CLAUDE.md (Bộ nhớ tổng trên ổ gốc)</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Nhét nó vào kỹ năng "personal-preferences"</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-b"
+               data-explanation-right="Exactly! Các Móc Hooks chạy nằm ngoài trí hiểu của AI. Khỏi lo nó lười nó nói xạo nó làm rối búa xua, đây là ép nó phải quét cứng lệnh không chối được.">
+            <h3 class="quiz-question">Bạn cần bắt buộc AI luôn tự quét mã bảo mật lỗi trươc mọi cái commit — không được để AI nó lơ và ăn bớt việc. Chọn chiêu gì?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Viết răn đe vào CLAUDE.md: "Chắc chắn luôn phải quét mã nghe chưa"</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Kết cấu cấu hình cái Móc Hook tên PreToolUse chặn họng cái tiến trình gõ phím Bash(git commit *)</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Tạo lệnh phím dắt /secure-commit nhúng chung cái mã kia</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Bật tính năng chờ duyệt quyền permissionMode: plan</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module4')">Hiển Thị Kết Quả</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module4')">Lảm Lại Nha</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+<section class="module" id="module-5" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">05</span>
+      <h1 class="module-title">Quy Trình Hoạt Động (The Full Stack)</h1>
+      <p class="module-subtitle">Bộ MCP servers, kiến trúc điều phối tổng, và các mẹo quyền lực gộp lại</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: MCP as USB ports -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">MCP: Cổng USB giao tiếp cho AI của bạn</h2>
+        <p>Hàng mặc định gốc, Claude có thể đọc và ghi, chạy phím terminal, tìm web URLs. Nhưng lỡ mà bạn muốn bắt nó tìm kiếm Data trong Database kín, khống chế một trình duyệt, hay gọi một API bảo mật của công ty mình thì sao?</p>
+        <p>Đó là lý do <span class="term" data-definition="MCP là Model Context Protocol — một chuẩn mực cho phép các cỗ máy Claude mở cầu giao tiếp với thế giới ngoài như Tool. Nó thiết kế như là cầu nối chuẩn xác.">MCP servers</span> ra đời. Cứ thử hiểu nó như cổng USB: cắm vào là máy nhận sức mạnh mới. Rút khỏi máy thì bay năng lực.</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">.mcp.json (cấu hình thực)</span>
+            <pre><code><span style="color:#CDD6F4">{</span>
+  <span style="color:#F9E2AF">"mcpServers"</span><span style="color:#CDD6F4">: {</span>
+
+    <span style="color:#A6E3A1">"playwright"</span><span style="color:#CDD6F4">: {</span>
+      <span style="color:#F9E2AF">"command"</span><span style="color:#CDD6F4">: </span><span style="color:#A6E3A1">"npx"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#F9E2AF">"args"</span><span style="color:#CDD6F4">: [</span><span style="color:#A6E3A1">"-y"</span><span style="color:#CDD6F4">, </span><span style="color:#A6E3A1">"@playwright/mcp"</span><span style="color:#CDD6F4">]</span>
+    <span style="color:#CDD6F4">},</span>
+
+    <span style="color:#A6E3A1">"context7"</span><span style="color:#CDD6F4">: {</span>
+      <span style="color:#F9E2AF">"command"</span><span style="color:#CDD6F4">: </span><span style="color:#A6E3A1">"npx"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#F9E2AF">"args"</span><span style="color:#CDD6F4">: [</span><span style="color:#A6E3A1">"-y"</span><span style="color:#CDD6F4">, </span><span style="color:#A6E3A1">"@upstash/context7-mcp"</span><span style="color:#CDD6F4">]</span>
+    <span style="color:#CDD6F4">}</span>
+  <span style="color:#CDD6F4">}</span>
+<span style="color:#CDD6F4">}</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">GIẢI THÍCH ĐƠN GIẢN</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>mcpServers</strong> — Liệt kê thông số các năng lực gắn vào Claude. Tùy mỗi cấu hình mà năng lượng kết nối của Server khác nhau.</p>
+              <p class="tl"><strong>playwright</strong> — Cấp cho Claude siêu năng lực kết nối trực tiếp thao tác thẳng Web (bấm chuột ảo, chụp màn hình ảo v..v).</p>
+              <p class="tl"><strong>context7</strong> — Kết nối dữ liệu vào các cỗ máy Data nội bộ hoặc API.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Full orchestration flow animation -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Toàn cảnh cấu trúc: Lệnh → Đặc vụ → Kỹ Năng</h2>
+        <p>Bật luồng hệ thống tự động thời tiết - nó đi từ chỗ đánh máy cho tới lúc sinh file lưu đồ thị SVG ảnh!</p>
+
+        <div class="flow-animation" data-steps='[
+          {"highlight":"flow-actor-1","label":"Bấm phím gõ nà: /weather-orchestrator"},
+          {"highlight":"flow-actor-2","label":"Lệnh mở file thư mục .claude/commands/ — bắt đầu nhúng não kịch bản","packet":true,"from":"actor-1","to":"actor-2"},
+          {"highlight":"flow-actor-2","label":"Bước 1: Lệnh hỏi anh chọn nấc nào trước C hay F?","packet":true,"from":"actor-2","to":"actor-1"},
+          {"highlight":"flow-actor-1","label":"Bạn trả lời: Độ Celcius nghen (Độ C)"},
+          {"highlight":"flow-actor-3","label":"Bước 2: Lệnh tung sinh ra một Đệ / Đặc vụ tên weather-agent","packet":true,"from":"actor-2","to":"actor-3"},
+          {"highlight":"flow-actor-4","label":"Đặc vụ trang bị nạp thẳng não Kỹ năng tên weather-fetcher từ rương chứa","packet":true,"from":"actor-3","to":"actor-4"},
+          {"highlight":"flow-actor-5","label":"Kỹ năng xuất tuyệt chiêu WebFetch móc Call hàm dữ liệu Open-Meteo API — chôm được kết quả về là 34C","packet":true,"from":"actor-4","to":"actor-5"},
+          {"highlight":"flow-actor-3","label":"Đặc vụ ném cái 34C về màn hình điều khiển tống lệnh lại","packet":true,"from":"actor-4","to":"actor-2"},
+          {"highlight":"flow-actor-4","label":"Bước 3: Lệnh xuất tiếp cấn mở skill đồ họa weather-svg-creator","packet":true,"from":"actor-2","to":"actor-4"},
+          {"highlight":"flow-actor-1","label":"Xuất xong tấm card file SVG xinh đẹp. Tắt ngóp mọi tác nhân!","packet":true,"from":"actor-4","to":"actor-1"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">🧑</div>
+              <span>Sếp</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">/</div>
+              <span>Lệnh (Command)</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Đặc Vụ (Agent)</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">📦</div>
+              <span>Kỹ Năng (Skill)</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">🌐</div>
+              <span>Nguồn API</span>
+            </div>
+          </div>
+          <div class="flow-packet" id="flow-packet"></div>
+          <div class="flow-step-label" id="flow-label">Bấm xem luồng cấu trúc xịn xò</div>
+          <div class="flow-controls">
+            <button class="btn flow-next-btn">Tiếp Theo</button>
+            <button class="btn flow-reset-btn">Xem Lại Băng</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Bài test tốt nghiệp hỡi pháp sư AI</h2>
+
+        <div class="quiz-container" id="quiz-module5">
+
+          <div class="quiz-question-block"
+               data-correct="opt-d"
+               data-explanation-right="Rất thông minh nha! Máy chủ MCP sinh ra để dẫn dắt kết nối cấu trúc và phần cứng API cực gắt. Đảm nhận như dây Cáp Mạng vô.">
+            <h3 class="quiz-question">Claude không móc kéo Database nội bộ do thiếu cấu trúc và port cổng kết nối hệ thống mình riêng. Ném chiêu gì vô xử?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Tạo cái hộp kỹ năng nhét mẫu hướng dẫn API</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Chỉnh lại cấu trúc đặc vụ subagent sinh ra châm việc lấy code db luôn</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Phang file CLAUDE.md đầy chử để tài liệu database tự nuốt</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Một cái máy trạm MCP cài sẵn API chuẩn cắm thẳng vào Database cho lẹ</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-b"
+               data-explanation-right="Chính xác! Cấu trúc lệnh Lệnh → Đặc vụ → Kỹ Năng. Thằng gõ lệnh thiết lập tiến độ, Lính Đặc Vụ phụ lo xử lý luồng giao công công đoạn đó. Đặc vụ này sẽ nạp Kỹ năng móc túi mang sẵn kiến thức vô xài. Rất có hệ thống bài bản! Chứ hông nhồi quá!">
+            <h3 class="quiz-question">Phải tung kiến trúc workflow xuất báo cáo: Hỏi người ta đi lấy làm gì, lấy số về (Custom API) và bọc cái form in bằng cục PDF. Vẽ sao cho sạch sẽ ít code nhất?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Nuôi 1 con Siêu Đặc Vụ subagent bực chà bá khảm cả 3 kỹ năng</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Set cấu trúc Cầm trịch gọi 1 lệnh Command → vãi xuống 1 đặc vụ chuyên data (nhét cái Skill API luôn) → mượn cái Skill xuất PDF bọc vào nó quất</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Bấm tay xài 3 lần gạch slash là xong chứ chi...</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module5')">Chấm Điểm Cái Rẹt</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module5')">Thi Lại Bấm Đi</button>
+        </div>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-8)">
+          <div class="callout-icon">🎓</div>
+          <div class="callout-content">
+            <strong class="callout-title">CHÚC MỪNG BẠN ĐÃ 100% NHUYỄN CHÀO CLAUDE CODE</strong>
+            <p>Commands. Agents. Skills. Memory. Hooks. MCP. Cấu trúc nền tảng xịn xò đã thấu lý đạt tình. Ráp đúng vị trí là xài tự trôi dạt vô công việc mượt hơn cả ChatGPT cũ kỹ!</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+  </main>
+
+</body>
+</html>

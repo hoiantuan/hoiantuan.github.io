@@ -1,0 +1,225 @@
+<section class="module" id="module-3" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">03</span>
+      <h1 class="module-title">Các Đặc Vụ Phụ (Subagents)</h1>
+      <p class="module-subtitle">Nhân sự tự động với bộ trang bị, trí nhớ và mức độ an toàn riêng biệt</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: The contractor metaphor -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Hãy nghĩ nó như đi Thuê đối tác ngoài, không phải hỏi đồng nghiệp</h2>
+        <p>Khi bạn phải chia việc cho một anh đồng nghiệp cùng mâm, anh ấy hiểu tất tận tật dự án — quá trình dự án chung, cách tiến hành, văn hóa làm việc. Nhưng đôi lúc mình chỉ muốn giao khoán gói việc <strong>BÊN NGOÀI</strong> thôi thì sao.</p>
+        <p>Thầu xây dựng mang kìm, búa tới, nhận đúng đoạn việc họ làm rồi đi. Ai thèm quan tâm cả quá khứ lịch sử của công ty bạn — chỉ làm đoạn công việc thôi. Vậy đó chính là <span class="term" data-definition="Đặc vụ phụ (Subagent) giống như chuyên viên xử lý riêng khi Claude khởi tạo chỉ cho 1 nhiệm vụ. Chạy 1 luồng xử lý ngoài lề không vướng vào cốt — riêng biệt tài nguyên, bộ công cụ, cấp bộ nhớ">đặc vụ (subagent)</span>.</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-text-muted)">
+            <div class="pattern-icon" style="background: var(--color-surface-warm)">🤝</div>
+            <h4 class="pattern-title">Kênh Chat Chính</h4>
+            <p class="pattern-desc">Biết tổng quan của bạn. Có toàn bộ lịch sử trò chuyện. Phối hợp nhịp nhàng.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">🏗️</div>
+            <h4 class="pattern-title">Đặc Vụ Phụ (Subagent)</h4>
+            <p class="pattern-desc">Nội dung xử lý tách biệt. Tùy biến công cụ. Quyền truy cập khác nhau. Khởi chạy 1 mục tiêu rồi đi nộp kết quả. Cho phép chạy nhiều cái cùng lúc.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Frontmatter translation -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Thiết lập tham số công nhân thầu</h2>
+        <p>Thiết lập cài đặt nằm ở trên cùng mỗi file gọi là <span class="term" data-definition="Cấu phẫu học Frontmatter là đoạn mảng code ở đầu bị kẹp giữa dấu vạch (--). Xây bằng bộ khung YAML">bộ nhớ frontmatter</span> — điền thông số như file kê khai thôi. Đây là một con đặc vụ thời thiết thực tế nè:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">weather-agent.md (Cấu hình YAML)</span>
+            <pre><code><span style="color:#6C7086">---</span>
+<span style="color:#F9E2AF">name</span><span style="color:#CDD6F4">: weather-agent</span>
+<span style="color:#F9E2AF">description</span><span style="color:#CDD6F4">: Use PROACTIVELY when</span>
+<span style="color:#CDD6F4">  you need Dubai weather data.</span>
+<span style="color:#F9E2AF">model</span><span style="color:#CDD6F4">: sonnet</span>
+<span style="color:#F9E2AF">maxTurns</span><span style="color:#CDD6F4">: 5</span>
+<span style="color:#F9E2AF">permissionMode</span><span style="color:#CDD6F4">: acceptEdits</span>
+<span style="color:#F9E2AF">memory</span><span style="color:#CDD6F4">: project</span>
+<span style="color:#F9E2AF">color</span><span style="color:#CDD6F4">: green</span>
+<span style="color:#F9E2AF">skills</span><span style="color:#CDD6F4">:</span>
+<span style="color:#CDD6F4">  - weather-fetcher</span>
+<span style="color:#6C7086">---</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">GIẢI THÍCH ĐƠN GIẢN</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>name:</strong> Định danh ID của Agent để gọi nó từ xa.</p>
+              <p class="tl"><strong>description: PROACTIVELY</strong> — Chìa khóa vàng giúp cho Claude hiểu cứ dính đến thời tiết Dubai thì auto đề bạt cho Agent này tự ra mặt chạy việc mà không cần nhắc (gọi mở tự động).</p>
+              <p class="tl"><strong>model: sonnet</strong> — Chọn não model khác (có thể chạy xịn hơn). Tiết kiệm chi phí thay đổi linh hoạt.</p>
+              <p class="tl"><strong>maxTurns: 5</strong> — Số lượt Agent được quyền làm tự biên tự diễn tối đa 5 bước - Ngăn rủi ro AI bị kẹt vòng lặp liên tục mãi mãi.</p>
+              <p class="tl"><strong>permissionMode: acceptEdits</strong> — Agent được cấp tính năng sửa đổi file mà không thèm chờ chúng ta duyệt nữa (tốt với đám tự làm việc 100%).</p>
+              <p class="tl"><strong>memory: project</strong> — Cấp riêng phân hệ bộ nhớ ghi đè lưu trữ qua mỗi thời điểm của hệ thống Project chung.</p>
+              <p class="tl"><strong>skills: weather-fetcher</strong> — Truyền bộ hiểu biết có thể đọc API xuống thẳng bộ nhớ chuẩn bị sẵn của riêng Agent đó để nó gọi API.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Key fields as pattern cards -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Các trường thông số quan trọng nhất</h2>
+        <p>1 Đặc vụ con có thể thiết lập tận 16 thông số cấu hình. Đây là 6 thứ thường gặp bạn lấy ra xài suốt:</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-1)">
+            <div class="pattern-icon" style="background: var(--color-actor-1)">🎯</div>
+            <h4 class="pattern-title">Mô tả (description)</h4>
+            <p class="pattern-desc">Cho Claude biết khi nào mở được nó. Gắn tham số vàng "PROACTIVELY" giúp tự động mở tính năng.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">🔧</div>
+            <h4 class="pattern-title">Phân quyền Mở công cụ (tools)</h4>
+            <p class="pattern-desc">Giới hạn nó. <code>Bash(*)</code>, <code>Read</code>, <code>WebFetch(*)</code> v.v.. Làm giới hạn rủi ro bảo mật tì vết.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-icon" style="background: var(--color-actor-3)">🛡️</div>
+            <h4 class="pattern-title">Thông số duyệt Quyền (permissionMode)</h4>
+            <p class="pattern-desc"><code>acceptEdits</code> — tự do duyệt viết. <code>plan</code> — chỉ cho nhìn không cho lưu đổi. <code>bypassPermissions</code> — Quyền thần thánh.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-4)">
+            <div class="pattern-icon" style="background: var(--color-actor-4)">🔢</div>
+            <h4 class="pattern-title">Số Turn Giới hạn (maxTurns)</h4>
+            <p class="pattern-desc">Action step bao nhiêu thì khựng lại, bảo vệ lặp vô tận (Runaway).</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-actor-5)">
+            <div class="pattern-icon" style="background: var(--color-actor-5)">🧠</div>
+            <h4 class="pattern-title">Ghi nhớ lưu trữ (memory)</h4>
+            <p class="pattern-desc"><code>user</code>, <code>project</code>, <code>local</code> — lưu vô biến hệ thống nào lâu dài.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-accent)">
+            <div class="pattern-icon" style="background: var(--color-accent-light)">⚡</div>
+            <h4 class="pattern-title">Sandbox cô lập (isolation)</h4>
+            <p class="pattern-desc">Nếu để worktree <span class="term" data-definition="Nó là nhánh an toàn copy y hệ không dính nhánh chính. Tự làm riêng rồi bỏ.">git worktree</span> — Nó an toàn khi bảo AI code lại hết cả file.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Flow animation — parallel agents -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Cùng nhau làm việc SONG SONG chia việc đi code thay!</h2>
+        <p>Điều phi thường và hay nhất Subagent chính là 1 lệnh điều phối có thể sinh ra 30 con Agent, cùng Code các phần nhỏ xíu của Project cho bạn. Này gọi là hiệu năng <span class="term" data-definition="Song song tức không chịu đợi nhau mà ập vào làm cùng lúc. Thay vì 1 người làm 4 file 4 phút thì giờ là 4 người làm 4 file 1 phút.">song song (parallel)</span>.</p>
+
+        <div class="flow-animation" data-steps='[
+          {"highlight":"flow-actor-1","label":"Bước 1: Gõ lệnh /research-competitors"},
+          {"highlight":"flow-actor-1","label":"Bước 2: Hệ thống tiếp nhận kịch bản lệnh","packet":true,"from":"actor-1","to":"actor-2"},
+          {"highlight":"flow-actor-2","label":"Bước 3: Lệnh xuất gọi lệnh sinh 3 kỹ sư chia việc"},
+          {"highlight":"flow-actor-3","label":"Đặc Vụ A: Quét bảng giá của Company X...","packet":true,"from":"actor-2","to":"actor-3"},
+          {"highlight":"flow-actor-4","label":"Đặc Vụ B: Phân tích các mô đun Company Y...","packet":true,"from":"actor-2","to":"actor-4"},
+          {"highlight":"flow-actor-5","label":"Đặc Vụ C: Kéo đánh giá chê bai Company Z...","packet":true,"from":"actor-2","to":"actor-5"},
+          {"highlight":"flow-actor-2","label":"Bước 4: Tất cả 3 ông đã làm xong thu kết quả"},
+          {"highlight":"flow-actor-1","label":"Bước 5: Bơm toàn bộ kết quả lên lại trình chiếu UI báo cáo cho bạn","packet":true,"from":"actor-2","to":"actor-1"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">/</div>
+              <span>Khởi tạo lệnh</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">🧑‍💼</div>
+              <span>Hệ Điều Phối</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Đặc Vụ A</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Đặc Vụ B</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Đặc Vụ C</span>
+            </div>
+          </div>
+          <div class="flow-packet" id="flow-packet"></div>
+          <div class="flow-step-label" id="flow-label">Bấm xem hiệu ứng Bước Chạy</div>
+          <div class="flow-controls">
+            <button class="btn flow-next-btn">Tiếp Theo</button>
+            <button class="btn flow-reset-btn">Xem Lại</button>
+          </div>
+        </div>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-6)">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">Vì sao Song Song lại thay đổi toàn bộ cuộc chơi của Bạn</strong>
+            <p>Nếu bạn phân cho claude code cái trang web làm 3 thư mục, làm nối đuôi tốn 6 phút. Nhưng dùng tác nhân song song (Parallel Agent), bạn làm trong 2 phút! Kéo tiến trình tiết kiệm thời gian và tài nguyên não LLM.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Trải nghiệm bài trắc nghiệm nàoo</h2>
+
+        <div class="quiz-container" id="quiz-module3">
+
+          <div class="quiz-question-block"
+               data-correct="opt-d"
+               data-explanation-right="Tuyệt! maxTurns giới hạn số vòng lặp không thể bị quá. Giúp nó không đi lạc hướng vòng quẩn."
+               data-explanation-wrong="Rào cản thông số này chặn đứng khi AI quyết định làm khùng làm điên và không dừng lại!">
+            <h3 class="quiz-question">Bạn tạo 1 con AI chạy tự sập nguồn. Đâu là cứu tinh chống vụ đó ngốn cạn tiền?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>permissionMode: plan — hiển thị thôi đừng làm</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>tools: Read — Chỉ đọc là dở rồi</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>memory: local — chả liên quan</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>maxTurns: 10 — Cho mầy 10 Action gõ code thui nha! Cúp máy!</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-a"
+               data-explanation-right="Chuẩn luôn! Worktree cô lập phân nhánh Branch riêng ra để AI cày bừa trên bản COPY. Xong xui mới báo Cáo Merge dọn vào cho mượt!"
+               data-explanation-wrong="Từ khóa là chạy trong môi trường độc lập không dính đến phần gốc đang chuẩn xác.">
+            <h3 class="quiz-question">Agent được cắm làm lại Base Code Core nhưng sợ nó đập phát sập nguồn hụt hết dữ liễu gốc Branch. Cái nào cứu nguy đây?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>isolation: worktree (Cô lập)</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>permissionMode: plan</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>memory: local</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>model: haiku (Chọn model rẻ bèo cho đỡ tốn rồi kệ mệ luôn kkk)</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module3')">Tới Đáp Án Luôn</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module3')">Laàm Lại Thử</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,161 @@
+<section class="module" id="module-5" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">05</span>
+      <h1 class="module-title">フルスタックの全体像</h1>
+      <p class="module-subtitle">MCPサーバー、オーケストレーションパターン、そしてパワームーブ</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: MCP as USB ports -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">MCP: AIのためのUSBポート</h2>
+        <p>初期状態でも、Claudeはファイルの読み書き、ターミナルコマンドの実行、URLのブラウジングなどを行うことができます。しかし、会社のデータベースを検索したり、ブラウザを高度に制御したり、社内APIを呼び出す必要がある場合はどうでしょうか？</p>
+        <p>そこで役立つのが<span class="term" data-definition="MCPはModel Context Protocolの略です。Claudeが外部ツールやサービスに接続するための標準規格です。">MCP サーバー</span>です。これはUSBポートのような役割を果たし、接続するだけでClaudeに新しい機能を与え、取り外せばその機能が消えます。</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">.mcp.json (実際の設定ファイル例)</span>
+            <pre><code><span style="color:#CDD6F4">{</span>
+  <span style="color:#F9E2AF">"mcpServers"</span><span style="color:#CDD6F4">: {</span>
+
+    <span style="color:#A6E3A1">"playwright"</span><span style="color:#CDD6F4">: {</span>
+      <span style="color:#F9E2AF">"command"</span><span style="color:#CDD6F4">: </span><span style="color:#A6E3A1">"npx"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#F9E2AF">"args"</span><span style="color:#CDD6F4">: [</span><span style="color:#A6E3A1">"-y"</span><span style="color:#CDD6F4">, </span><span style="color:#A6E3A1">"@playwright/mcp"</span><span style="color:#CDD6F4">]</span>
+    <span style="color:#CDD6F4">},</span>
+
+    <span style="color:#A6E3A1">"context7"</span><span style="color:#CDD6F4">: {</span>
+      <span style="color:#F9E2AF">"command"</span><span style="color:#CDD6F4">: </span><span style="color:#A6E3A1">"npx"</span><span style="color:#CDD6F4">,</span>
+      <span style="color:#F9E2AF">"args"</span><span style="color:#CDD6F4">: [</span><span style="color:#A6E3A1">"-y"</span><span style="color:#CDD6F4">, </span><span style="color:#A6E3A1">"@upstash/context7-mcp"</span><span style="color:#CDD6F4">]</span>
+    <span style="color:#CDD6F4">}</span>
+  <span style="color:#CDD6F4">}</span>
+<span style="color:#CDD6F4">}</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">解説</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>mcpServers</strong> — これによりClaudeへ外部機能接続を追加します。各エントリーは起動設定を持つ名前付きサーバー群です。</p>
+              <p class="tl"><strong>playwright</strong> — Claudeに実際のウェブブラウザを制御する能力を与えます。ボタンをクリックしたりスクレイピングなどが可能になります。</p>
+              <p class="tl"><strong>context7</strong> — ドキュメントデータベースや外部情報などにアクセスするためのシステム連携機能。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: Full orchestration flow animation -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">全機能の連動：コマンド → エージェント → スキル</h2>
+        <p>これで5つのモジュールすべてがどのようにつながるかが分かります。入力から最終的な図の出力までの完全な天気取得ワークフローを見てみましょう。</p>
+
+        <div class="flow-animation" data-steps='[
+          {"highlight":"flow-actor-1","label":"あなたが /weather-orchestrator と入力"},
+          {"highlight":"flow-actor-2","label":"コマンドが .claude/commands/ から読み込まれ、指示を確認","packet":true,"from":"actor-1","to":"actor-2"},
+          {"highlight":"flow-actor-2","label":"Step 1: コマンドがあなたに「摂氏か華氏か？」と質問","packet":true,"from":"actor-2","to":"actor-1"},
+          {"highlight":"flow-actor-1","label":"あなたは「摂氏（Celsius）」と回答"},
+          {"highlight":"flow-actor-3","label":"Step 2: コマンドが weather-agent サブエージェントを生成","packet":true,"from":"actor-2","to":"actor-3"},
+          {"highlight":"flow-actor-4","label":"エージェントが .claude/skills/ から weather-fetcher スキルを読み込む","packet":true,"from":"actor-3","to":"actor-4"},
+          {"highlight":"flow-actor-5","label":"スキルがWebFetch経由でAPIを呼び出し、34度のデータを取得","packet":true,"from":"actor-4","to":"actor-5"},
+          {"highlight":"flow-actor-3","label":"エージェントが34度の結果をコマンドに返す","packet":true,"from":"actor-4","to":"actor-2"},
+          {"highlight":"flow-actor-4","label":"Step 3: コマンドが視覚化スキルの weather-svg-creator を呼び出す","packet":true,"from":"actor-2","to":"actor-4"},
+          {"highlight":"flow-actor-1","label":"SVGのカードデータを出力して全工程完了！","packet":true,"from":"actor-4","to":"actor-1"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">🧑</div>
+              <span>あなた</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">/</div>
+              <span>Command</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">🤖</div>
+              <span>Agent</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">📦</div>
+              <span>Skill</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">🌐</div>
+              <span>API</span>
+            </div>
+          </div>
+          <div class="flow-packet" id="flow-packet"></div>
+          <div class="flow-step-label" id="flow-label">次へボタンで追跡開始</div>
+          <div class="flow-controls">
+            <button class="btn flow-next-btn">次のステップへ</button>
+            <button class="btn flow-reset-btn">再開</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">最終テスト</h2>
+
+        <div class="quiz-container" id="quiz-module5">
+
+          <div class="quiz-question-block"
+               data-correct="opt-d"
+               data-explanation-right="その通りです！MCPサーバーは、通常アクセスできない外部システムとClaudeを接続する役割を担います。社内データベース専用のMCPサーバーを立てるのが正しい構築アプローチです。">
+            <h3 class="quiz-question">自社で構築した社内専用のナレッジデータベースをClaudeに検索させたいです。既存のツールではアクセスできません。何を作成すべきですか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>クエリの書き方を記した「指示スキル」</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>データベース検索に特化した「サブエージェント」</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>データベースの詳細仕様を書いた CLAUDE.md</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>データベースのAPIを仲介する「MCPサーバー」</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-b"
+               data-explanation-right="正解です！この 「コマンド → エージェント → スキル」 というオーケストレーションパターンは、作業指示、専門的ワーカー、専門知識のそれぞれ役割を綺麗に分割でき、最も拡張性の高いアーキテクチャとなります。">
+            <h3 class="quiz-question"> /generate-report ワークフローを構築します。1.レポートの種類を尋ねる、2.カスタムAPI経由でデータを取得する、3.出力をPDF形式にする、という最も機能分割の綺麗な（クリーンな）構造はどれですか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>すべての作業手順を備えた1つの巨大なサブエージェント</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>質問する「コマンド」作成 → API取得用「エージェント」起動 → PDF変換用「スキル」呼び出し</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>これら3工程のそれぞれに手作業でスラッシュコマンドを打つ</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module5')">回答をチェックする</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module5')">やり直す</button>
+        </div>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-8)">
+          <div class="callout-icon">🎓</div>
+          <div class="callout-content">
+            <strong class="callout-title">コース完了おめでとうございます！</strong>
+            <p>コマンド。エージェント。スキル。メモリ。フック。MCP。これら6つの概念すべてがClaude Codeの基本語彙です。設計して操作すれば、ただチャットする以上の成果が生まれるでしょう。</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

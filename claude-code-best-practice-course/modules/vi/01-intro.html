@@ -1,0 +1,249 @@
+<section class="module" id="module-1" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">01</span>
+      <h1 class="module-title">Không Chỉ Là Một Chatbot</h1>
+      <p class="module-subtitle">Claude Code thực sự là gì — và tại sao nó thay đổi mọi thứ</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: The hook -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Bạn đã hỏi. Rất nhiều thứ đã xử lý.</h2>
+        <p>Bạn đã gõ: <em>"Lập trình cho tôi một app thời tiết."</em> Vài giây sau, các file xuất hiện. Nhưng thực sự điều gì đã xảy ra giữa câu lệnh của bạn và những file đó?</p>
+        <p>Không phải phép thuật — đó là một <span class="term" data-definition="Hệ thống cấu trúc các quy tắc, công cụ và bộ nhớ mà Claude tuân theo.">hệ thống cấu hình</span> làm chính xác những gì bạn bảo. Khi bạn hiểu nó, bạn điều khiển nó tốt gấp mười lần.</p>
+
+        <div class="flow-steps" style="margin-top: var(--space-8)">
+          <div class="flow-step">
+            <div class="flow-step-num">1</div>
+            <p>Bạn nhập yêu cầu</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">2</div>
+            <p>Claude đọc project memory</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">3</div>
+            <p>Gọi các agents &amp; skills</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">4</div>
+            <p>Chạy hooks &amp; tools</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">5</div>
+            <p>Trả kết quả</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: Chatbot vs Claude Code -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Sự khác biệt là tính năng lập trình</h2>
+        <p>Chat với Claude giống như sử dụng một <strong>chiếc máy tính bỏ túi</strong> — rất giỏi một việc, nhưng bạn phải bắt đầu lại từ đầu mỗi lần, và nó chỉ biết những gì bạn nói vào lúc đó.</p>
+        <p>Claude Code giống như một <strong>bảng tính có thể lập trình</strong>. Cùng một bộ não bên dưới, nhưng bây giờ bạn có thể thêm các công thức (lệnh), cắm các nguồn dữ liệu (máy chủ MCP) và giúp nó ghi nhớ sở thích của bạn qua mỗi phiên làm việc.</p>
+
+        <div class="pattern-cards" style="margin-top: var(--space-8)">
+          <div class="pattern-card" style="border-top: 3px solid var(--color-text-muted)">
+            <div class="pattern-icon" style="background: var(--color-surface-warm)">💬</div>
+            <h4 class="pattern-title">Chat Với Claude</h4>
+            <p class="pattern-desc">Làm mới lại ở mọi cuộc hội thoại. Không có bộ nhớ về dự án của bạn. Bạn phải giải thích mọi thứ, mỗi lần bắt đầu.</p>
+          </div>
+          <div class="pattern-card" style="border-top: 3px solid var(--color-accent)">
+            <div class="pattern-icon" style="background: var(--color-accent-light)">⚡</div>
+            <h4 class="pattern-title">Claude Code</h4>
+            <p class="pattern-desc">Biết rõ dự án của bạn, tuân theo quy tắc, chạy tự động các quy trình workflow, gọi các bot đặc vụ — bạn cấu hình tất cả.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: The 6 extension points -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Sáu công cụ điều khiển</h2>
+        <p>Claude Code để lộ ra sáu cách để tinh chỉnh và mở rộng cách hoạt động của nó. Toàn bộ nội dung khóa học này sẽ làm rõ từng loại một.</p>
+
+        <div class="icon-rows" style="margin-top: var(--space-6)">
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-1)">/</div>
+            <div>
+              <strong><span class="term" data-definition="Cú pháp dòng lệnh là luồng công việc tùy chỉnh bạn gọi bằng /command-name. Thay thế cho các bước mà Claude làm.">Lệnh (Commands)</span></strong>
+              <p>Quy trình tái sử dụng được có thể gọi bằng lệnh <code>/slash-commands</code></p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-2)">🤖</div>
+            <div>
+              <strong><span class="term" data-definition="Đặc vụ độc lập chạy trên quyền và môi trường riêng để giải quyết cho từng công việc riêng. Claude có thể tạo ra chúng bất cứ khi nào.">Đặc vụ phụ (Subagents)</span></strong>
+              <p>Các thuật toán và người giúp việc lập trình từ bộ công cụ tùy chỉnh</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-3)">📦</div>
+            <div>
+              <strong><span class="term" data-definition="Mô đun kỹ năng đóng gói có thể dùng lại — hướng dẫn được nạp vào cho tính năng cụ thể. Nó giống với Plugin.">Kỹ Năng (Skills)</span></strong>
+              <p>Hộp kiến thức nạp vào để mở rộng khả năng xử lý vấn đề</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-4)">🔌</div>
+            <div>
+              <strong><span class="term" data-definition="MCP Server (Lớp API) Cấu nối kết nối với bên thứ 3 và các phần mềm hệ điều hành, tìm kiếm web. Nó như bản cổng USB cho AI.">Máy Chủ (MCP Servers)</span></strong>
+              <p>Cổng giao tiếp kết nối vào API nội bộ, Database và công cụ System</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-actor-5)">🧠</div>
+            <div>
+              <strong><span class="term" data-definition="CLAUDE.md file sẽ nhớ liên tục mọi chuyện đã học. Các quy ước lưu trong tài liệu này được kiểm tra toàn bộ.">Bố Nhớ (Memory)</span></strong>
+              <p>Cấu trúc lưu lại liên tục theo thời gian vào file CLAUDE.md</p>
+            </div>
+          </div>
+          <div class="icon-row">
+            <div class="icon-circle" style="background: var(--color-accent)">🪝</div>
+            <div>
+              <strong><span class="term" data-definition="Hooks giúp móc kịch bản bắt tự động và lập trình luồng chạy - trước, đang hoặc hoàn thành lệnh, hỗ trợ việc sửa code nhanh hơn.">Móc (Hooks)</span></strong>
+              <p>Kịch bản tự động khi sự kiện được kích phát (Tác động bên ngoài AI)</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Code↔English — CLAUDE.md -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Bản tóm tắt vĩnh viễn dự án của bạn</h2>
+        <p>Mỗi phiên làm việc, trước khi Claude thực hiện bất cứ điều gì, nó sẽ đọc file <code>CLAUDE.md</code>. Đây là nơi bạn dạy nó về dự án của bạn một lần duy nhất — thay vì phải giải thích mọi thứ từ đầu sau mỗi lần gọi.</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">TỪ REPO CODE</span>
+            <pre><code><span style="color:#CBA6F7">## Các Thành Phần Chính</span>
+
+<span style="color:#A6E3A1">### Hệ Thống Cuộc Hẹn</span>
+<span style="color:#CDD6F4">Hình minh họa ví dụ theo</span>
+<span style="color:#F9E2AF">Command → Agent → Skill</span>
+<span style="color:#CDD6F4">Kiến trúc cơ sở:</span>
+<span style="color:#CDD6F4">- </span><span style="color:#89B4FA">`/weather-orchestrator`</span>
+<span style="color:#CDD6F4">  lệnh: Điểm khởi đầu</span>
+<span style="color:#CDD6F4">- </span><span style="color:#89B4FA">`weather-agent`</span>
+<span style="color:#CDD6F4">  đặc vụ: Lấy lịch theo nhiệt độ</span>
+<span style="color:#CDD6F4">- </span><span style="color:#89B4FA">`weather-fetcher`</span>
+<span style="color:#CDD6F4">  kỹ năng: Hướng dẫn gọi API</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">GIẢI THÍCH ĐƠN GIẢN</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>## Các Thành Phần Chính</strong> — Tiêu đề phần này báo cho Claude biết "đây là tất cả các thành phần cốt lỗi có tác dụng thay đổi dự án".</p>
+              <p class="tl"><strong>Hệ Thống Cuộc Hẹn</strong> — Nó giải thích cách gọi và phối hợp làm việc chung nhóm giữa Lệnh, Đặc Vụ Phụ, và Kỹ Năng.</p>
+              <p class="tl"><strong>/weather-orchestrator</strong> — Khi bạn đánh lệnh gõ nháy này, toàn bộ quá trình tải tự động được khởi xướng.</p>
+              <p class="tl"><strong>weather-agent</strong> — Một chuyên gia tự động mà Claude sinh riêng biệt ra chỉ để kéo dữ liệu về dùng.</p>
+              <p class="tl"><strong>weather-fetcher skill</strong> — Tập hợp các kiến thức cách lấy và xử lý số liệu dự báo đã lưu sẵn sẽ gửi cho Agent để nó biết cách mở khóa API.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-accent" style="margin-top: var(--space-6)">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">Khoảnh Khắc Vỡ ÒA Tỉnh Ngộ Tối Thượng Aha.</strong>
+            <p>Việc dùng file CLAUDE.md giống với thói quen cố giữ giấy nhớ Sticky Note trên máy tính lại để cho bản thân bạn trong tương lai sau này tái sử dụng lại dễ dàng hơn — Ngoại lệ là không phải bạn tự vào xem, mà chỉ có Claude vào sử dụng. Bạn biên soạn lần đầu tiên, tất cả lúc sau đều có Claude sử dụng thay vì cho bạn dạy nó từ đầu dự án và lưu cấu hình.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Kiểm tra mức độ lĩnh hội của bạn</h2>
+
+        <div class="quiz-container" id="quiz-module1">
+
+          <div class="quiz-question-block"
+               data-correct="opt-c"
+               data-explanation-right="Chính xác! Lệnh, Đặc Vụ, kỹ năng, MCP server, Bộ nhớ, Các Móc chính là sáu thành phần chính cấu hình giúp Claude code lập trình linh hoạt - không chỉ riêng cho bot chat tĩnh."
+               data-explanation-wrong="Hơi nhầm tí! Claude Code được cài đặt và lưu vào bộ nhớ dự án (CLAUDE.md) mới là cốt lõi để tùy biến theo bạn một cách toàn diện.">
+            <h3 class="quiz-question">Bạn muốn Claude CỐ ĐỊNH liên tục bám theo tiêu chuẩn kỹ năng viết Code của bạn mà không phải mất thời gian định hướng, kể cả cho đoạn chat mới tinh. Bạn sẽ xài nhánh phát triển tính năng nào hỗ trợ tối ưu?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Tự thêm nó vào nội dung cho mọi chatbox đi</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Tạo máy chủ MCP cho quy ước chung</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Soạn thảo văn bản yêu cầu và quy luật viết lưu chuẩn trong tệp CLAUDE.md (Bộ nhớ)</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Sử dụng Hooks để tự nhúng liên tục</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-b"
+               data-explanation-right="Đúng quá! Cấu hình Subagents sinh ra như công nhân xử lý chuyên biệt cho - nó có công cụ truy cập để đọc với những thông tin quyền riêng, và vận hành một góc của quy trình để khỏi cản hay vướng mắc cái tiến trình đang viết!"
+               data-explanation-wrong="Đã tiến gần câu trả lời, tuy nhiên Subagents đặc biệt chỉ tập trung đi tối ưu và xử lý cho chính nó độc lập truy cập bằng công cụ. Nếu không sẽ đè chồng lên nhau do chờ hướng dẫn đồng loạt.">
+            <h3 class="quiz-question">Gỉa định bạn cần Claude nghiên cứu và check khảo sát đối thủ SONG SONG đánh văn bản làm báo cáo báo giá với nhau cùng lúc - mà cấm không được nhường nhiệm vụ bên kia gián đoạn lúc viết! Đâu là cách lựa chọn ngon?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Danh sách gom 2 cái qua /Slash request thôi</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Khởi tạo 2 Subagents đặc vụ đi kèm với nhau, phân mỗi đứa 1 hệ thống kiểm soát độc lập từng chức năng gánh vác việc</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Phân hai Kỹ năng (skills set) cùng vào chung một không gian chat session</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Kích chạy kịch bản Móc Hooks tự ngâm việc cuối cùng hoàn thành</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="opt-d"
+               data-explanation-right="Chuẩn bài! Tầng MCP Servers ra đời để thiết lập kết nối - Cụ thể sẽ móc cửa phụ làm kênh ngầm để Claude có thể vào trò chuyện và dùng thử với các tài nguyên dữ liệu, internet, và nền tảng trình diễn API. Y đúc cái cổng USB để nạp mọi tính năng."
+               data-explanation-wrong="Để ý thử tính năng chuyên đi kết nối sâu rễ, với hệ thống ngoại vi, khác những kiến thức hướng dẫn với dự án bạn xem?">
+            <h3 class="quiz-question">Ví dụ bạn có tệp tin nội bộ, kho lưu lượng tìm kiếm đồ sộ trong CSDL (Database). Nếu bạn phải để Claude truy quét sâu trong này, cổng extension point được thêm là cách dùng cái này chuẩn?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="opt-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Sự kết hợp thêm Skill từ cách đọc kết quả DB (database) Query</span>
+              </button>
+              <button class="quiz-option" data-value="opt-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Sử dụng bản tài liệu của DB vô mục tệp CLAUDE.md đọc thôi!</span>
+              </button>
+              <button class="quiz-option" data-value="opt-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Hooks chặn, lấy để lọc mọi tin tức trong DB</span>
+              </button>
+              <button class="quiz-option" data-value="opt-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Một Máy Chủ MCP kết nối đường hầm thẳng đưa Claude kết nối cơ sở CSDL</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module1')">Hoàn Tất Kiểm Tra</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module1')">Thực Hiện Lại</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
