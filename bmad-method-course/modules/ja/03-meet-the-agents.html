@@ -1,0 +1,241 @@
+<section class="module" id="module-3" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">03</span>
+      <h1 class="module-title">サブエージェントたちについて</h1>
+      <p class="module-subtitle">7人の専門家ペルソナ — それぞれが独自の声、役割、強い意見を持つ本物のスペシャリスト</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- SCREEN 1: Cast overview -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">あなたのAIエキスパートチーム</h2>
+        <p>すべてを行おうとする単一のAIとは異なり、BMADは名前の付けられたスペシャリストに各役割を与えます。彼らは明確な性格、コミュニケーションスタイル、責任の範囲を持ち、セッションを通してキャラクターを維持します。</p>
+        <p>映画のスタッフのようなものだと考えてください。監督と撮影監督の仕事は異なります。全員に同じ肩書を与えてうまくいくことを願うのはカオスにしかつながりません。</p>
+
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in" style="border-left: 4px solid var(--color-actor-1)">
+            <div class="pattern-card-icon">📊</div>
+            <h3 class="pattern-card-title">メアリー — ビジネスアナリスト</h3>
+            <p class="pattern-card-desc">トレジャーハンターのように話します。パターンにワクワクし、曖昧さを容赦しません。発見セッションを実行し、製品要件概要を作成します。フェーズ1担当。</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-left: 4px solid var(--color-actor-2)">
+            <div class="pattern-card-icon">📋</div>
+            <h3 class="pattern-card-title">PMサブエージェント — プロダクトマネージャー</h3>
+            <p class="pattern-card-desc">PRDの作成プロセスを促進します。ユーザーのニーズ、技術的な実現可能性、ビジネスの大目標のバランスを取ります。フェーズ2担当。</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-left: 4px solid var(--color-actor-3)">
+            <div class="pattern-card-icon">🎨</div>
+            <h3 class="pattern-card-title">UXデザイナーエージェント</h3>
+            <p class="pattern-card-desc">要件をユーザーエクスペリエンス計画（画面、フロー群、インタラクション）に変換します。コードが書き込まれる前に<span class="tooltip-term" data-tooltip="UI（ユーザーインターフェース） — ユーザーが見て操作するすべてのもの：ボタン、画面、テキストフィールド。UXはそれを使用する体験であり、UIは見た目のことです。">UI</span>計画が明確であることを確認します。フェーズ2担当。</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-left: 4px solid var(--color-actor-4)">
+            <div class="pattern-card-icon">🏗️</div>
+            <h3 class="pattern-card-title">アーキテクト（建築士）エージェント</h3>
+            <p class="pattern-card-desc">技術的な決定を下します。<span class="tooltip-term" data-tooltip="テクノロジースタック — ソフトウェアの構築に使用される技術のセット。たとえば、フロントエンド用のReact、バックエンド用のNode.js、データベース用のPostgreSQLなどといったものです。">テクノロジースタック</span>を選択し、システムをまとめあげ、決定事項を記録します。フェーズ3担当。</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-left: 4px solid var(--color-actor-5)">
+            <div class="pattern-card-icon">💻</div>
+            <h3 class="pattern-card-title">アメリア — 開発者</h3>
+            <p class="pattern-card-desc">「超簡潔。ファイル名とIDで話す。」 厳密な順序でストーリーを実行し、タスクを完了としたとマークする前にテストを書きます。フェーズ4担当。</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-left: 4px solid var(--color-info)">
+            <div class="pattern-card-icon">✍️</div>
+            <h3 class="pattern-card-title">テクニカルライター</h3>
+            <p class="pattern-card-desc">ドキュメントを記述し、<span class="tooltip-term" data-tooltip="Mermaidダイアグラム — ダイアグラムを描画するためのテキストベースの方法です。「A --> B --> C」のようにコードを書くと、視覚的なフローチャートやシーケンス図としてレンダリングされます。">Mermaidダイアグラム</span>を作成し、概念を説明し、ドキュメントの整合性を検証します。どのフェーズでもいつでも利用できます。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: Mary deep dive with real code -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">深掘りアナリストのメアリー</h2>
+        <p>メアリーはあなたが最初に出会うエージェントです。彼女はビジネス分析フェーズ（ブレインストーミング、市場調査など）を実行します。彼女の仕事は、あなたの漠然とした概念を正確で文書化された仕様群に変えることです。</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">メアリーのスキル定義コード</span>
+            <pre><code><span class="code-line"><span class="code-keyword">##</span> <span class="code-function">アイデンティティ</span></span>
+<span class="code-line">市場調査、競合分析、</span>
+<span class="code-line">および要件抽出に</span>
+<span class="code-line">精通したシニアアナリスト。</span>
+<span class="code-line">漠然としたニーズを</span>
+<span class="code-line">実行可能な仕様に</span>
+<span class="code-line">変換することを専門とする。</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-keyword">##</span> <span class="code-function">コミュニケーションスタイル</span></span>
+<span class="code-line">トレジャーハンターのような興奮で話す—</span>
+<span class="code-line">あらゆる手がかりにワクワクし、</span>
+<span class="code-line">パターンが見つかると</span>
+<span class="code-line">エネルギーに満ち溢れる。</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">翻訳と解説</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>アイデンティティブロック：</strong> これは文字通り、AIの指示に注入されたキャラクターの説明です。AIにメアリーを演じるだけでなく、メアリーに<em>なり切る</em>ことを指示し、専門知識として具現化します。</p>
+              <p class="tl"><strong>コミュニケーションスタイル：</strong> AIは、すべてのやり取りにエネルギーと好奇心をもたらすように指示されます。単に質問に答えるだけでなく、あなたと一緒に発見を掘り下げます。</p>
+              <p class="tl"><strong>実践的な効果：</strong> メアリーと話すとき、一般的なAIチャットとは違う反応が返ってきます。曖昧な答えに対しては反発します。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-info" style="margin-top: var(--space-6)">
+          <strong>メアリーの呼び出し方法：</strong> <code>bmad-agent-analyst</code> と入力するか、AI IDEで単に「メアリーと話す」と入力します。あなたのプロジェクト設定を読み込み、既存のアーティファクトをスキャンし、あなたの名前で挨拶してくれます。
+        </div>
+      </section>
+
+      <!-- SCREEN 3: Amelia deep dive -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">アメリア: 超精密な開発者</h2>
+        <p>アメリアは性格上メアリーの正反対です。メアリーが感情表現豊かで探求的であるのに対し、アメリアは無口で計画的です。彼女には1つの仕事があります。それは、テストを伴うストーリーを論理の破綻なしで正しく実行することです。</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">アメリアの原則</span>
+            <pre><code><span class="code-line"><span class="code-keyword">-</span> レビュー可能になる前に、</span>
+<span class="code-line">  既存および新規のすべてのテストに</span>
+<span class="code-line">  100%合格しなければならない。</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-keyword">-</span> 実装を行う前に、</span>
+<span class="code-line">  必ずストーリーファイル全体を読むこと。</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-keyword">-</span> ストーリーファイルに書かれている通り、</span>
+<span class="code-line">  タスクを順番に実行すること — </span>
+<span class="code-line">  スキップや順序の変更は禁止。</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-keyword">-</span> テストが書かれている、あるいは</span>
+<span class="code-line">  合格したという嘘を決してついてはならない。</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">解説</span>
+            <div class="translation-lines">
+              <p class="tl">テストの合格率100%は絶対条件です。もし1つでもテストが失敗した場合、アメリアはストーリーを完了としてマークすることができません。</p>
+              <p class="tl">彼女は一行のコードを書く前にストーリーファイル全体を読み込みます。これは、自分が何を構築すべきかを直感で判断することを防ぐためです。</p>
+              <p class="tl">タスクには依存関係があります。後の工程のほうが簡単に見えても、彼女は順番を飛ばすことはありません。</p>
+              <p class="tl">最も重要なルール：絶対にごまかさないこと。（嘘の生成を防止します）</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-success" style="margin-top: var(--space-6)">
+          <strong>なぜこれが重要なのか：</strong> アメリアの厳格なルールが存在するのは、曖昧な指示がバグに繋がるためです。「認証を追加して」と言うと、うまくいっても問題点を見逃すかもしれません。アメリアの制約は、プロダクションに耐えうる品質の出力を強制します。
+        </div>
+      </section>
+
+      <!-- SCREEN 4: Agent conversation demo -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">サブエージェント同士の会話</h2>
+        <p>BMADの<strong>パーティモード</strong>では、複数のエージェントが同じ会話に参加し、それぞれが独自の視点を持っています。実際のシナリオをご覧ください。アプリにオフラインモードを追加するかどうかについて、開発チームが議論します。</p>
+
+        <div class="chat-window" id="chat-module3">
+          <div class="chat-messages">
+            <div class="chat-message" data-msg="0" data-sender="mary" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">M</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">メアリー (アナリスト)</span>
+                <p>ターゲット市場のユーザーは、不安定な回線から作業することがよくあります。オフラインモードは真の差別化につながる可能性があります。</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="1" data-sender="architect" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-4)">AR</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-4)">アーキテクト</span>
+                <p>オフラインモードには、同期エンジン、競合解決ロジック、およびローカルストレージの管理が必要です。現在のシステムの3倍以上の複雑さになります。不可能ではありませんが、最初からアーキテクチャ文書に含まれている必要があります。</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="2" data-sender="amelia" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-5)">AM</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-5)">アメリア (Dev)</span>
+                <p>アーキテクトに同意します。これが現在アーキテクチャに含まれていない場合、後から機能を追加すると既存のストーリーが壊れます。スプリントの計画が始まる前に決定してください。</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="3" data-sender="pm" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">PM</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-2)">PM エージェント</span>
+                <p>この議論のPRDの第2フェーズ項目として、「実装前にアーキテクチャの決定が必要」というフラグを付けて追加します。解決されるまでは進まないようにします。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-typing" id="chat-typing-m3" style="display:none">
+            <div class="chat-avatar" id="typing-avatar-m3">...</div>
+            <div class="chat-typing-dots">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+
+          <div class="chat-controls">
+            <button class="btn chat-next-btn">次のメッセージ</button>
+            <button class="btn chat-all-btn">すべて表示</button>
+            <button class="btn chat-reset-btn">再生</button>
+            <span class="chat-progress"></span>
+          </div>
+        </div>
+
+        <div class="callout callout-info" style="margin-top: var(--space-6)">
+          <strong>パーティモードの秘密：</strong> 各エージェントは独立して生成されたAIの思考プロセスであり、「1つのAIが複数のキャラクターを演じている」わけではありません。一人のAIが強引に意見をまとめるような事象を防ぎ、多角的な議論を生み出すための仕組みです。
+        </div>
+      </section>
+
+      <!-- SCREEN 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">理解度の確認</h2>
+
+        <div class="quiz-container" id="quiz-module3">
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="そうです！アーキテクトはフェーズ3に属し、データベースの選択、APIの設計など技術的な決定を文書化する責任を持っています。"
+               data-explanation-wrong="少し違います。フェーズ2は製品の要件についてであり、PMが担当します。アーキテクトはフェーズ3に存在し、すべての技術的な決定を所有します。フェーズ4は開発者が構築する内容です。">
+            <h3 class="quiz-question">アプリに <span class="tooltip-term" data-tooltip="SQLデータベース — Postgres や MySQLのようなデータ・ベース技術です。">SQLデータベース</span> と <span class="tooltip-term" data-tooltip="NoSQLデータベース — Firebase などの形式のデータ記述形式とストレージ機能群のことです。">NoSQLデータベース</span> のどちらを使用するかを決定する必要があります。どのエージェントが、どのフェーズでこれを担当しますか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>製品要件に影響するため、フェーズ2のPM（プロダクトマネージャー）</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>技術的な決定であるため、フェーズ3のアーキテクト</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>実際にデータベースを使用してコーディングするため、フェーズ4のアメリア</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-a"
+               data-explanation-right="正解です！パーティモードは各エージェントを独立したAIプロセスとして生成します。エージェントが意見を異にするのは、本当に異なる推論・思考プロセスを持っているからです。"
+               data-explanation-wrong="パーティモードはもっと巧妙で強力なことを行います。各エージェントは独立して思考しており、同調された議論の台本を読み合わせているわけではありません。">
+            <h3 class="quiz-question">チームはパーティモードを使用して機能についての議論を行っています。メアリーとアーキテクトは、オフライン対応を追加するかどうかで強く意見が対立しています。この意見の対立は何を表しているのでしょうか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>彼らは単一の視点ではなく、複数の角度や専門性から互いの意見を論じている</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>バグ — 同じプロジェクトのエージェントは常に同意するべきである</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>単一のAIが複数の演技・ごっこ遊びをして、議論している「ふり」をしているだけである</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module3')">回答を確認</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module3')">再挑戦</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

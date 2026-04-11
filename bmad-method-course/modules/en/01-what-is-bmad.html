@@ -1,0 +1,201 @@
+<section class="module" id="module-1" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">01</span>
+      <h1 class="module-title">What Is BMAD?</h1>
+      <p class="module-subtitle">From vague idea to shipped code — and why AI alone isn't enough</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- SCREEN 1: The problem -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The AI Autocomplete Trap</h2>
+        <p>Imagine you tell an <span class="tooltip-term" data-tooltip="AI (Artificial Intelligence) — software that can hold conversations, write code, and answer questions based on patterns it learned from billions of documents. Think of it like a very well-read intern.">AI</span> coding tool: <em>"Build me a task management app."</em> It produces something. You ask for changes. It rewrites half the app. You ask for a feature — it breaks two others. Hours later, you're going in circles.</p>
+        <p>This isn't the AI's fault. It's the <em>process</em> — or the lack of one.</p>
+
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">😵</div>
+            <h3 class="pattern-card-title">Without structure</h3>
+            <p class="pattern-card-desc">Each prompt starts fresh. The AI has no memory of decisions made. Requirements drift. Code contradicts itself.</p>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🤝</div>
+            <h3 class="pattern-card-title">With BMAD</h3>
+            <p class="pattern-card-desc">Specialized agents guide you through each phase. Decisions are documented. Every agent knows the context. Code stays consistent.</p>
+          </div>
+        </div>
+
+        <div class="callout callout-info" style="margin-top: var(--space-8)">
+          <strong>The Big Idea:</strong> BMAD stands for <strong>Build More Architect Dreams</strong>. It's not a coding tool — it's a <span class="tooltip-term" data-tooltip="Framework — a set of rules, conventions, and tools that give structure to a process. Like a recipe that tells you what order to do things in and why.">framework</span> that makes AI behave like a structured team of expert collaborators, not a single overworked intern.
+        </div>
+      </section>
+
+      <!-- SCREEN 2: The journey trace -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Imagine You Have an Idea for an App</h2>
+        <p>Here's what happens under the hood when you use BMAD — from your first vague spark to working code.</p>
+
+        <div class="flow-animation" data-steps='[
+          {"highlight":"flow-actor-1","label":"You describe your app idea in plain language"},
+          {"highlight":"flow-actor-2","label":"Mary (the Analyst) asks sharp questions to clarify your vision","packet":true,"from":"actor-1","to":"actor-2"},
+          {"highlight":"flow-actor-3","label":"The PM agent writes a Product Requirements Document","packet":true,"from":"actor-2","to":"actor-3"},
+          {"highlight":"flow-actor-4","label":"The Architect designs the technical blueprint","packet":true,"from":"actor-3","to":"actor-4"},
+          {"highlight":"flow-actor-5","label":"Amelia (the Dev) writes and tests the actual code","packet":true,"from":"actor-4","to":"actor-5"},
+          {"highlight":"flow-actor-5","label":"You have working, well-structured software!"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">💡</div>
+              <span>Your Idea</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">📊</div>
+              <span>Analyst</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">📋</div>
+              <span>PM</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">🏗️</div>
+              <span>Architect</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">💻</div>
+              <span>Developer</span>
+            </div>
+          </div>
+          <div class="flow-packet" id="flow-packet"></div>
+          <div class="flow-step-label" id="flow-label">Click "Next Step" to trace your idea's journey</div>
+          <div class="flow-controls">
+            <button class="btn flow-next-btn">Next Step</button>
+            <button class="btn flow-reset-btn">Restart</button>
+            <span class="flow-progress"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 3: Why it works -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Why Structure Beats Raw Prompting</h2>
+        <p>Think of it like building a house. You wouldn't hand a construction crew a napkin sketch and say "figure it out." You'd hire an architect first, get blueprints approved, then let builders follow a plan.</p>
+        <p>BMAD is that same pipeline — but for software, and powered entirely by AI.</p>
+
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📁</div>
+            <h3 class="pattern-card-title">Artifacts that persist</h3>
+            <p class="pattern-card-desc"><span class="tooltip-term" data-tooltip="Artifact — a document produced at a specific stage. In BMAD, artifacts are the outputs of each phase: a product brief, a PRD, an architecture doc, user stories.">Artifacts</span> like your <span class="tooltip-term" data-tooltip="PRD (Product Requirements Document) — a written spec that describes exactly what your software should do, who it is for, and what success looks like. The single source of truth for your project.">PRD</span> and architecture doc are saved as files. Every AI agent reads them — so nothing is forgotten between sessions.</p>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🎯</div>
+            <h3 class="pattern-card-title">Agents that specialize</h3>
+            <p class="pattern-card-desc">Each agent has a distinct role and expertise. The analyst doesn't write code. The developer doesn't second-guess requirements. Clear roles = fewer contradictions.</p>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📐</div>
+            <h3 class="pattern-card-title">Scale-adaptive depth</h3>
+            <p class="pattern-card-desc">Building a quick prototype? BMAD keeps it lean. Building an enterprise system? BMAD adds the process depth you need. It adjusts automatically.</p>
+          </div>
+        </div>
+
+        <div class="callout callout-success" style="margin-top: var(--space-8)">
+          <strong>Why this helps you steer AI better:</strong> When you know the vocabulary — <em>PRD, architecture, epics, stories</em> — you can give AI precise instructions. Instead of "make it better," you can say "update the PRD to reflect this new requirement." That's the difference between hoping and directing.
+        </div>
+      </section>
+
+      <!-- SCREEN 4: Quick-start real code look -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">What It Looks Like in Practice</h2>
+        <p>When you install BMAD into your project, it drops a <span class="tooltip-term" data-tooltip="Config file — a file that stores settings for a tool. Like a preferences panel, but in text form. BMAD reads this to know your name, your project, where to save documents, and what language to use.">config file</span> and a set of <span class="tooltip-term" data-tooltip="Skills — in BMAD, a &quot;skill&quot; is a named workflow you can invoke by name. Think of it like a power move: say &quot;bmad-create-prd&quot; and the PM agent runs a structured interview to produce your requirements document.">skills</span>. Here's the real config from the codebase:</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code><span class="code-line"><span class="code-property">project_name</span>:</span>
+<span class="code-line">  <span class="code-property">prompt</span>: <span class="code-string">"What is your project called?"</span></span>
+<span class="code-line">  <span class="code-property">default</span>: <span class="code-string">"{directory_name}"</span></span>
+<span class="code-line">  <span class="code-property">result</span>: <span class="code-string">"{value}"</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-property">user_skill_level</span>:</span>
+<span class="code-line">  <span class="code-property">prompt</span>: <span class="code-string">"What is your development experience level?"</span></span>
+<span class="code-line">  <span class="code-property">default</span>: <span class="code-string">"intermediate"</span></span>
+<span class="code-line">  <span class="code-property">single-select</span>:</span>
+<span class="code-line">    - <span class="code-property">value</span>: <span class="code-string">"beginner"</span></span>
+<span class="code-line">      <span class="code-property">label</span>: <span class="code-string">"Beginner - Explain things clearly"</span></span>
+<span class="code-line">    - <span class="code-property">value</span>: <span class="code-string">"expert"</span></span>
+<span class="code-line">      <span class="code-property">label</span>: <span class="code-string">"Expert - Be direct and technical"</span></span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>project_name:</strong> BMAD asks "what's your project called?" and defaults to your folder name.</p>
+              <p class="tl"><strong>user_skill_level:</strong> Tell BMAD how experienced you are. Beginners get clearer explanations; experts get direct, no-fluff responses.</p>
+              <p class="tl"><strong>single-select:</strong> This is a multiple-choice setting — pick one of these values to configure how agents talk to you.</p>
+            </div>
+          </div>
+        </div>
+
+        <p style="margin-top: var(--space-6)">This single config file changes how <em>every agent in the system</em> communicates with you. Beginners get patient step-by-step guidance. Experts get terse, precise responses. That's the power of a shared configuration.</p>
+      </section>
+
+      <!-- SCREEN 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Check Your Understanding</h2>
+        <p>One short quiz before we move on. These aren't trivia — they test whether the concept actually landed.</p>
+
+        <div class="quiz-container" id="quiz-module1">
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Exactly! BMAD's key insight is that structure prevents the AI from losing context — every agent reads the same artifacts, so decisions persist across sessions."
+               data-explanation-wrong="Not quite — the real problem BMAD solves is loss of context and structure, not speed or complexity per se. The artifacts (PRD, architecture doc) are what keep everything consistent.">
+            <h3 class="quiz-question">You&apos;re building an app and the AI keeps contradicting earlier decisions — adding a feature that breaks something it already built. What would BMAD fix about this situation?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>BMAD would make the AI write code faster</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>BMAD saves decisions as documents that every agent reads — so the AI always knows what was decided before</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>BMAD prevents the AI from making any mistakes</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="Correct! The config&apos;s user_skill_level field directly controls how agents explain things — and that&apos;s the key to getting responses calibrated to your background."
+               data-explanation-wrong="Close, but the skill level setting in config.yaml is specifically what changes explanation depth. Knowing this means you can tune the system to your experience level.">
+            <h3 class="quiz-question">A friend starts using BMAD but finds all the explanations too technical. What&apos;s the fastest way to fix this?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Ask the AI to explain things more simply at the start of each chat</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Uninstall and reinstall BMAD</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Change user_skill_level to "beginner" in the config file — every agent will automatically adjust</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module1')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module1')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

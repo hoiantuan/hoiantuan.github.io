@@ -1,0 +1,241 @@
+<section class="module" id="module-5" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">05</span>
+      <h1 class="module-title">Chế Độ Nhóm &amp; Các Quyền Năng Đặc Biệt</h1>
+      <p class="module-subtitle">Điều hướng, Đường Tắt, Cửa thoát hiểm, và cách chống kẹt khi AI đụng tường.</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- SCREEN 1: bmad-help — your GPS -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">bmad-help: Cái Bản Đồ GPS Dự Án Quý Hơn Vàng</h2>
+        <p>Kỹ năng quan trọng nhất trong BMAD chưa chắc phải là thứ gì đó đao to búa lớn — Mà là la bàn định hướng cho bạn. <code>bmad-help</code> lúc nào cũng khả dụng trong mọi khung hình. Bạn có thể tra "giờ nên làm cái mốc xì gì đây", "em đang ở giai đoạn nào?", "giờ lỡ xóa mẹ cái cấu trúc giờ phải làm lại từ đâu vậy?"</p>
+
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📍</div>
+            <h3 class="pattern-card-title">Tôi là ai tôi ở đâu?</h3>
+            <p class="pattern-card-desc">Quét dự án lấy tất <span class="tooltip-term" data-tooltip="Tài liệu đầu ra (Artifacts) — PRD, cấu trúc vv...">cả tệp tinh quy chuẩn</span> và đọc file đồ thị danh sách (manifest).</p>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🧭</div>
+            <h3 class="pattern-card-title">Giờ tiếp là gì?</h3>
+            <p class="pattern-card-desc">Chỉ điểm cho bạn <span class="tooltip-term" data-tooltip="Menu mã khóa — gõ CA để lấy thiết kế cấu trúc hoặc CP để lấy thiết kế yêu cầu.">Mã gõ tắt menu code</span> giúp tiết kiệm thời gian.</p>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">❓</div>
+            <h3 class="pattern-card-title">Tư Vấn Đại Trà</h3>
+            <p class="pattern-card-desc">Gặp vấn đề thì hỏi bmad-help.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: Quick Dev — the shortcut -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Quick Dev: Khi Bạn Muốn Cứ Thế Mà Làm Lẹ Đi Trà Nước</h2>
+        <p>Quy trình của BMAD tuy mạnh mẽ nhưng bạn muốn tạo 1 cái nhỏ lẻ, rảnh rỗi đâu ra đi hết 4 cái giai đoạn kia? Vậy thì ta dùng <code>bmad-quick-dev</code>.</p>
+        <p>Quản gia BMAD được mô tả là đi theo quy chuẩn kiến trúc ngặt nghèo. Nhưng Quick Dev lại giống tay thợ đụng, kêu đâu chữa lỗi đó.</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">MÔ TẢ VỀ QUICK DEV</span>
+            <pre><code><span class="code-line"><span class="code-property">Tên Gọi</span>: bmad-quick-dev</span>
+<span class="code-line"><span class="code-property">Nội Dung</span>: </span>
+<span class="code-line">  Tuyệt đối trung thành vào</span>
+<span class="code-line">  story, fix bug được chỉ điểm.</span>
+<span class="code-line">  Trả về mã code chuẩn sạch và</span>
+<span class="code-line">  <span class="code-function">đi theo tệp quy chuẩn</span></span>
+<span class="code-line">  <span class="code-function">kiến trúc và yêu cầu</span></span>
+<span class="code-line">  <span class="code-function">đã thiết kế trong dự án này</span>.</span>
+<span class="code-line"><span class="code-property">Thời điểm kích hoạt</span>: Mọi lúc</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">GIẢI  NGHĨA</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>Bám chuẩn bất chấp:</strong> Bạn ko cần cấu trúc chuẩn xác — "Bỏ cái bug Login kia", "Sửa bố cục đi", AI sẽ làm.</p>
+              <p class="tl"><strong>Làm đúng quy định:</strong> Quick dev sẽ đọc cái list tệp tinh bạn đã dọn sẵn để ko làm hỏng phá bỏ định dạng ban đầu của bạn.</p>
+              <p class="tl"><strong>Mọi lúc:</strong> Tuyệt vời để nhảy cóc làm mấy tính năng thử nghiệm lặt vặt.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 3: Correct Course — the escape hatch -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Sửa Sai Nhanh Phục Hồi Dự Án</h2>
+        <p>Code là cái gì đó khó lườn g. Có thể tính năng bị thay đổi ngang xương ở phút 90? Hay ông giám đốc thay đổi chiến thuật bắt chuyển hướng? Đừng luống cuốn, ta đã có cái cửa thoát hiểm.</p>
+        <p>Sự trả lời của BMAD là mã <code>bmad-correct-course</code> — Không phải vỡ gạch, mà là xây lại bằng cửa hậu an toàn mà vẫn giữ nguyên tiến trình.</p>
+
+        <div class="numbered-steps stagger-children" style="margin-top: var(--space-8)">
+          <div class="step-card animate-in">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Mô Tả Biến Động</h4>
+              <p>Mô rả rắc rối cho Đặc vụ AI (Giám Tâm) để AI tìm giải pháp đồng loạt các <span class="tooltip-term" data-tooltip="Artifacts — Tài liệu đính kèm. VD PRD thay đổi có nghĩa cấu trúc file cũng phải đổi theo mới đúng chuẩn lập trình.">tệp đính kèm</span>.</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Gửi Về Bản Đề Xuất Đột Biến</h4>
+              <p>AI gửi về thứ bắt buộc sửa — từ mã hóa hay đổi mới câu chuyện.</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Phục hồi</h4>
+              <p>Hệ thống tự nương lại luồng chỉnh thay vì bạn tự xách đít lẩn quẩn sửa file.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 4: Party Mode deep dive -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Party Mode: Gương Chiếu Yêu Quán Triệt</h2>
+        <p>Như đã đề cập trước đó. BMAD ở cơ chế mở Party cho phép gọi điện thoại hội nhóm (Round Table) cho các đặc vụ. Nó đánh tan luồng ý kiến một chiều từ LLM mà nhường chỗ cho cái quan điểm đa cực cho bạn chiêm ngưỡng.</p>
+
+        <div class="chat-window" id="chat-module5">
+          <div class="chat-messages">
+            <div class="chat-message" data-msg="0" data-sender="you" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-text-muted)">Ông Cố Bạn</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-text-muted)">Sếp</span>
+                <p>Này tôi nghĩ ra cái ý tưởng nên làm bộ xử lý <span class="tooltip-term" data-tooltip="Chứng thực người dùng (Auth) — Đảm bảo đăng nhập thông tinh user. Tính xác thực để vào bên trong tòa nhà.">đăng nhập Auth riêng </span> cho team mình hay lấy hàng mua bên thứ 3 (third-party) vậy tụi bay?</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="1" data-sender="architect" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-4)">AR</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-4)">Kiến Trúc Sư</span>
+                <p>Nên đưa bên thứ 3 đi boss ơi. Làm <span class="tooltip-term" data-tooltip="Auth (Authentication) — Giao quyền đăng nhập như Facebook Login vv..">Auth Mới</span> chua lè ra lại còn dính mã lậu bảo mật <span class="tooltip-term" data-tooltip="Lỗ hổng (Vulnerabillites) — Bị khai tháng password vv"> dễ bị trộm cắp</span>. Người ta có chuyên gia xịn làm sẵn rồi, team mình ko có nhân lực đó nên đừng đú.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="2" data-sender="mary" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">M</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">Mary (Chuyên gia Móc mỏ)</span>
+                <p>Đồng ý hai tay hai chân luôn, nhưng xem lại nha sếp. Mình đang viết app làm hồ sơ Bệnh Khám tư — lòi dữ liệu cá nhân cho thằng bán app bên thứ 3 nó giữ thì bị ăn kiện sml á. Bạn nghĩ sao nếu người dùng họ biết thông tin con tim cật phổi của họ cho thằng Facebook cầm giùm.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="3" data-sender="amelia" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-5)">AM</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-5)">Coder Năng Động (Amelia)</span>
+                <p>Tôi code được hết nha nha. Nếu lấy của nhà đài bên kia thì mất nữa ngày, chứ bảo tôi code lại là mất 1 tuần với vài tháng bảo trì. Tính toán sao thì đi làm liền à nghen sếp ơi.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="4" data-sender="pm" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">PM</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-2)">Đặc vụ PM Lãn Công</span>
+                <p>Túm Cài quần lại là: "Mặc định lấy thằng cung cấp hàng Auth bên ngoài. NHƯNG yêu cầu kiểm duyệt kĩ ở điều khoản dịch vụ y khoa". Ghi thẳng chốt sổ vô Nhật Ký Thiết kế. Thế là éo cần nói lại trong các kì xét nhiệm kì sau nữa.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-typing" id="chat-typing-m5" style="display:none">
+            <div class="chat-avatar" id="typing-avatar-m5">...</div>
+            <div class="chat-typing-dots">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+
+          <div class="chat-controls">
+            <button class="btn chat-next-btn">Mở To Xem Thử</button>
+            <button class="btn chat-all-btn">Hiển Thị Tất</button>
+            <button class="btn chat-reset-btn">Phát Liên Quân Lại Lần Nữa</button>
+            <span class="chat-progress"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 5: Final quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Gút Lại Kiểm Tra — Xem Khung Toàn Cảnh Thế Nào</h2>
+        <p>Làm mấy bài test cuối này mốt đem vô vận hành công ty là cực kỳ dẻ dặt luôn.</p>
+
+        <div class="quiz-container" id="quiz-module5">
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Chuẩn rùi, phải xài bmad-correct-course để gỡ nút thắc trong dự án lúc lỡ cỡ đi nữa đường."
+               data-explanation-wrong="Nếu edit tay cái Story là lở nát nha. Vì Story phải có thông file kiến trúc, kiến trúc bắt file PRD, PRD lại bị lỗi. Edit ở ngọn gốc vứt.">
+            <h3 class="quiz-question">Mọi việc đang làm giữa tháng mà sếp đùng đùng chỉa mỏ vô đổi cấu trúc (của thứ đã nằm trong file PRD đồ hết rồi). Lấy cái gì châm kim bảo toàn mạng cho ông bây giờ?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Tự mở code lên mà xóa tay từng dòng.</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Gọi chạy cái kĩ năng bmad-correct-course đi ông nhỏ.</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Nhắn tin cho cô Amelia Dev kia rào kêu đừng xây file đó.</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="Khá lắm — Mấy cái nhiệm vụ sửa lẻ thế này ai đi lập trình bắt AI suy lại đủ thứ cho tốn tiền server — Cứ vã cái Dev Nhanh là gọn lẹ, xong đi ngủ thôi."
+               data-explanation-wrong="Dev Nhanh là cái mã giúp đi tắt cực kì gọn nhẹ trong những cái lỗi vụn vặn của hệ thống. Bạn ko cần dùng Dao mổ trâu để giết 1 con sâu.">
+            <h3 class="quiz-question">Tới mạn thuyền bạn muốn thay cái giao diện Nền tối đen cho UI, nhưng bạn lại ko có kiến trúc. Thế nên dùng cái hệ thống luồng nào?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Cần, phải bắt đầu lại cái file Kiến trúc (Phase 1).</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Cần nha ba, cái Giao diện nằm ở nhánh PRD (Phase 2), không có sao nhỏ Amelia viết code được.</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Xin thưa, gọi bmad-quick-dev là xong tắp lự.</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-a"
+               data-explanation-right="Đúng vậy! Bmad-help nó càn quét Folder thư muc dở dang và danh chỉ đồ thị manifest."
+               data-explanation-wrong="Nếu mà dựa trên cơ sở đo đếm thời gian thì dở — Nó là sự kết hợp của Manifest và các tệp văn bản đi theo cùng.">
+            <h3 class="quiz-question">Bữa đi nghỉ mát 1 vòng Đà Lạt 5 ngày về rụt cổ chả nhớ mình làm tới cái Phase nào? Gõ bmad-help tự nhiên nó lạy mình lại với luồng rõ ràng chính xác. Tại sao làm được?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Phân tích dựa vào biểu đồ Manifest và càn quét tập file hệ thống đã ghi dấu ở từng điểm chạm trong IDE nội bộ mà mình có.</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Chắc là nó nằm chung Cloud của ông Cụ Tổng (OpenAi | Claude)</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Chắn đoán bậy dựa trên thói quen gõ máy.</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module5')">Kiểm Tra Rèn Luyện Bài Tập Trọng Tâm</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module5')">Làm Lại Coi</button>
+        </div>
+
+        <div class="callout callout-success" style="margin-top: var(--space-10)">
+          <strong>Chúc Mừng Bạn Đã Tốt Nghiệp:</strong> Giờ đây bạn đã được vũ trang đầy đủ bằng cái kiến trúc vạn năng vượt trội hẳn bọn tà tưa chém gió ở thị trường bên ngoài ngoài lề mang danh AI — Thay vì khấn vái, hãy đưa luồng hệ quản trị BMAD kiểm soát một siêu công ty bằng 5 giai đoạn thiết kế cực chuẩn mực, 7 hệ thống đặc nhiệm cực bá đạo, những cái mẹo lót sẵn cho bạn đi mà chả cần học thuật cao siêu. Vậy thì bắt tay và vào mà xây dựng giấc mộng thôi.
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,251 @@
+<section class="module" id="module-5" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">05</span>
+      <h1 class="module-title">Party Mode &amp; Power Moves</h1>
+      <p class="module-subtitle">Navigation, shortcuts, escape hatches, and how to get unstuck when the AI hits a wall</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- SCREEN 1: bmad-help — your GPS -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">bmad-help: Your Project GPS</h2>
+        <p>The most important skill in BMAD isn&apos;t a workflow — it&apos;s a compass. <code>bmad-help</code> is available at any point in any phase. Ask it anything: "what should I do next?" "what phase am I in?" "how do I redo my architecture?"</p>
+        <p>It&apos;s like the GPS recalculating after you take a wrong turn. No judgment, no backtracking — just: here&apos;s where you are, here&apos;s the best route forward.</p>
+
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📍</div>
+            <h3 class="pattern-card-title">Where am I?</h3>
+            <p class="pattern-card-desc">Scans your project folder for existing <span class="tooltip-term" data-tooltip="Artifacts — the documents BMAD produces at each phase: product brief, PRD, architecture doc, stories. They live as files in your project folder and tell every agent what decisions have already been made.">artifacts</span> and reads the manifest. Tells you exactly which phase you&apos;re in and what&apos;s been completed.</p>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🧭</div>
+            <h3 class="pattern-card-title">What&apos;s next?</h3>
+            <p class="pattern-card-desc">Recommends the next skill and its <span class="tooltip-term" data-tooltip="Menu code — a short 2-letter code for each skill. Instead of typing the full skill name, you can type &quot;CP&quot; to run Create PRD, &quot;CA&quot; for Create Architecture, etc. Saves time when you know what you want.">menu code</span>. If one obvious next step exists, it offers to run it for you immediately.</p>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">❓</div>
+            <h3 class="pattern-card-title">General questions</h3>
+            <p class="pattern-card-desc">Can&apos;t find a skill that fits? Just ask in plain language. bmad-help fetches documentation and answers from the BMAD knowledge base.</p>
+          </div>
+        </div>
+
+        <div class="callout callout-info" style="margin-top: var(--space-8)">
+          <strong>When to use bmad-help:</strong> Whenever you feel lost, stuck, or unsure what to do next. Start every new session with it if you&apos;ve been away from the project. It costs nothing and catches a huge number of "I went in the wrong order" mistakes before they become problems.
+        </div>
+      </section>
+
+      <!-- SCREEN 2: Quick Dev — the shortcut -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Quick Dev: When You Just Want to Ship</h2>
+        <p>Full BMAD workflow is powerful — but sometimes you have a clear idea and just want to build it without running through four phases. For that, there&apos;s <code>bmad-quick-dev</code>.</p>
+        <p>Think of it as the express lane. Full BMAD is the architect-approved construction project. Quick Dev is calling a handyman for a specific job you already know how to describe.</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">QUICK DEV DESCRIPTION</span>
+            <pre><code><span class="code-line"><span class="code-property">name</span>: bmad-quick-dev</span>
+<span class="code-line"><span class="code-property">description</span>: </span>
+<span class="code-line">  Implements any user intent,</span>
+<span class="code-line">  requirement, story, bug fix</span>
+<span class="code-line">  or change request by producing</span>
+<span class="code-line">  clean working code artifacts</span>
+<span class="code-line">  that follow the <span class="code-function">project&apos;s existing</span></span>
+<span class="code-line">  <span class="code-function">architecture, patterns and</span></span>
+<span class="code-line">  <span class="code-function">conventions</span>.</span>
+<span class="code-line"><span class="code-property">phase</span>: anytime</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>Implements any intent:</strong> No specific format required. "Fix the login bug," "add a share button," "refactor the user settings page" — all valid inputs.</p>
+              <p class="tl"><strong>Follows existing patterns:</strong> Quick Dev reads your architecture doc first (if it exists) to understand how your codebase is structured. It won&apos;t introduce random new patterns.</p>
+              <p class="tl"><strong>Phase: anytime:</strong> Available from day one — you don&apos;t have to complete other phases first. Perfect for prototyping and small standalone tasks.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 3: Correct Course — the escape hatch -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Correct Course: When Plans Change</h2>
+        <p>Software development rarely goes according to plan. A user test reveals your core feature doesn&apos;t resonate. A competitor launches something that changes your strategy. A technical constraint makes your architecture unworkable.</p>
+        <p>BMAD&apos;s answer is <code>bmad-correct-course</code> — not panic, but a structured process for navigating significant changes.</p>
+
+        <div class="numbered-steps stagger-children" style="margin-top: var(--space-8)">
+          <div class="step-card animate-in">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Describe the change</h4>
+              <p>Tell the agent what changed — a new requirement, a removed feature, a pivot in direction. It analyzes the impact across all your existing <span class="tooltip-term" data-tooltip="Artifacts — the documents produced at each BMAD phase: PRD, architecture doc, epics, stories. Changing one often requires updating others to stay consistent.">artifacts</span>.</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Get a change proposal</h4>
+              <p>The agent produces a structured proposal: which documents need updating, which stories are invalidated, whether you need to redo the architecture or just edit a few stories.</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Execute the update</h4>
+              <p>Depending on scope, you might update the PRD, redo architecture, or just revise existing stories. Correct Course routes you to the right skills in the right order.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-success" style="margin-top: var(--space-8)">
+          <strong>Why this beats ad-hoc changes:</strong> When you change requirements without updating the documents, your artifacts get out of sync. Amelia will implement from the story file, which references the architecture doc, which references the PRD — if any of those contradict each other, bugs and confusion follow. Correct Course keeps everything in sync.
+        </div>
+      </section>
+
+      <!-- SCREEN 4: Party Mode deep dive -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Party Mode: Genuine Multi-Agent Debate</h2>
+        <p>Standard tools give you one AI perspective. Party Mode gives you a roundtable — 2 to 4 agents independently analyzing your question from their own expertise. The architect might disagree with the analyst. The developer might push back on the PM&apos;s timeline. That&apos;s the point.</p>
+
+        <div class="chat-window" id="chat-module5">
+          <div class="chat-messages">
+            <div class="chat-message" data-msg="0" data-sender="you" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-text-muted)">You</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-text-muted)">You</span>
+                <p>Should we build our own <span class="tooltip-term" data-tooltip="Authentication system — the part of an app that handles login, signup, passwords, and session management. Who are you, and are you allowed to be here?">authentication system</span> or use a third-party service?</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="1" data-sender="architect" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-4)">AR</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-4)">Architect</span>
+                <p>Use a third-party service. <span class="tooltip-term" data-tooltip="Auth (Authentication) — the process of proving who you are. Like showing an ID to get into a building. In software, this usually means username/password, or logging in with Google/Apple.">Auth</span> is notoriously easy to get wrong. <span class="tooltip-term" data-tooltip="Security vulnerabilities — weaknesses in software that attackers can exploit. Common auth vulnerabilities: weak password hashing, session token leakage, missing rate limiting on login attempts.">Security vulnerabilities</span> in custom auth systems are one of the top causes of data breaches. Auth-as-a-service products have teams of security specialists. You don&apos;t.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="2" data-sender="mary" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">M</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">Mary (Analyst)</span>
+                <p>Agreed, but check the market positioning. If your differentiator is data privacy — say, for a healthcare app — a third-party service handling login might be a compliance red flag. What are your users&apos; expectations around data ownership?</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="3" data-sender="amelia" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-5)">AM</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-5)">Amelia (Dev)</span>
+                <p>Third-party service unless there&apos;s a hard compliance requirement otherwise. Integration time: half a day. Building secure custom auth: weeks, plus ongoing maintenance. The math isn&apos;t close.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="4" data-sender="pm" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">PM</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-2)">PM Agent</span>
+                <p>Documenting in PRD: &quot;Authentication via third-party service (default). Exception trigger: compliance requirements identified in legal review.&quot; Decision is logged — no need to relitigate this in sprint planning.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-typing" id="chat-typing-m5" style="display:none">
+            <div class="chat-avatar" id="typing-avatar-m5">...</div>
+            <div class="chat-typing-dots">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+
+          <div class="chat-controls">
+            <button class="btn chat-next-btn">Next Message</button>
+            <button class="btn chat-all-btn">Play All</button>
+            <button class="btn chat-reset-btn">Replay</button>
+            <span class="chat-progress"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 5: Final quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Final Check — The Big Picture</h2>
+        <p>These questions pull together everything from the course. Apply what you know to new scenarios.</p>
+
+        <div class="quiz-container" id="quiz-module5">
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Yes! bmad-correct-course is specifically designed for this — it analyzes the impact of a change across all artifacts and routes you through the right updates in the right order. Ad-hoc changes without this create artifact inconsistencies."
+               data-explanation-wrong="Directly editing the story is the risky move — the story references the architecture doc, which references the PRD. If those don&apos;t agree, Amelia will implement from a contradictory spec. bmad-correct-course exists to keep everything in sync.">
+            <h3 class="quiz-question">You are mid-sprint when a key stakeholder asks to remove a feature that is already in the PRD, architecture doc, and three active stories. What is the safest way to handle this?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Edit the story files directly to remove the feature</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Run bmad-correct-course to get a structured change proposal that updates all affected artifacts consistently</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Tell Amelia to ignore that feature and keep building everything else</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="Exactly! Quick Dev is available &apos;anytime&apos; — no prerequisites. It reads your existing architecture (if any) to stay consistent, but it doesn&apos;t require you to have run the full four-phase workflow first. Perfect for prototyping or small, well-defined tasks."
+               data-explanation-wrong="Quick Dev is specifically designed for cases where you don&apos;t need the full workflow. It&apos;s available anytime, reads your existing architecture to stay consistent, and is the right tool when you have a clear, specific task you want to execute directly.">
+            <h3 class="quiz-question">A friend wants to add a &quot;dark mode toggle&quot; to an existing app. They have a BMAD project with an architecture doc already in place. Should they run through the full four-phase workflow for this change?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Yes — every change requires starting from Phase 1 Analysis</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Yes — you need a PRD update before Amelia can write any code</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>No — use bmad-quick-dev. It is available anytime, reads the existing architecture, and handles focused implementation tasks without the full workflow overhead</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-a"
+               data-explanation-right="Correct! bmad-help scans the project folder for artifact files to detect which phases are complete, reads the manifest&apos;s dependency graph to understand what comes next, and if the path is obvious, offers to launch the next skill immediately."
+               data-explanation-wrong="bmad-help works by reading two things: (1) the manifest&apos;s dependency graph to understand the workflow, and (2) your project folder to see which artifact files exist. From this, it deduces your current position in the workflow without needing you to remember.">
+            <h3 class="quiz-question">You come back to a BMAD project after a week away and can&apos;t remember where you left off. You type &quot;bmad-help&quot; and it correctly tells you what to do next. What is the most accurate explanation of how it knew?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>It read the manifest&apos;s dependency graph to understand the workflow, then scanned your project folder for artifact files to determine which phases you had already completed</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>It accessed a cloud record of your previous session</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>It guessed based on how long you had been away from the project</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module5')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module5')">Try Again</button>
+        </div>
+
+        <div class="callout callout-success" style="margin-top: var(--space-10)">
+          <strong>You made it through the whole course.</strong> You now know what BMAD is, why it beats raw prompting, how the four phases work, who the agents are and what makes them different, how skills are structured under the hood, and which power moves to reach for in different situations. That&apos;s not just trivia — it&apos;s the vocabulary you need to <em>direct AI</em> with precision. Go build something.
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

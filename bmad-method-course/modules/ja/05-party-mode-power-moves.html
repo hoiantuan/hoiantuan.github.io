@@ -1,0 +1,244 @@
+<section class="module" id="module-5" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">05</span>
+      <h1 class="module-title">パーティモードとパワープレイ</h1>
+      <p class="module-subtitle">ナビゲーション、ショートカット、緊急脱出口、AIが壁にぶつかったときの対処法</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- SCREEN 1: bmad-help — your GPS -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">bmad-help: あなたのプロジェクトのGPS</h2>
+        <p>BMADで最も重要なスキルはワークフローではありません。それはコンパスです。<code>bmad-help</code>は、どのフェーズのどの時点でも利用できます。「次に何をすべきか？」「今どのフェーズか？」「アーキテクチャをやり直すにはどうすればいいか？」なんでも聞いてください。</p>
+
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📍</div>
+            <h3 class="pattern-card-title">私はどこにいるのか？</h3>
+            <p class="pattern-card-desc">プロジェクトフォルダ内の既存の<span class="tooltip-term" data-tooltip="アーティファクト — 各フェーズで出力される製品概要書、PRDなどの書類ドキュメント類のことです。決定事項の足跡となります。">アーティファクト</span>をスキャンして解析します。</p>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🧭</div>
+            <h3 class="pattern-card-title">次は何をするのか？</h3>
+            <p class="pattern-card-desc">次のステップに最適なスキルと<span class="tooltip-term" data-tooltip="メニューコード — CA とか CP とか、省略してタイピングするためのショートカットコードのことです。">メニューコード</span>を自動で推薦してくれます。</p>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">❓</div>
+            <h3 class="pattern-card-title">一般的な質問対応</h3>
+            <p class="pattern-card-desc">どのスキルを使えばいいかわからない？ 普通の言葉で質問してください。</p>
+          </div>
+        </div>
+
+        <div class="callout callout-info" style="margin-top: var(--space-8)">
+          <strong>bmad-helpの使用タイミング：</strong> 迷った時、行き詰まった時、次に何をすべきか確信が持てない時。間違った順序で進んでしまう前に、これで確認するクセをつけてください。
+        </div>
+      </section>
+
+      <!-- SCREEN 2: Quick Dev — the shortcut -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">クイックDev: とりあえず実装したいとき</h2>
+        <p>BMADのフルワークフローは強力ですが、アイデアが明確で4つのフェーズを通さずに構築したい場合があります。そのために <code>bmad-quick-dev</code> があります。</p>
+        <p>エクスプレスレーンと考えてください。フルワークフローが建築士承認付きの大規模プロジェクトなら、クイックDevは便利屋を呼ぶようなものです。</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">QUICK DEV の宣言詳細</span>
+            <pre><code><span class="code-line"><span class="code-property">名前</span>: bmad-quick-dev</span>
+<span class="code-line"><span class="code-property">詳細</span>: </span>
+<span class="code-line">  いかなるユーザーの意図、要件、</span>
+<span class="code-line">  ストーリー、バグ修正や仕様変更も</span>
+<span class="code-line">  直接クリーンなコードとして実装します。</span>
+<span class="code-line">  その際、既存のプロジェクトの</span>
+<span class="code-line">  <span class="code-function">アーキテクチャ、パターン、および</span></span>
+<span class="code-line">  <span class="code-function">規約群に従います</span>。</span>
+<span class="code-line"><span class="code-property">フェーズ指定</span>: いつでも可能</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">解説</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>あらゆる意図を実装：</strong> 「ログインのバグを修正」「共有ボタンを追加」などどんな内容でも対応できます。</p>
+              <p class="tl"><strong>既存のパターンに従う：</strong> 事前に設計書などを確認し、無秩序なコードが追加されるのを防ぎます。</p>
+              <p class="tl"><strong>いつでも可能：</strong> 他のフェーズを完了している必要はありません。プロトタイピングに最適です。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 3: Correct Course — the escape hatch -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">コース修正（Correct Course）: 計画が変更された場合</h2>
+        <p>ソフトウェア開発が計画通りに進むことはほとんどありません。ユーザーテストのフィードバックや競合の登場などにより、戦略の変更を余儀なくされる場合、BMADには <code>bmad-correct-course</code> が用意されています。</p>
+
+        <div class="numbered-steps stagger-children" style="margin-top: var(--space-8)">
+          <div class="step-card animate-in">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>変更の記述</h4>
+              <p>新しい要件や機能の削除をエージェントに伝えると、既存の<span class="tooltip-term" data-tooltip="アーティファクト — 各フェーズでの出力ファイル群です。ここが矛盾しないように制御します。">アーティファクト</span>すべてへの影響を分析します。</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>変更提案の受領</h4>
+              <p>どのドキュメントを更新すべきか、どのストーリーが無効になるか提案を返します。</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>変更と更新の実行</h4>
+              <p>規模に応じて、PRD変更やアーキテクチャ再構築などの対応が成されます。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 4: Party Mode deep dive -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">パーティモード: 真のマルチエージェント討論</h2>
+        <p>このモードを使うと、2〜4人のエージェントがそれぞれの専門的観点から独立して質問を円卓会議で分析します。アーキテクトがアナリストに反対するかもしれませんし、開発者がPMに反発するかもしれません。それがポイントです。</p>
+
+        <div class="chat-window" id="chat-module5">
+          <div class="chat-messages">
+            <div class="chat-message" data-msg="0" data-sender="you" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-text-muted)">あなた</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-text-muted)">あなた</span>
+                <p>独自の<span class="tooltip-term" data-tooltip="認証システム — ログインやパスワード管理を管理する部分です。">認証システム</span>を構築すべきか、サードパーティのサービスを使用すべきか迷っています。</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="1" data-sender="architect" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-4)">AR</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-4)">アーキテクト</span>
+                <p>絶対サードパーティ製サービスを使用してください。カスタム認証システムでの<span class="tooltip-term" data-tooltip="セキュリティ脆弱性 — 攻撃者に悪用される可能性のあるソフトウェアの弱点です。">セキュリティ脆弱性</span>はデータ侵害の最大の原因の1つです。認証サービス製品にはセキュリティ専門家のチームがいますが、我々にはいません。</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="2" data-sender="mary" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">M</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">メアリー (アナリスト)</span>
+                <p>同意します。しかし、もしこれが医療系アプリでデータプライバシーが重要なら、サードパーティのログイン機能利用は法令遵守の観点から危険信号になるかもしれません。</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="3" data-sender="amelia" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-5)">AM</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-5)">アメリア (Dev)</span>
+                <p>コンプライアンス要件が厳しくない限りサードパーティを使用。統合には半日。安全なカスタム認証の構築には数週間と継続的なメンテナンスが必要。計算するまでもありません。</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="4" data-sender="pm" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">PM</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-2)">PM エージェント</span>
+                <p>PRDに記録します。「基本的にサードパーティから認証を取得。例外：法的レビューでコンプライアンス要件が特定された場合のみ独自機能搭載」。これでスプリント計画で再蒸し返しする必要はありません。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-typing" id="chat-typing-m5" style="display:none">
+            <div class="chat-avatar" id="typing-avatar-m5">...</div>
+            <div class="chat-typing-dots">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+
+          <div class="chat-controls">
+            <button class="btn chat-next-btn">次のメッセージ</button>
+            <button class="btn chat-all-btn">すべて表示</button>
+            <button class="btn chat-reset-btn">再生</button>
+            <span class="chat-progress"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 5: Final quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">最終確認 — 全体像の把握</h2>
+        <p>コースで学んだ知識の総決算です。</p>
+
+        <div class="quiz-container" id="quiz-module5">
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="正解です。bmad-correct-course はアーティファクト一貫性確保のために用意されているフェーズ変更・修正用特化のフローです。"
+               data-explanation-wrong="ストーリーを直接修正するのは危険です。「大元の設計書が残っている」ことによる矛盾でアメリアが混乱します。">
+            <h3 class="quiz-question">スプリントの途中で、すでにPRD等に記載されている機能を削除するよう求められました。最も安全な対応方法はどれですか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>ストーリーファイルを直接編集して機能を削除する</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>bmad-correct-courseを実行して、影響を受けるすべてのアーティファクトを一貫して更新する構造化された変更提案を取得する</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>アメリアにその機能を無視するように伝える</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="正解です！ クイックDevはいつでも実行可能です。既存のアーキテクチャは維持しますが、全フェーズを繰り返す必要はありません。"
+               data-explanation-wrong="クイックDevはそのようなフルフェーズの手間を省くために存在します。明確な要望があるときのための特急レーンです。">
+            <h3 class="quiz-question">友人が既存のアプリに「ダークモードの切り替えボタン」を追加したいと考えています。4つのフェーズ全体を通るべきでしょうか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>はい — すべての変更はフェーズ1（分析）からやり直す必要があります</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>はい — アメリアがコードを書く前にPRDの更新が必要です</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>いいえ — bmad-quick-devを使用します。オーバーヘッドなしに実装に集中できます。</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-a"
+               data-explanation-right="正解です！bmad-help はフォルダ内のアーティファクトファイルと依存関係マニフェストから状況を把握しています。"
+               data-explanation-wrong="マニフェストの参照とアーティファクトファイルの有無から論理的に状況を判断しているのです。">
+            <h3 class="quiz-question">1週間ぶりにプロジェクトに戻った際、「bmad-help」と入力すると次に何をすべきか正確に教えてくれました。なぜ正確な指示が出せたのでしょうか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>マニフェストの依存関係とプロジェクトファイル群を両方スキャンして現状を推測したから</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>あなたの以前のセッションのクラウド上の記録にアクセスした記録があるから</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>あなたのアプローチや癖から推測したから</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module5')">回答を確認</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module5')">再挑戦</button>
+        </div>
+
+        <div class="callout callout-success" style="margin-top: var(--space-10)">
+          <strong>これでコースの全行程は修了です。</strong> これで、BMADが「単なるプロンプト入力」より優れている理由、4つのフェーズの仕組み、エージェントの役割と個性の違い、スキルの構造、そして状況に応じたパワープレイの使い方を理解しました。これは単なる豆知識ではなく、<em>AIを正確に導く</strong>ための語彙力となります。さあ、何かを作り始めましょう。
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

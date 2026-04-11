@@ -1,0 +1,201 @@
+<section class="module" id="module-1" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">01</span>
+      <h1 class="module-title">BMADとは何か？</h1>
+      <p class="module-subtitle">曖昧なアイデアからリリースのコードまで — なぜAIだけでは不十分なのか</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- SCREEN 1: The problem -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">AIオートコンプリートの罠</h2>
+        <p>ある<span class="tooltip-term" data-tooltip="AI（人工知能）— 何十億もの文書から学習したパターンに基づいて、会話、コード作成、質問への回答ができるソフトウェア。非常に博識なインターンのようなものと考えてください。">AI</span>コーディングツールに尋ねたと想像してください：「タスク管理アプリを作って」。それは何かを生成します。あなたは変更を求めます。するとアプリの半分を書き直してしまいます。機能を求めると—他の2つを壊してしまいます。何時間も経って、あなたは堂々巡りをしています。</p>
+        <p>これはAIのせいではありません。それは<em>プロセス</em>—またはその欠如によるものです。</p>
+
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">😵</div>
+            <h3 class="pattern-card-title">構造がない場合</h3>
+            <p class="pattern-card-desc">すべてのプロンプトが最初から始まります。AIは下された決定の記憶を持っていません。要件が逸脱します。コードが矛盾します。</p>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🤝</div>
+            <h3 class="pattern-card-title">BMADがある場合</h3>
+            <p class="pattern-card-desc">専門のサブエージェントが各フェーズを案内します。決定は文書化されます。すべてのサブエージェントがコンテキストを把握しています。コードが一貫性を保ちます。</p>
+          </div>
+        </div>
+
+        <div class="callout callout-info" style="margin-top: var(--space-8)">
+          <strong>核となるアイデア：</strong> BMADは<strong>Build More Architect Dreams</strong>の略です。これは単なるコーディングツールではありません—これはAIを、過労のインターン一人ではなく、構造化された専門のコラボレーターチームのように振る舞わせる<span class="tooltip-term" data-tooltip="フレームワーク — プロセスに構造を与えるルール、規約、ツールのセット。どの手順で何を行うか、その理由を指示するレシピのようなものです。">フレームワーク</span>です。
+        </div>
+      </section>
+
+      <!-- SCREEN 2: The journey trace -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">アプリのアイデアがある場合を想像してください</h2>
+        <p>BMADを使用するとき、裏側で何が起きているのか—最初の漠然としたアイデアから動くコードまでをご覧ください。</p>
+
+        <div class="flow-animation" data-steps='[
+          {"highlight":"flow-actor-1","label":"日常的な言葉でアプリのアイデアを説明します"},
+          {"highlight":"flow-actor-2","label":"メアリー（アナリスト）があなたのビジョンを明確にする為の鋭い質問をします","packet":true,"from":"actor-1","to":"actor-2"},
+          {"highlight":"flow-actor-3","label":"PMサブエージェントが製品要件ドキュメントを作成します","packet":true,"from":"actor-2","to":"actor-3"},
+          {"highlight":"flow-actor-4","label":"アーキテクトが技術的な設計図を描きます","packet":true,"from":"actor-3","to":"actor-4"},
+          {"highlight":"flow-actor-5","label":"アメリア（開発者）が実際のコードを記述してテストします","packet":true,"from":"actor-4","to":"actor-5"},
+          {"highlight":"flow-actor-5","label":"構造化されたソフトウェアが完成しました！"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">💡</div>
+              <span>アイデア</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">📊</div>
+              <span>アナリスト</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">📋</div>
+              <span>PM（プロマネ）</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">🏗️</div>
+              <span>アーキテクト</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">💻</div>
+              <span>開発者</span>
+            </div>
+          </div>
+          <div class="flow-packet" id="flow-packet"></div>
+          <div class="flow-step-label" id="flow-label">「次の手順」をクリックして、アイデアの軌跡をたどります</div>
+          <div class="flow-controls">
+            <button class="btn flow-next-btn">次の手順</button>
+            <button class="btn flow-reset-btn">リセット</button>
+            <span class="flow-progress"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 3: Why it works -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">なぜ構造は生プロンプト（Raw Prompting）に勝るのか</h2>
+        <p>家を建てるようなものと考えてください。建設チームにナプキンのスケッチを渡して「なんとかして」とは言わないでしょう。まずアーキテクトを雇い、設計図の承認を得てから、建設者が計画に従うようにします。</p>
+        <p>BMADはそれと全く同じ仕組みですが—ソフトウェアのためのものであり、AIのみで駆動します。</p>
+
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📁</div>
+            <h3 class="pattern-card-title">保持される成果物（アーティファクト）</h3>
+            <p class="pattern-card-desc"><span class="tooltip-term" data-tooltip="PRD（Product Requirements Document: 製品要件ドキュメント）— ソフトウェアが正確に何をすべきか、誰のためのものか、何が成功を意味するかを説明する書面の仕様書。プロジェクトの唯一の真実の源です。">PRD</span>やアーキテクチャ文書などの<span class="tooltip-term" data-tooltip="アーティファクト（成果物）— 特定の段階で作成されるドキュメント。BMADでは、アーティファクトは各フェーズの出力（製品概要、PRD、アーキテクチャ文書、ユーザーストーリー）です。">アーティファクト</span>はファイルとして保存されます。すべてのAIサブエージェントがそれらを読み取るため—セッション間で忘れられることはありません。</p>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🎯</div>
+            <h3 class="pattern-card-title">専門化されたサブエージェント</h3>
+            <p class="pattern-card-desc">各サブエージェントには個別の役割と専門知識があります。アナリストはコードを書きません。開発者は要件に口出ししません。役割の明確化＝矛盾の減少。</p>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📐</div>
+            <h3 class="pattern-card-title">規模に応じた適応性</h3>
+            <p class="pattern-card-desc">簡単なプロトタイプを作りますか？BMADは無駄を削ぎ落とします。大企業向けのシステムを作りますか？BMADは必要なプロセスの深さを追加します。それは自動的に調整されます。</p>
+          </div>
+        </div>
+
+        <div class="callout callout-success" style="margin-top: var(--space-8)">
+          <strong>なぜこれがAIをより良くコントロールするのに役立つのか：</strong> 語彙—<em>PRD、アーキテクチャ、エピック、ストーリー</em>—を知っていれば、AIに正確な指示を出すことができます。「もっと良くして」と言う代わりに、「この新しい要件を反映するようにPRDを更新して」と言えます。それが期待と指示の違いです。
+        </div>
+      </section>
+
+      <!-- SCREEN 4: Quick-start real code look -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">実際の運用例</h2>
+        <p>プロジェクトにBMADをインストールすると、<span class="tooltip-term" data-tooltip="Config file（設定ファイル）— ツールの設定を保存するファイル。テキスト形式の設定パネルのようなものです。BMADはこれを読み取って、あなたの名前、プロジェクト名、ドキュメントの保存場所、言語を把握します。">設定ファイル</span>と一連の<span class="tooltip-term" data-tooltip="スキル — BMADでは、「スキル」は名前で呼び出すことができる名前付きワークフローです。「bmad-create-prd」と呼び出すと、PMサブエージェントが構造化されたヒアリングを実行して要件ドキュメントを作成するといったパワープレイ（必殺技）のようなものです。">スキル</span>が生成されます。現在のコードベースの実際の設定は以下の通りです：</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">コード</span>
+            <pre><code><span class="code-line"><span class="code-property">project_name</span>:</span>
+<span class="code-line">  <span class="code-property">prompt</span>: <span class="code-string">"あなたのプロジェクト名は何ですか？"</span></span>
+<span class="code-line">  <span class="code-property">default</span>: <span class="code-string">"{directory_name}"</span></span>
+<span class="code-line">  <span class="code-property">result</span>: <span class="code-string">"{value}"</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-property">user_skill_level</span>:</span>
+<span class="code-line">  <span class="code-property">prompt</span>: <span class="code-string">"あなたの開発経験レベルはどのくらいですか？"</span></span>
+<span class="code-line">  <span class="code-property">default</span>: <span class="code-string">"intermediate"</span></span>
+<span class="code-line">  <span class="code-property">single-select</span>:</span>
+<span class="code-line">    - <span class="code-property">value</span>: <span class="code-string">"beginner"</span></span>
+<span class="code-line">      <span class="code-property">label</span>: <span class="code-string">"初心者 - わかりやすく丁寧に説明する"</span></span>
+<span class="code-line">    - <span class="code-property">value</span>: <span class="code-string">"expert"</span></span>
+<span class="code-line">      <span class="code-property">label</span>: <span class="code-string">"熟練者 - 直接的かつ専門的に対応する"</span></span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">翻訳と解説</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>project_name:</strong> BMADは「プロジェクト名は何ですか？」と尋ね、デフォルトでフォルダ名を指定します。</p>
+              <p class="tl"><strong>user_skill_level:</strong> 経験レベルをBMADに伝えます。初心者は非常に丁寧な説明を受けます；熟練者は無駄のない、要点を突いた専門的な回答を受け取ります。</p>
+              <p class="tl"><strong>single-select:</strong> これは多肢選択式のオプションです — サブエージェントがあなたとどのように対話するか設定するための属性のいずれかを選択します。</p>
+            </div>
+          </div>
+        </div>
+
+        <p style="margin-top: var(--space-6)">この1つの設定ファイルだけで、<em>システム内のすべてのサブエージェント</em>の対話方法が変わります。初心者は忍耐強い手順ごとの案内を受けます。専門家は簡潔で的確な返答を受けます。これが共有設定の力です。</p>
+      </section>
+
+      <!-- SCREEN 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">理解度の確認</h2>
+        <p>次に進む前に短いクイズを出します。これは雑学ではなく、概念が正しく伝わったかどうかを確認するものです。</p>
+
+        <div class="quiz-container" id="quiz-module1">
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="その通りです！BMADの重要な点は、構造によってAIがコンテキストを維持できることです — つまり、すべてのサブエージェントが同じ文書を参照するため、セッション間で意思決定内容が守られます。"
+               data-explanation-wrong="少し違います — BMADが解決する最大の問題は、速度や複雑さではなく、コンテキストや構造の喪失です。（製品要件ドキュメント、アーキテクチャ文書などの）成果物があることで、プロジェクト全体の保守性が向上します。">
+            <h3 class="quiz-question">あなたがアプリを開発していて、AIが過去の決定内容と矛盾することを繰り返し、既に構築した機能が壊れる新たな要件を追加してしまう場合、BMADはどのようにしてこの状況を解決するでしょうか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>BMADはAIにコードを手早く書かせることができる。</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>BMADはこれらの決定をすべて文書（成果物）として保存し、すべてのサブエージェントがそれを読み取るため、AIは常に過去に何が決定されたか把握している。</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>BMADはAIがエラーを起こすのを防ぐ。</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="正解です！設定ファイルの user_skill_level は、サブエージェントの問題説明方法を直接コントロールします — これが情報を適正な詳細レベルに落とし込むコツです。"
+               data-explanation-wrong="惜しいですが違います。config.yaml の skill level の設定こそが、説明の深さを調整する部分になります。これを知っていれば、システムを自分の技術レベルに合わせることが可能になります。">
+            <h3 class="quiz-question">友人が初めてBMADを使いましたが、説明の内容が専門的すぎると感じました。これを修正する一番早い方法は何でしょうか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>会話が始まるときにAIに直接、もっと簡単に説明するように頼む。</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>BMADをアンインストールしてから再インストールする。</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>設定ファイルの user_skill_level を "beginner" に変更する — すべてのサブエージェントが自動的に設定に応じた対話を再構成する。</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module1')">回答を確認</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module1')">再挑戦</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

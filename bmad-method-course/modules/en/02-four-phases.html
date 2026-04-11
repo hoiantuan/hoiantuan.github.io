@@ -1,0 +1,231 @@
+<section class="module" id="module-2" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">02</span>
+      <h1 class="module-title">The Four-Phase Journey</h1>
+      <p class="module-subtitle">Analysis → Planning → Solutioning → Implementation — what each phase produces and why the order matters</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- SCREEN 1: Overview of phases -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Four Phases, One Coherent System</h2>
+        <p>Software projects fail not because developers can&apos;t code — they fail because nobody agreed on <em>what</em> to build before building it. BMAD forces clarity up front, in four phases.</p>
+        <p>Think of it like a rocket launch: you plan the trajectory before you ignite the engines. Changing course after liftoff costs exponentially more.</p>
+
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-1)">
+            <div class="pattern-card-icon">🔍</div>
+            <h3 class="pattern-card-title">Phase 1 — Analysis</h3>
+            <p class="pattern-card-desc">Research, brainstorm, and define the idea. Output: a <span class="tooltip-term" data-tooltip="Product Brief — a concise document that captures your product idea: what it is, who it is for, and what problem it solves. Like a movie pitch — short enough to fit on a page, compelling enough to get everyone aligned.">product brief</span> or <span class="tooltip-term" data-tooltip="PRFAQ — &quot;Press Release / Frequently Asked Questions&quot;. A technique from Amazon: write the press release announcing your product before you build it. Forces you to think clearly about who wants it and why.">PRFAQ</span>.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-card-icon">📋</div>
+            <h3 class="pattern-card-title">Phase 2 — Planning</h3>
+            <p class="pattern-card-desc">Translate the idea into detailed requirements and <span class="tooltip-term" data-tooltip="UX Design — User Experience Design. The plan for how people will interact with your app: what buttons exist, what screens look like, what happens when you click things. Like an interior design blueprint.">UX design</span>. Output: a <span class="tooltip-term" data-tooltip="PRD (Product Requirements Document) — the authoritative written spec for your software. Describes features, user flows, and success criteria. Every agent reads this to stay aligned.">PRD</span>.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-card-icon">🏗️</div>
+            <h3 class="pattern-card-title">Phase 3 — Solutioning</h3>
+            <p class="pattern-card-desc">Design the technical blueprint and break it into stories. Output: <span class="tooltip-term" data-tooltip="Architecture document — the technical plan for how your software is built: which technologies are used, how components connect, and why each decision was made. The &quot;engineering drawings&quot; of your app.">architecture doc</span> + <span class="tooltip-term" data-tooltip="Epics and Stories — epics are large features (e.g., &quot;user authentication&quot;). Stories are smaller, specific tasks within an epic (e.g., &quot;as a user, I can log in with email/password&quot;). The developer executes stories one at a time.">epics &amp; stories</span>.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-4)">
+            <div class="pattern-card-icon">⚙️</div>
+            <h3 class="pattern-card-title">Phase 4 — Implementation</h3>
+            <p class="pattern-card-desc">Code, test, review, repeat. Output: working software, <span class="tooltip-term" data-tooltip="Sprint plan — a schedule that sequences which stories will be built and in what order. Like a project timeline, but specifically for software development tasks.">sprint plan</span>, code reviews, and <span class="tooltip-term" data-tooltip="Retrospective — a structured reflection after completing a feature. What worked? What could improve? Teams do this to get better over time.">retrospectives</span>.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: Phase 1 deep dive -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Phase 1: Analysis — Figure Out What You&apos;re Building</h2>
+        <p>This phase is deliberately open-ended. You&apos;re not sure yet exactly what you want to build — and that&apos;s fine. The analyst agent (<strong>Mary</strong>) runs structured discovery sessions: brainstorming, market research, domain research.</p>
+
+        <div class="numbered-steps stagger-children" style="margin-top: var(--space-8)">
+          <div class="step-card animate-in">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Brainstorm</h4>
+              <p>Mary facilitates a structured brainstorm using techniques like <span class="tooltip-term" data-tooltip="SWOT analysis — Strengths, Weaknesses, Opportunities, Threats. A classic framework for evaluating an idea from four angles. Forces you to be honest about what could go wrong.">SWOT analysis</span>. You talk, she clarifies, patterns emerge.</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Research</h4>
+              <p>Market research, technical feasibility, domain expertise. Mary looks at who else is solving this problem and how.</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Document the idea</h4>
+              <p>Output: a product brief or PRFAQ — a written artifact that captures what you&apos;re building, for whom, and why it matters. This becomes the foundation everything else builds on.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-info" style="margin-top: var(--space-8)">
+          <strong>Why vibe coders love this phase:</strong> You just talk. No code, no technical decisions. You describe your vision, and the agent helps you sharpen it into something buildable. The end result is a document that lets AI understand your intentions for the entire project — not just the current conversation.
+        </div>
+      </section>
+
+      <!-- SCREEN 3: Phase 2 & 3 deep dive -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Phases 2 &amp; 3: Clarity Before Code</h2>
+        <p>These two phases transform your fuzzy idea into a precision spec. They&apos;re the most underrated parts of software development — and the ones that prevent the most bugs.</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">THE MODULE HELP CSV</span>
+            <pre><code><span class="code-line"><span class="code-property">bmad-create-prd</span>,<span class="code-string">Create PRD</span>,CP,</span>
+<span class="code-line">  Expert led facilitation to produce</span>
+<span class="code-line">  your Product Requirements Document.</span>
+<span class="code-line">  phase: 2-planning, required: true</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-property">bmad-create-architecture</span>,<span class="code-string">Create Architecture</span>,CA,</span>
+<span class="code-line">  Guided workflow to document</span>
+<span class="code-line">  technical decisions.</span>
+<span class="code-line">  phase: 3-solutioning, required: true</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-property">bmad-check-implementation-readiness</span>,IR,</span>
+<span class="code-line">  Ensure PRD, UX, Architecture and</span>
+<span class="code-line">  Epics/Stories are aligned.</span>
+<span class="code-line">  required: true</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>Create PRD</strong> — required in Phase 2. The PM agent interviews you to write the requirements document. Marked required=true because nothing can proceed without it.</p>
+              <p class="tl"><strong>Create Architecture</strong> — required in Phase 3. The Architect agent designs the technical blueprint based on the PRD.</p>
+              <p class="tl"><strong>Implementation Readiness Check</strong> — verifies that your PRD, UX design, architecture, and stories are all consistent with each other. Catches contradictions before any code is written.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-success" style="margin-top: var(--space-6)">
+          <strong>Aha! moment:</strong> The <code>required: true</code> flags are BMAD&apos;s opinion about what you genuinely cannot skip. Everything else is optional depth — useful for complex projects, but you can skip it for a quick prototype.
+        </div>
+      </section>
+
+      <!-- SCREEN 4: Phase 4 story cycle -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Phase 4: The Implementation Loop</h2>
+        <p>Implementation is a cycle, not a straight line. Each feature goes through this exact sequence — repeatedly, until the app is done.</p>
+
+        <div class="chat-window" id="chat-module2">
+          <div class="chat-messages">
+            <div class="chat-message" data-msg="0" data-sender="sprint" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-4)">SP</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-4)">Sprint Planner</span>
+                <p>Okay, the sprint plan is ready. Story 1.1: Set up user authentication. Amelia, you&apos;re up first.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="1" data-sender="story-creator" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">CS</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-2)">Story Creator</span>
+                <p>Creating Story 1.1 now. Pulling in the architecture docs, the PRD requirements, and the UX design for the login screen. Story file is prepped with all the context Amelia will need.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="2" data-sender="amelia" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">AM</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">Amelia (Dev)</span>
+                <p>Reading the story file. All acceptance criteria clear. Implementing tasks in order. Tests will be written before each task is marked complete — no exceptions.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="3" data-sender="reviewer" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-3)">CR</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-3)">Code Reviewer</span>
+                <p>Story 1.1 complete. Running code review across security, performance, and test coverage. Two minor issues flagged — sending back to Amelia to fix before approval.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="4" data-sender="amelia" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-1)">AM</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-1)">Amelia (Dev)</span>
+                <p>Fixed both issues. All tests passing. Story 1.1 approved. Moving to Story 1.2.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-typing" id="chat-module2-typing" style="display:none">
+            <div class="chat-avatar" id="chat-module2-typing-avatar">...</div>
+            <div class="chat-typing-dots">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+
+          <div class="chat-controls">
+            <button class="btn chat-next-btn">Next Message</button>
+            <button class="btn chat-all-btn">Play All</button>
+            <button class="btn chat-reset-btn">Replay</button>
+            <span class="chat-progress"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Check Your Understanding</h2>
+
+        <div class="quiz-container" id="quiz-module2">
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Exactly — Phase 3 (Solutioning) is specifically where technical decisions are documented in an architecture file. The readiness check then verifies everything is consistent before code gets written."
+               data-explanation-wrong="Not quite. The PRD covers requirements (Phase 2), and code happens in Phase 4. Phase 3 is the technical blueprint phase — and it includes a readiness check to catch contradictions before anyone starts coding.">
+            <h3 class="quiz-question">You want to change the database technology mid-project — switching from one data storage system to another. Which phase decision would you be revisiting, and what document would need updating?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Phase 2 — you&apos;d update the PRD because it defines requirements</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Phase 3 — you&apos;d update the architecture document because technical decisions live there</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Phase 4 — you&apos;d just change the code and not update any documents</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="Yes! The story cycle is: Create Story → Validate Story → Dev Story → Code Review → repeat. Each story is a small self-contained unit that gets fully built and reviewed before the next one starts."
+               data-explanation-wrong="The implementation phase is actually highly structured — it follows a precise story cycle. The story is prepared with full context, implemented with tests, then reviewed before moving on. No story is marked done until both code and tests pass.">
+            <h3 class="quiz-question">In Phase 4, Amelia the developer is working on a story. She finishes writing the code but hasn&apos;t written tests yet. According to BMAD principles, what should happen?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Mark the story done and move on — tests can be added later</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Ask the user if tests are needed for this feature</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Do not mark the task complete — tests must be written and passing before the story can proceed to code review</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module2')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module2')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

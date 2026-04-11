@@ -1,0 +1,212 @@
+<section class="module" id="module-4" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">04</span>
+      <h1 class="module-title">Cách Thức Hoạt Động Của Các Kỹ Năng</h1>
+      <p class="module-subtitle">Kiến trúc file SKILL.md, quy trình làm việc theo file bước (step-file), và tại sao việc tải file đúng lúc lại ngăn ngừa AI bịa đặt / ảo giác dự án của bạn.</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- SCREEN 1: What a skill is -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Kỹ Năng (Skill) là một Quy trình Công Việc được Gọi Theo Tên</h2>
+        <p>Trong hầu hết các công cụ AI, bạn mô tả những gì bạn muốn bằng ngôn ngữ thông thường rồi hy vọng mọi thứ sẽ tốt đẹp. Trong hệ thống BMAD, bạn sẽ gọi một <span class="tooltip-term" data-tooltip="Kỹ năng (Skill) — quy trình công việc có cấu trúc được đặt tên trong BMAD. Mỗi kỹ năng là một tập hợp các hướng dẫn từng bước mà AI tuân theo chuẩn xác.">kỹ năng (Skill)</span> sẽ thực thi chuẩn theo quy chuẩn nhất định.</p>
+        <p>Nó giống như sự khác biệt giữa việc nói với nhà thầu "Làm ơn hãy làm bếp của tôi đẹp hơn" so với việc giao cho họ một bản vẽ chi tiết các phòng ban, đầu việc cụ thể.</p>
+
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📄</div>
+            <h3 class="pattern-card-title">SKILL.md</h3>
+            <p class="pattern-card-desc">Bản đánh bóng mô tả đầu tiên. Trình bày tổng thể các bước dự án định hướng vào chỉ định tệp <code>workflow.md</code></p>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🗺️</div>
+            <h3 class="pattern-card-title">workflow.md</h3>
+            <p class="pattern-card-desc">Trái tim của hệ thống. Nhóm vai trò công việc cho từng nhóm Agent cụ thể.</p>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📋</div>
+            <h3 class="pattern-card-title">step-01.md, step-02.md...</h3>
+            <p class="pattern-card-desc">Các bước vi tính nhỏ lẻ. Agent chỉ tải mỗi bước một lần để tránh trôi luồng suy nghĩ gây nhiễu.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: Just-in-time loading -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Thủ Thuật "Just-In-Time" (Tải Đúng Lúc) Giúp Ngăn Chặn Mất Não (Hallucination)</h2>
+        <p>Đây là một lựa chọn thiết kế tinh tế nhưng cực kỳ quan trọng: các đặc vụ load các tệp bước (step files) <em>mỗi lúc chỉ một file</em>, chỉ khi thật sự cần. Đây được gọi là <span class="tooltip-term" data-tooltip="Just-in-time loading (Tải đúng lúc) — chỉ load những gì bạn cần, chính xác khi bạn cần. Giống như đầu bếp đọc công thức từng bước một thay vì cố ghi nhớ toàn bộ. Ngăn chặn sự nhầm lẫn do quá tải thông tin.">tải Just-in-time</span>.</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">LẤY TỪ workflow.md</span>
+            <pre><code><span class="code-line"><span class="code-keyword">##</span> Nguyên Tắc Cốt Lõi</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-string">- Thiết kế Micro-file</span>: Mỗi tệp tin </span>
+<span class="code-line">  chỉ giải quyết mỗi vấn đề đơn lẻ, </span>
+<span class="code-line">  tuân thủ triệt để</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-string">- Tải Just-In-Time</span>: Một thời điểm</span>
+<span class="code-line">  chỉ chạy được 1 file. Không chạy load</span>
+<span class="code-line">  lấn lướt trước mặt</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-string">- Quy luật tuần tự</span>: Làm theo thứ tự</span>
+<span class="code-line">  hoàn thành 1 rồi tới 2, cấm cãi lệnh.</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">GIẢI  NGHĨA</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>Thiết kế Micro-file:</strong> Thay vì bắt AI nhồi nhét cả 1 bảng tóm gọn, AI được chia nhỏ file theo nội dung chỉ định.</p>
+              <p class="tl"><strong>Tải Just-In-Time:</strong> AI sẽ không bao giờ biết bước 7 đang chờ đợi điều gì khi đang còn luẩn quẩn ở bước 2.</p>
+              <p class="tl"><strong>Quy Luật:</strong> Quy tắc chính là sự chuẩn bảo đảm an toàn nhất mà đội Coder gửi gắm.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-success" style="margin-top: var(--space-6)">
+          <strong>Điểm Sáng (Aha! moment):</strong> Hội chứng <span class="tooltip-term" data-tooltip="Ảo giác (Hallucination) — khi AI tự bịa chuyện chém gió nếu ko có đủ tài nguyên.">Ảo giác</span> thường xảy ra khi ép cái AI làm 1 việc vượi khỏi quyền hạn nhưng nó vẫn cố rặn ra để trả lời khách.
+        </div>
+      </section>
+
+      <!-- SCREEN 3: The manifest and config system -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Danh Sách (The Manifest): GPS Của BMAD Dành Cho Các Kỹ Năng</h2>
+        <p>Làm cách nào để kỹ năng <code>bmad-help</code> biết được những kỹ năng nào đang tồn tại, thứ tự sử dụng chúng là gì và kỹ năng nào là bắt buộc? Nó đọc một <span class="tooltip-term" data-tooltip="Manifest (Danh sách) — danh sách liệt kê tất cả các thành phần liên đới trong vòng của dự án.">file manifest</span> — một cấu trúc <span class="tooltip-term" data-tooltip="CSV (Comma-Separated Values) — Dòng kiểu tệp Excel.">dữ liệu CSV </span> dùng để quản lý.</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">file module-help.csv</span>
+            <pre><code><span class="code-line"><span class="code-property">module</span>,<span class="code-property">skill</span>,<span class="code-property">phase</span>,<span class="code-property">after</span>,<span class="code-property">required</span></span>
+<span class="code-line"></span>
+<span class="code-line">BMad Method,</span>
+<span class="code-line">  <span class="code-function">bmad-create-prd</span>,</span>
+<span class="code-line">  2-planning,</span>
+<span class="code-line">  <span class="code-string">""</span>,</span>
+<span class="code-line">  <span class="code-keyword">true</span></span>
+<span class="code-line"></span>
+<span class="code-line">BMad Method,</span>
+<span class="code-line">  <span class="code-function">bmad-create-architecture</span>,</span>
+<span class="code-line">  3-solutioning,</span>
+<span class="code-line">  bmad-create-prd,</span>
+<span class="code-line">  <span class="code-keyword">true</span></span>
+<span class="code-line"></span>
+<span class="code-line">BMad Method,</span>
+<span class="code-line">  <span class="code-function">bmad-validate-prd</span>,</span>
+<span class="code-line">  2-planning,</span>
+<span class="code-line">  bmad-create-prd,</span>
+<span class="code-line">  <span class="code-keyword">false</span></span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">VÍ DỤ ĐỂ HIỂU</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>bmad-create-prd:</strong> Nó sẽ đi liền với Bắt. buộc (require) sau đó được giao cho PRD.</p>
+              <p class="tl"><strong>bmad-create-architecture:</strong> Cái này là bắt buộc, không được nhảy cóc nếu không qua 2 bước kia.</p>
+              <p class="tl"><strong>bmad-validate-prd:</strong> Giai đoạn này chỉ cho dự án quá rộng cần được test. Còn dự án nhỏ có thể đi bỏ qua (False).</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 4: Flow animation of skill execution -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Phẫu Thuật Việc Nạp Kỹ Năng</h2>
+        <p>Khi bạn gõ vào IDE <code>bmad-create-prd</code>, quá trình nạp module tuần tự sẽ ko chạy lối tắt mà lần lượt diễn tiến:</p>
+
+        <div class="flow-animation" data-steps='[
+          {"highlight":"flow-actor-1","label":"Khi bạn gọi yêu cầu tính năng."},
+          {"highlight":"flow-actor-2","label":"File SKILL.md được nạp vô để đọc.","packet":true,"from":"actor-1","to":"actor-2"},
+          {"highlight":"flow-actor-3","label":"File workflow.md đọc vào để AI lên cấu hình người dùng đóng vai trò.","packet":true,"from":"actor-2","to":"actor-3"},
+          {"highlight":"flow-actor-4","label":"Đọc File Config để lấy các setting.","packet":true,"from":"actor-3","to":"actor-4"},
+          {"highlight":"flow-actor-5","label":"Tải bước 1 step-01-init.md để AI thi hành ngay hành động lúc này.","packet":true,"from":"actor-4","to":"actor-5"},
+          {"highlight":"flow-actor-5","label":"AI trả tín hiệu và chờ phản hồi người dùng trước khi nạp tiếp.!"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">⌨️</div>
+              <span>Ông Kệ Bạn Đó</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">📄</div>
+              <span>SKILL.md</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">🗺️</div>
+              <span>workflow.md</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">⚙️</div>
+              <span>config.yaml</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">📋</div>
+              <span>Bước 1</span>
+            </div>
+          </div>
+          <div class="flow-packet" id="flow-packet"></div>
+          <div class="flow-step-label" id="flow-label">Click "Bước Tới" để nạp vào tệp tin.</div>
+          <div class="flow-controls">
+            <button class="btn flow-next-btn">Tiến Thôi</button>
+            <button class="btn flow-reset-btn">Xem Lại</button>
+            <span class="flow-progress"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Làm Bài Kiểm Tra</h2>
+
+        <div class="quiz-container" id="quiz-module4">
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="Chính xác! Lỗi nhảy cóc ko thể bị vi phạm để AI loại chặn bịa chuyện."
+               data-explanation-wrong="Thực chất cái này cản AI nhúng những bước ko hợp quy chuẩn. Sự lề mề được cho là một thành quả đáng quý để kiểm soát.">
+            <h3 class="quiz-question">Khi BMAD Agent có dấu hiệu trả lời chậm nhịp trong việc phác thảo PRD. Lập trình dự án bảo mầy cứ "Skip" mẹ nó đi. Bạn nghĩ nếu ép làm thế AI nó sẽ bị gì?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Thì nó đi nhanh hơn chứ sao.</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Nó từ chối và báo lỗi.</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Bạn sẽ lách luật cấu hình PRD - Tuy nó chạy nhanh qua nhưng PRD ko ai giám định và bạn phải ăn luôn đống lỗi bỏ sót phía kia đấy.</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-a"
+               data-explanation-right="Chính thị. Bạn sẽ dễ dàng dò cấu trúc bằng bmad-help ở trong mảng module hệ thống để nạp trực tiếp danh sách mốc (manifest)"
+               data-explanation-wrong="Danh mục phụ thuộc Graph. Nó quét folder để biết bạn đang mở hay để quên cái file ở cái ngó nào.">
+            <h3 class="quiz-question">Bạn mở project cả 2 tháng không sờ vô. Vừa nhấn Help, "Bạn đang đứng ở Phase 3 đễ tạo kiến trúc nè". Sao nó biết hay dị?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Nó đọc manifest quét đồ và kiểm đồ — Nhận thấy phase 2 hoàn tất mà đéo thấy phase 3 cấu hình nạp. Nên suy ra nằm ở đây.</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Lưu cache bộ nhớ thôi má.</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Nó đoán bậy.</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module4')">Kiểm Nào</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module4')">Làm Lại</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

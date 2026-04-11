@@ -1,0 +1,220 @@
+<section class="module" id="module-4" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">04</span>
+      <h1 class="module-title">How Skills Work</h1>
+      <p class="module-subtitle">The SKILL.md architecture, step-file workflows, and why &quot;just-in-time loading&quot; prevents AI from hallucinating your project</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- SCREEN 1: What a skill is -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">A Skill Is a Named Workflow You Invoke by Name</h2>
+        <p>In most AI tools, you describe what you want in plain language and hope for the best. In BMAD, you invoke a named <span class="tooltip-term" data-tooltip="Skill — a named, structured workflow in BMAD. Each skill is a set of step-by-step instructions the AI follows precisely. Invoking &quot;bmad-create-prd&quot; kicks off a structured PM facilitation session — not a freeform chat.">skill</span> that follows a precise, pre-designed process.</p>
+        <p>It&apos;s like the difference between telling a contractor "make my kitchen better" versus handing them a detailed renovation plan — room by room, task by task.</p>
+
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📄</div>
+            <h3 class="pattern-card-title">SKILL.md</h3>
+            <p class="pattern-card-desc">The top-level definition. Describes what the skill does, who should use it, and (for complex workflows) points to a <code>workflow.md</code> file for instructions.</p>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🗺️</div>
+            <h3 class="pattern-card-title">workflow.md</h3>
+            <p class="pattern-card-desc">The orchestration layer. Defines the overall goal, the agent&apos;s role, and the rules for how steps are loaded and executed.</p>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📋</div>
+            <h3 class="pattern-card-title">step-01.md, step-02.md...</h3>
+            <p class="pattern-card-desc">Each step is a self-contained micro-file. The agent loads only one at a time — never reads ahead — so it can&apos;t accidentally skip steps or blend instructions together.</p>
+          </div>
+        </div>
+
+        <div class="callout callout-info" style="margin-top: var(--space-8)">
+          <strong>Why this matters for you:</strong> You can see and edit these files. If you want to change how the PRD creation interview works, you edit the step files. BMAD is a transparent, hackable system — not a black box.
+        </div>
+      </section>
+
+      <!-- SCREEN 2: Just-in-time loading -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The &quot;Just-In-Time&quot; Trick That Prevents Hallucination</h2>
+        <p>Here&apos;s a subtle but critical design choice: agents load step files <em>one at a time</em>, only when needed. This is called <span class="tooltip-term" data-tooltip="Just-in-time loading — only loading what you need, exactly when you need it. Like a chef reading the recipe one step at a time instead of memorizing the whole thing. Prevents confusion from information overload.">just-in-time loading</span>.</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">FROM workflow.md</span>
+            <pre><code><span class="code-line"><span class="code-keyword">##</span> Core Principles</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-string">- Micro-file Design</span>: Each step is a</span>
+<span class="code-line">  self contained instruction file</span>
+<span class="code-line">  that must be followed exactly</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-string">- Just-In-Time Loading</span>: Only the</span>
+<span class="code-line">  current step file is in memory</span>
+<span class="code-line">  — never load future steps until</span>
+<span class="code-line">  told to do so</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-string">- Sequential Enforcement</span>: Sequence</span>
+<span class="code-line">  within step files must be completed</span>
+<span class="code-line">  in order, no skipping allowed</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>Micro-file Design:</strong> Instead of one giant instruction document, each step of a workflow is in its own small file. Smaller = more focused = less room for the AI to get confused.</p>
+              <p class="tl"><strong>Just-In-Time Loading:</strong> The AI only reads the current step. It doesn&apos;t know what step 7 says while executing step 2. This prevents it from &quot;skipping ahead&quot; or letting future steps contaminate its thinking about the current one.</p>
+              <p class="tl"><strong>Sequential Enforcement:</strong> Steps happen in order. No optimization, no shortcuts. The structure is the quality guarantee.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-success" style="margin-top: var(--space-6)">
+          <strong>Aha! moment:</strong> AI <span class="tooltip-term" data-tooltip="Hallucination — when an AI confidently states something that is false or makes up details that don&apos;t exist. It&apos;s the AI&apos;s tendency to fill in gaps with plausible-sounding but wrong information.">hallucination</span> often happens because the AI has too much context at once and starts blending things together. By giving the agent only one step at a time, BMAD dramatically reduces the surface area where things can go wrong.
+        </div>
+      </section>
+
+      <!-- SCREEN 3: The manifest and config system -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Manifest: BMAD&apos;s GPS for Skills</h2>
+        <p>How does the <code>bmad-help</code> skill know which skills exist, what order to use them in, and which ones are required? It reads a <span class="tooltip-term" data-tooltip="Manifest — a structured list that describes all the parts of a system. Like a ship&apos;s cargo manifest: a complete inventory of what&apos;s on board and where everything is.">manifest file</span> — a <span class="tooltip-term" data-tooltip="CSV (Comma-Separated Values) — a simple file format that stores tabular data as plain text, with commas separating values. Like a spreadsheet saved as plain text. Readable by both humans and programs.">CSV</span> that catalogs every installed skill with its phase, dependencies, and required status.</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">module-help.csv (excerpt)</span>
+            <pre><code><span class="code-line"><span class="code-property">module</span>,<span class="code-property">skill</span>,<span class="code-property">phase</span>,<span class="code-property">after</span>,<span class="code-property">required</span></span>
+<span class="code-line"></span>
+<span class="code-line">BMad Method,</span>
+<span class="code-line">  <span class="code-function">bmad-create-prd</span>,</span>
+<span class="code-line">  2-planning,</span>
+<span class="code-line">  <span class="code-string">""</span>,</span>
+<span class="code-line">  <span class="code-keyword">true</span></span>
+<span class="code-line"></span>
+<span class="code-line">BMad Method,</span>
+<span class="code-line">  <span class="code-function">bmad-create-architecture</span>,</span>
+<span class="code-line">  3-solutioning,</span>
+<span class="code-line">  bmad-create-prd,</span>
+<span class="code-line">  <span class="code-keyword">true</span></span>
+<span class="code-line"></span>
+<span class="code-line">BMad Method,</span>
+<span class="code-line">  <span class="code-function">bmad-validate-prd</span>,</span>
+<span class="code-line">  2-planning,</span>
+<span class="code-line">  bmad-create-prd,</span>
+<span class="code-line">  <span class="code-keyword">false</span></span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>bmad-create-prd:</strong> Phase 2, no prerequisites, REQUIRED. You cannot meaningfully proceed to architecture without it.</p>
+              <p class="tl"><strong>bmad-create-architecture:</strong> Phase 3, must run AFTER the PRD is done, REQUIRED. The architect needs your requirements before designing a solution.</p>
+              <p class="tl"><strong>bmad-validate-prd:</strong> Phase 2, runs after PRD creation, NOT required. Useful for catching problems in complex projects, but you can skip it for a simple prototype.</p>
+            </div>
+          </div>
+        </div>
+
+        <p style="margin-top: var(--space-6)">The <code>after</code> column creates a dependency graph. When you ask <code>bmad-help</code> what to do next, it reads this manifest, checks which artifacts exist in your project folder, and deduces exactly where you are in the workflow.</p>
+      </section>
+
+      <!-- SCREEN 4: Flow animation of skill execution -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">What Happens When You Invoke a Skill</h2>
+        <p>When you type <code>bmad-create-prd</code>, here is the exact sequence the agent follows — every time, without shortcuts.</p>
+
+        <div class="flow-animation" data-steps='[
+          {"highlight":"flow-actor-1","label":"You type: bmad-create-prd"},
+          {"highlight":"flow-actor-2","label":"SKILL.md is read — confirms this is a workflow-based skill","packet":true,"from":"actor-1","to":"actor-2"},
+          {"highlight":"flow-actor-3","label":"workflow.md loads — agent reads the rules and its role","packet":true,"from":"actor-2","to":"actor-3"},
+          {"highlight":"flow-actor-4","label":"config.yaml is read — agent learns your name, language, and project settings","packet":true,"from":"actor-3","to":"actor-4"},
+          {"highlight":"flow-actor-5","label":"step-01-init.md loads — agent reads Step 1 ONLY and begins execution","packet":true,"from":"actor-4","to":"actor-5"},
+          {"highlight":"flow-actor-5","label":"Agent waits for your input before loading Step 2"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">⌨️</div>
+              <span>You</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">📄</div>
+              <span>SKILL.md</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">🗺️</div>
+              <span>workflow.md</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">⚙️</div>
+              <span>config.yaml</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">📋</div>
+              <span>Step 1</span>
+            </div>
+          </div>
+          <div class="flow-packet" id="flow-packet"></div>
+          <div class="flow-step-label" id="flow-label">Click "Next Step" to trace what happens when you invoke a skill</div>
+          <div class="flow-controls">
+            <button class="btn flow-next-btn">Next Step</button>
+            <button class="btn flow-reset-btn">Restart</button>
+            <span class="flow-progress"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Check Your Understanding</h2>
+
+        <div class="quiz-container" id="quiz-module4">
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="Exactly! The step-file architecture is specifically designed so the agent can&apos;t skip ahead. Each step file is loaded only when the previous one completes — protecting the structured process from shortcuts."
+               data-explanation-wrong="The structure is actually the feature, not a limitation. The whole point of step files is to prevent the agent from skipping phases or blending future steps into the current one. The &quot;inefficiency&quot; is intentional quality control.">
+            <h3 class="quiz-question">During a PRD creation session, the agent seems to be going slowly — asking questions step by step instead of producing the whole document at once. A colleague says &quot;just ask it to skip to the end.&quot; What would happen if you did?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The agent would skip ahead and save you time with no downside</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>The agent would refuse and explain it cannot skip steps</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>You would bypass the structured discovery that makes the PRD valuable — you would get faster output but a lower-quality document that skips important questions</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-a"
+               data-explanation-right="Yes! The manifest&apos;s &apos;after&apos; column creates a dependency graph. bmad-help reads the manifest AND scans your project folder for existing artifacts to figure out exactly where you are."
+               data-explanation-wrong="The manifest&apos;s &apos;after&apos; field is how bmad-help constructs a dependency graph. It knows what phase you are in by reading the manifest AND checking which artifact files already exist in your project.">
+            <h3 class="quiz-question">You open a project you haven&apos;t touched in two weeks. You type &quot;bmad-help&quot; and it tells you &quot;you&apos;re in Phase 3, ready to create your architecture.&quot; How did it know where you were?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>It read the manifest to understand the workflow, then scanned your project folder and found a PRD file but no architecture file — deducing you completed Phase 2 but not Phase 3</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>It remembers your session from two weeks ago</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>It guessed based on how long ago you last opened the project</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module4')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module4')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

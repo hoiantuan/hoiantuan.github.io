@@ -1,0 +1,215 @@
+<section class="module" id="module-4" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">04</span>
+      <h1 class="module-title">スキルの仕組み</h1>
+      <p class="module-subtitle">SKILL.mdのアーキテクチャ、ステップファイルのワークフロー、そして「ジャストインタイムロード」がなぜAIの幻覚を防ぐのか</p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- SCREEN 1: What a skill is -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">スキルとは決まった名前で呼び出すワークフローである</h2>
+        <p>多くのAIツールでは、やりたいことを自由に入力し、良きに計らってくれると願う状態です。BMADでは、名前付けされた正確な<span class="tooltip-term" data-tooltip="スキル — BMADの構造化されたワークフロー。「bmad-create-prd」のように呼び出すことで実行されます。">スキル</span>を呼び出します。</p>
+
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📄</div>
+            <h3 class="pattern-card-title">SKILL.md</h3>
+            <p class="pattern-card-desc">トップレベルでのファイル定義です。スキルが何を実行するかを制御します。</p>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🗺️</div>
+            <h3 class="pattern-card-title">workflow.md</h3>
+            <p class="pattern-card-desc">オーケストレイヤー。ゴールやルールの設定の宣言です。</p>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📋</div>
+            <h3 class="pattern-card-title">step-01.md, step-02.md...</h3>
+            <p class="pattern-card-desc">独立したマイクロファイル。AIは先読みを行うことなくエラーを減らします。</p>
+          </div>
+        </div>
+
+        <div class="callout callout-info" style="margin-top: var(--space-8)">
+          <strong>なぜ重要なのか：</strong> BMADはブラックボックスではなく修正可能なプログラムだからです。
+        </div>
+      </section>
+
+      <!-- SCREEN 2: Just-in-time loading -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">幻覚（ハルシネーション）を防ぐ「ジャストインタイム」技術</h2>
+        <p>非常に巧妙な技術的選択：エージェントはファイル群を<em>一度に一つずつ</em>読み込みます。これを<span class="tooltip-term" data-tooltip="ジャストインタイムロード — 必要な時に必要なぶんだけデータを渡す仕組み。コンテキストの過積載を防ぎます。">ジャストインタイムロード</span>と呼びます。</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">FROM workflow.md</span>
+            <pre><code><span class="code-line"><span class="code-keyword">##</span> Core Principles</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-string">- マイクロファイル・デザイン</span>: 各ステップは</span>
+<span class="code-line">  自身のみの実行を含み、</span>
+<span class="code-line">  完全に独立して実行されます。</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-string">- ジャストインタイム・ロード</span>: 現在の</span>
+<span class="code-line">  ステップのみが実行されます。</span>
+<span class="code-line">  あらかじめ先の内容を読み込むことは許可されていません。</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-string">- シーケンシャル・フォースメント</span>: シーケンスを</span>
+<span class="code-line">  崩したり前後に飛び火したりすることは禁止されています。</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">解説</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>マイクロファイル設計：</strong> 長大なマニュアルではなく、細分化して管理されます。</p>
+              <p class="tl"><strong>ジャストインタイムロード：</strong> 次のステップの指示によりAIが迷走して混乱することを防ぎます。</p>
+              <p class="tl"><strong>順序の強制：</strong> 順序を崩すことは許可されないため、非常に品質が高いまま安定します。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-success" style="margin-top: var(--space-6)">
+          <strong>アハ！モメント：</strong> AIの<span class="tooltip-term" data-tooltip="ハルシネーション — 最もらしいが虚偽である結果を出力すること。情報過多が原因になりやすい。">ハルシネーション</span>の原因は過積載です。それを防ぐのがジャストインタイムです。
+        </div>
+      </section>
+
+      <!-- SCREEN 3: The manifest and config system -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">マニフェスト：スキルのためのGPS</h2>
+        <p>どのようにスキルを特定するか？ <span class="tooltip-term" data-tooltip="マニフェスト — 構造化リスト。システムの部品一覧表です。">マニフェストファイル</span> と呼ばれる <span class="tooltip-term" data-tooltip="CSV — カンマ区切りのテキストデータ。">CSV</span> で管理されています。</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">module-help.csv</span>
+            <pre><code><span class="code-line"><span class="code-property">module</span>,<span class="code-property">skill</span>,<span class="code-property">phase</span>,<span class="code-property">after</span>,<span class="code-property">required</span></span>
+<span class="code-line"></span>
+<span class="code-line">BMad Method,</span>
+<span class="code-line">  <span class="code-function">bmad-create-prd</span>,</span>
+<span class="code-line">  2-planning,</span>
+<span class="code-line">  <span class="code-string">""</span>,</span>
+<span class="code-line">  <span class="code-keyword">true</span></span>
+<span class="code-line"></span>
+<span class="code-line">BMad Method,</span>
+<span class="code-line">  <span class="code-function">bmad-create-architecture</span>,</span>
+<span class="code-line">  3-solutioning,</span>
+<span class="code-line">  bmad-create-prd,</span>
+<span class="code-line">  <span class="code-keyword">true</span></span>
+<span class="code-line"></span>
+<span class="code-line">BMad Method,</span>
+<span class="code-line">  <span class="code-function">bmad-validate-prd</span>,</span>
+<span class="code-line">  2-planning,</span>
+<span class="code-line">  bmad-create-prd,</span>
+<span class="code-line">  <span class="code-keyword">false</span></span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">解説</span>
+            <div class="translation-lines">
+              <p class="tl"><strong>bmad-create-prd:</strong> 必須項目（REQUIRED）です。</p>
+              <p class="tl"><strong>bmad-create-architecture:</strong> PRDの後に実行される必須項目です。</p>
+              <p class="tl"><strong>bmad-validate-prd:</strong> 必須ではありません。小規模開発では不要かもしれません。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 4: Flow animation of skill execution -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">スキルを呼び出した時に起きる事象</h2>
+        <p><code>bmad-create-prd</code> を記述した時、ショートカットを通らずに以下のような手順に従います。</p>
+
+        <div class="flow-animation" data-steps='[
+          {"highlight":"flow-actor-1","label":"bmad-create-prd の記述実行"},
+          {"highlight":"flow-actor-2","label":"SKILL.md がベースファイルを捕捉","packet":true,"from":"actor-1","to":"actor-2"},
+          {"highlight":"flow-actor-3","label":"workflow.md からAIがルールを学習","packet":true,"from":"actor-2","to":"actor-3"},
+          {"highlight":"flow-actor-4","label":"config.yaml からセッティングを抽出","packet":true,"from":"actor-3","to":"actor-4"},
+          {"highlight":"flow-actor-5","label":"step-01-init.md — ステップ1のみを実行","packet":true,"from":"actor-4","to":"actor-5"},
+          {"highlight":"flow-actor-5","label":"ステップ2に進む前に入力待ちの状態になる"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">⌨️</div>
+              <span>あなた</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">📄</div>
+              <span>SKILL.md</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">🗺️</div>
+              <span>workflow.md</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">⚙️</div>
+              <span>config.yaml</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">📋</div>
+              <span>Step 1</span>
+            </div>
+          </div>
+          <div class="flow-packet" id="flow-packet"></div>
+          <div class="flow-step-label" id="flow-label">「次へ進む」をクリックします</div>
+          <div class="flow-controls">
+            <button class="btn flow-next-btn">次へ進む</button>
+            <button class="btn flow-reset-btn">再生</button>
+            <span class="flow-progress"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">理解度の確認</h2>
+
+        <div class="quiz-container" id="quiz-module4">
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="正解です。ショートカットを防ぐのがシステムの核です。"
+               data-explanation-wrong="この「非効率」こそが品質保証になります。ステップファイルの構造は、すべてを一度にやろうとするハルシネーションを防ぐためにあります。">
+            <h3 class="quiz-question">PRD作成時に、AIが段階を踏んで質問してくるのが遅いと感じた同僚が「最後まで一度に作って」と指示しました。何が起こるでしょうか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>時間の節約になる</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>AIがスキップを拒否する</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>出力は早くなるが、重要な質問をスキップすることでドキュメントの質が著しく低下する</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-a"
+               data-explanation-right="はい！マニフェストとアーティファクトの存在有無をスキャンして現在の位置を正確に把握します。"
+               data-explanation-wrong="マニフェストにより依存関係グラフを構築し、現在どのようなアーティファクトファイルがあるかで位置を断定します。">
+            <h3 class="quiz-question">2週間ぶりに開いたプロジェクトで「bmad-help」と入力すると、「フェーズ3にいます」と表示されました。なぜAIは現在のフェーズを知っていたのでしょうか？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>マニフェストとフォルダ内のファイル（PRDはあるがアーキテクチャはない）を読み取り、フェーズ2が完了しフェーズ3の段階だと推測したから</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>2週間前のキャッシュのセッションを記憶していたから</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>最後に開いた時間からAIが判断した</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module4')">回答を確認</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module4')">再挑戦</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
